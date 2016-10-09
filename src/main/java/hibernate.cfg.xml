@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+    "-//Hibernate/Hibernate Configuration DTD//EN"
+    "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+    
+<hibernate-configuration>
+    
+    <session-factory>
+     	<property name="hbm2ddl.auto">update</property>
+     	<mapping class="com.bharti.domain.LoginInfo"/>
+     	<mapping class="com.bharti.domain.Registration"/>
+     	<mapping class="com.bharti.domain.UserRole"/>
+     	<mapping class="com.bharti.domain.Persistent_Logins"/>
+     	<mapping class="com.bharti.domain.Subject"/>
+     	<mapping class="com.bharti.domain.Keynote"/>
+     	<mapping class="com.bharti.domain.KeynoteDetail"/>
+     	<mapping class="com.bharti.domain.Matter"/>
+     	<mapping class="com.bharti.domain.NewsLater"/>
+     	<mapping class="com.bharti.domain.UploadFile"/>
+     	<mapping class="com.bharti.domain.Question"/>
+     	<mapping class="com.bharti.domain.Answers"/>
+     	<mapping class="com.bharti.domain.Tag"/>
+     	
+     	
+    </session-factory>
+    
+</hibernate-configuration>

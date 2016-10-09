@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+       
+<tiles-definitions>
+	<definition name="indexTemplate" template="/WEB-INF/tilestemplate/jsp/indexTemplate.jsp">
+        <put-attribute name="body" value="" />
+    </definition>
+    
+    <definition name="homeTemplate" template="/WEB-INF/tilestemplate/jsp/homeTemplate.jsp">
+    	<put-attribute name="header" value="/WEB-INF/view/jsp/header.jsp" />
+        <put-attribute name="body" value="" />
+        <put-attribute name="footer" value="/WEB-INF/view/jsp/footer.jsp" />
+    </definition>
+     
+    <definition name="index" extends="homeTemplate">
+        <put-attribute name="body" value="/WEB-INF/view/jsp/index.jsp" />
+        <put-attribute name="title" value="Bite Java tutorials" />
+    </definition>
+    
+    <definition name="subject" extends="homeTemplate">
+        <put-attribute name="title" value="Bite Java tutorials" />
+        <put-attribute name="body" value="/WEB-INF/view/jsp/subject.jsp" />
+    </definition>
+    
+    <definition name="error" extends="homeTemplate">
+        <put-attribute name="title" value="Page Not found -Bite Java tutorials" />
+        <put-attribute name="body" value="/WEB-INF/view/jsp/error.jsp" />
+    </definition>
+    <definition name="aboutus" extends="homeTemplate">
+        <put-attribute name="title" value="About Us -Bite Java tutorials" />
+        <put-attribute name="body" value="/WEB-INF/view/jsp/about_us.jsp" />
+    </definition>
+    <definition name="subscribe" extends="homeTemplate">
+        <put-attribute name="title" value="User Subscription -Bite Java tutorials" />
+        <put-attribute name="body" value="/WEB-INF/view/jsp/subscribe.jsp" />
+    </definition>
+    <definition name="viewQuestions" extends="homeTemplate">
+        <put-attribute name="title" value="Recent Questions - Bite Java tutorials" />
+        <put-attribute name="body" value="/WEB-INF/view/jsp/viewQuestions.jsp" />
+    </definition>
+    <definition name="viewAnswer" extends="homeTemplate">
+        <put-attribute name="title" value="View Answer - Bite Java tutorials" />
+        <put-attribute name="body" value="/WEB-INF/view/jsp/viewAnswer.jsp" />
+    </definition>
+    
+    
+    <definition name="test" extends="indexTemplate">
+        <put-attribute name="title" value="test tle" />
+        <put-attribute name="body" value="/WEB-INF/view/jsp/test.jsp" />
+    </definition>
+    <definition name="login" extends="indexTemplate">
+        <put-attribute name="title" value="Login - BiteJava Tutoritals" />
+        <put-attribute name="body" value="/WEB-INF/view/jsp/login.jsp" />
+        
+    </definition>
+    
+    
+    
+</tiles-definitions>

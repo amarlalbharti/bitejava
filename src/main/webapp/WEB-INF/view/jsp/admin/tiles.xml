@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+       
+<tiles-definitions>
+	<definition name="adminTemplate" template="/WEB-INF/tilestemplate/jsp/adminTemplate.jsp">
+    	<put-attribute name="header" value="/WEB-INF/view/jsp/admin/header.jsp" />
+        <put-attribute name="body" value="" />
+        <put-attribute name="footer" value="/WEB-INF/view/jsp/admin/footer.jsp" />
+    </definition> 
+    <definition name="dashboard" extends="adminTemplate">
+        <put-attribute name="body" value="/WEB-INF/view/jsp/admin/dashboard.jsp" />
+        <put-attribute name="title" value="Dashboad - Bite Java tutorials" />
+    </definition>
+    
+    <definition name="subjects" extends="adminTemplate">
+        <put-attribute name="body" value="/WEB-INF/view/jsp/admin/subject/subjects.jsp" />
+        <put-attribute name="title" value="Subject - Bite Java tutorials" />
+    </definition>
+    
+    <definition name="subjectList" extends="indexTemplate">
+        <put-attribute name="body" value="/WEB-INF/view/jsp/admin/subject/subjectList.jsp" />
+        <put-attribute name="title" value="Subject list - Bite Java tutorials" />
+    </definition>
+    
+    
+    <definition name="addSubject" extends="adminTemplate">
+        <put-attribute name="body" value="/WEB-INF/view/jsp/admin/subject/addSubject.jsp" />
+        <put-attribute name="title" value="Add Subject - Bite Java tutorials" />
+    </definition>
+    <definition name="editSubject" extends="adminTemplate">
+        <put-attribute name="body" value="/WEB-INF/view/jsp/admin/subject/editSubject.jsp" />
+        <put-attribute name="title" value="Update Subject - Bite Java tutorials" />
+    </definition>
+    
+    
+    
+    
+    
+    
+    
+    <definition name="keynotes" extends="adminTemplate">
+        <put-attribute name="title" value="Keynotes - Bite Java tutorials" />
+        <put-attribute name="body" value="/WEB-INF/view/jsp/admin/keynote/keynotes.jsp" />
+    </definition>
+    
+    
+    <definition name="keynoteList" extends="indexTemplate">
+        <put-attribute name="title" value="Subject list - Bite Java tutorials" />
+        <put-attribute name="body" value="/WEB-INF/view/jsp/admin/keynote/keynoteList.jsp" />
+    </definition>
+    <definition name="addKeynote" extends="adminTemplate">
+        <put-attribute name="title" value="Add Keynote - Bite Java tutorials" />
+        <put-attribute name="body" value="/WEB-INF/view/jsp/admin/keynote/addKeynote.jsp" />
+    </definition>
+    <definition name="editKeynote" extends="adminTemplate">
+        <put-attribute name="title" value="edit Keynote - Bite Java tutorials" />
+        <put-attribute name="body" value="/WEB-INF/view/jsp/admin/keynote/editKeynote.jsp" />
+    </definition>
+    <definition name="uploadfiles" extends="adminTemplate">
+        <put-attribute name="title" value="Uploaded Files - Bite Java tutorials" />
+        <put-attribute name="body" value="/WEB-INF/view/jsp/admin/uploads/uploadfiles.jsp" />
+    </definition>
+    
+    <definition name="uploadList" extends="indexTemplate">
+        <put-attribute name="title" value="Uploaded Files - Bite Java tutorials" />
+        <put-attribute name="body" value="/WEB-INF/view/jsp/admin/uploads/uploadList.jsp" />
+    </definition>
+    
+    <definition name="uploadNewFile" extends="adminTemplate">
+        <put-attribute name="title" value="Uploaded New Files - Bite Java tutorials" />
+        <put-attribute name="body" value="/WEB-INF/view/jsp/admin/uploads/uploadNewFile.jsp" />
+    </definition>
+    
+    
+    <definition name="askQuestion" extends="adminTemplate">
+        <put-attribute name="title" value="Ask Question - Bite Java tutorials" />
+        <put-attribute name="body" value="/WEB-INF/view/jsp/admin/questions/askQuestion.jsp" />
+    </definition>
+    <definition name="questions" extends="adminTemplate">
+        <put-attribute name="title" value="Ask Question - Bite Java tutorials" />
+        <put-attribute name="body" value="/WEB-INF/view/jsp/admin/questions/questions.jsp" />
+    </definition>
+    <definition name="questionList" extends="indexTemplate">
+        <put-attribute name="title" value="Ask Question - Bite Java tutorials" />
+        <put-attribute name="body" value="/WEB-INF/view/jsp/admin/questions/questionList.jsp" />
+    </definition>
+    <definition name="editQuestion" extends="adminTemplate">
+        <put-attribute name="title" value="Edit Question - Bite Java tutorials" />
+        <put-attribute name="body" value="/WEB-INF/view/jsp/admin/questions/editQuestion.jsp" />
+    </definition>
+    
+    
+    
+    
+    
+</tiles-definitions>
