@@ -3,23 +3,29 @@ package com.bharti.controller;
 import java.security.Principal;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.bharti.constraints.Roles;
 import com.bharti.domain.Registration;
+import com.bharti.model.KeynoteModel;
+import com.bharti.model.UserRegModel;
 import com.bharti.service.RegistrationService;
 
 @Controller
 public class LoginController 
 {
 	@Autowired private RegistrationService registrationService; 
-	
+	private Logger logger = Logger.getLogger(LoginController.class);
 	/**
 	 * @param map
 	 * @param request
@@ -37,6 +43,25 @@ public class LoginController
 		return "login";
 	}
 	
+	@RequestMapping(value = "/signup", method = RequestMethod.GET)
+	public String signup(ModelMap map, HttpServletRequest request, Principal principal)
+	{
+		map.addAttribute("regForm", new UserRegModel());
+		return "signup";
+	}
+	@RequestMapping(value = "/regUser", method = RequestMethod.POST)
+	public String regUser(@ModelAttribute(value = "regForm") @Valid UserRegModel model,BindingResult result, ModelMap map, HttpServletRequest request,Principal principal)
+	{
+		if(result.hasErrors())
+		{
+			System.out.println("Validtion failed");
+			return "signup";
+		}
+		else
+		{
+			return "signup";
+		}
+	}
 	
 	
 	/**
@@ -48,12 +73,12 @@ public class LoginController
 	@RequestMapping(value = "/getLogedIn", method = RequestMethod.GET)
 	public String getLogedIn(ModelMap map, HttpServletRequest request, Principal principal)
 	{
+		logger.info("Inside getLogedIn  principal : " + principal);
 		Registration reg = registrationService.getRegistrationByUserid(principal.getName());
 		if(reg != null)
 		{
-
+			logger.info("Login user name  : " + reg.getName());
 			request.getSession(true).setAttribute("registration", reg);
-			
 			return "redirect:userHome";
 		}
 		return "redirect:login";

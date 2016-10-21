@@ -53,7 +53,10 @@
     <definition name="login" extends="indexTemplate">
         <put-attribute name="title" value="Login - BiteJava Tutoritals" />
         <put-attribute name="body" value="/WEB-INF/view/jsp/login.jsp" />
-        
+    </definition>
+    <definition name="signup" extends="indexTemplate">
+        <put-attribute name="title" value="User Signup - BiteJava Tutoritals" />
+        <put-attribute name="body" value="/WEB-INF/view/jsp/signup.jsp" />
     </definition>
     
     

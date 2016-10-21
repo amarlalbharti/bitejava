@@ -104,12 +104,9 @@
 					<li>
 					  <a href="${path_url}/note/asp_net">.NET Bites</a>
 					</li>
-					<li>
-					  <a href="${path_url}/questions">Q & A</a>
-					</li>
 					
 					<li class="parent megamenu promo">
-					  <a href="#">Databases<span class="item-new">New</span></a>
+					  <a href="#">Tutorals</a>
 					  <ul class="sub">
 						<li class="sub-wrapper">
 						  <div class="sub-list">
@@ -121,9 +118,6 @@
 								<li><a href="#">Savant Host (Mac Mini)<span class="item-new bg-warning">Wow</span></a></li>
 							  </ul>
 							</div><!-- .box -->
-							
-							
-							
 						  </div><!-- .sub-list -->
 						  
 						  <div class="promo-block bg">
@@ -133,6 +127,9 @@
 						  </div><!-- .promo-block -->
 						</li>
 					  </ul><!-- .sub -->
+					</li>
+					<li>
+					  <a href="${path_url}/questions">Q's & A's</a>
 					</li>
 					
 				  </ul>
