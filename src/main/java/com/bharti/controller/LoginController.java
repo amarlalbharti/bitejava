@@ -1,6 +1,8 @@
 package com.bharti.controller;
 
 import java.security.Principal;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -10,21 +12,30 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.bharti.constraints.Roles;
+import com.bharti.constraints.Validation;
+import com.bharti.domain.LoginInfo;
 import com.bharti.domain.Registration;
+import com.bharti.domain.UserRole;
 import com.bharti.model.KeynoteModel;
 import com.bharti.model.UserRegModel;
+import com.bharti.service.LoginInfoService;
+import com.bharti.service.MailService;
 import com.bharti.service.RegistrationService;
 
 @Controller
 public class LoginController 
 {
 	@Autowired private RegistrationService registrationService; 
+	@Autowired private LoginInfoService loginInfoService; 
+	@Autowired private MailService mailService; 
+	
 	private Logger logger = Logger.getLogger(LoginController.class);
 	/**
 	 * @param map
@@ -52,6 +63,23 @@ public class LoginController
 	@RequestMapping(value = "/regUser", method = RequestMethod.POST)
 	public String regUser(@ModelAttribute(value = "regForm") @Valid UserRegModel model,BindingResult result, ModelMap map, HttpServletRequest request,Principal principal)
 	{
+		if(model.getEmail() != null)
+		{
+			if(Validation.validateEmail(model.getEmail()))
+			{
+				Registration reg = registrationService.getRegistrationByUserid(model.getEmail());
+				if(reg != null)
+				{
+					result.addError(new FieldError("regForm", "email", model.getEmail() , false, new String[1],new String[1], "Email is already registered !"));
+					return "signup";
+				}
+			}
+			else
+			{
+				result.addError(new FieldError("regForm", "email", model.getEmail() , false, new String[1],new String[1], "Please provide valid Email !"));
+				return "signup";
+			}
+		}
 		if(result.hasErrors())
 		{
 			System.out.println("Validtion failed");
@@ -59,6 +87,51 @@ public class LoginController
 		}
 		else
 		{
+			Registration reg = new Registration();
+			
+			java.util.Date dt = new java.util.Date();
+			java.sql.Date date = new java.sql.Date(dt.getTime());
+			
+			reg.setCreateDate(date);
+			
+			
+			
+			LoginInfo login = new LoginInfo();
+			
+			login.setRegistration(reg);
+			reg.setLog(login);
+			UserRole urole = new UserRole();
+			
+			urole.setUserrole(Roles.ROLE_USER.toString());
+			Set<UserRole> roles = new HashSet<UserRole>();
+			roles.add(urole);
+			login.setRoles(roles);
+			login.setIsactive("false");
+			loginInfoService.addLoginInfo(login);
+			
+			map.addAttribute("regSuccess", "true");
+			map.addAttribute("name", reg.getName());
+			
+			
+			String mailContent="Dear "+reg.getName()+",<br><br><br>"+
+ 
+								"Congratulations, you have successfully registered to BiteJava. <br><br>"+
+								 
+								"Please find below your user credentials. Please <a href='http://www.bitejava.com/login' >login</a>  and change password for security reasons. For any assistance, please feel free to reach out to us at support@bitejava.com<br><br>"+
+								 
+								"Username - "+reg.getUserid()+"<br>"+
+								"Password - "+model.getPassword()+"<br><br><br>"+
+								 
+								"Regards,<br>"+
+								"Team Bitejava";
+			
+			
+			
+			
+			mailService.sendMail(reg.getUserid(), "Thank you for registration in BiteJava.com", mailContent);
+
+			
+			
 			return "signup";
 		}
 	}
