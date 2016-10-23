@@ -16,6 +16,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.bharti.constraints.Roles;
@@ -61,22 +62,27 @@ public class LoginController
 		return "signup";
 	}
 	@RequestMapping(value = "/regUser", method = RequestMethod.POST)
-	public String regUser(@ModelAttribute(value = "regForm") @Valid UserRegModel model,BindingResult result, ModelMap map, HttpServletRequest request,Principal principal)
+	public String regUser(@ModelAttribute(value = "regForm") @Valid UserRegModel model,BindingResult result,
+			@ModelAttribute(value = "reg") Registration reg, BindingResult regResult,
+			@ModelAttribute(value = "login") LoginInfo login, BindingResult loginResult,
+			@ModelAttribute(value = "urole") UserRole urole, BindingResult userroleResult,
+			@RequestParam("userid") String userid,
+			ModelMap map, HttpServletRequest request,Principal principal)
 	{
-		if(model.getEmail() != null)
+		if(model.getUserid() != null)
 		{
-			if(Validation.validateEmail(model.getEmail()))
+			if(Validation.validateEmail(model.getUserid()))
 			{
-				Registration reg = registrationService.getRegistrationByUserid(model.getEmail());
-				if(reg != null)
+				Registration reg1 = registrationService.getRegistrationByUserid(model.getUserid());
+				if(reg1 != null)
 				{
-					result.addError(new FieldError("regForm", "email", model.getEmail() , false, new String[1],new String[1], "Email is already registered !"));
+					result.addError(new FieldError("regForm", "userid", model.getUserid() , false, new String[1],new String[1], "Email is already registered !"));
 					return "signup";
 				}
 			}
 			else
 			{
-				result.addError(new FieldError("regForm", "email", model.getEmail() , false, new String[1],new String[1], "Please provide valid Email !"));
+				result.addError(new FieldError("regForm", "userid", model.getUserid() , false, new String[1],new String[1], "Please provide valid Email !"));
 				return "signup";
 			}
 		}
@@ -87,20 +93,13 @@ public class LoginController
 		}
 		else
 		{
-			Registration reg = new Registration();
-			
 			java.util.Date dt = new java.util.Date();
 			java.sql.Date date = new java.sql.Date(dt.getTime());
 			
 			reg.setCreateDate(date);
 			
-			
-			
-			LoginInfo login = new LoginInfo();
-			
 			login.setRegistration(reg);
 			reg.setLog(login);
-			UserRole urole = new UserRole();
 			
 			urole.setUserrole(Roles.ROLE_USER.toString());
 			Set<UserRole> roles = new HashSet<UserRole>();

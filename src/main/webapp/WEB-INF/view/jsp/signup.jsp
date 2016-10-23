@@ -66,13 +66,13 @@
 					  
 					  <div class="form-group has-feedback">
 						<label>Full name: <span class="required">*</span></label>
-						<form:input class="form-control" path="fullName" /><i style="display: none;" class="form-control-feedback" data-bv-icon-for="Full Name Register"></i>
-						  <small class="text-danger" ><form:errors path="fullName" /></small>
+						<form:input class="form-control" path="name" /><i style="display: none;" class="form-control-feedback" data-bv-icon-for="Full Name Register"></i>
+						  <small class="text-danger" ><form:errors path="name" /></small>
 					  </div>
 					  <div class="form-group has-feedback">
 						<label>Email Address <span class="required">*</span></label>
-						  <form:input class="form-control" path="email" type="email"/><i style="display: none;" class="form-control-feedback" data-bv-icon-for="Email Register"></i>
-						  <small class="text-danger" ><form:errors path="email"/></small>
+						  <form:input class="form-control" path="userid" type="email"/><i style="display: none;" class="form-control-feedback" data-bv-icon-for="Email Register"></i>
+						  <small class="text-danger" ><form:errors path="userid"/></small>
 					  </div>
 					  <div class="form-group has-feedback">
 						<label>Password: <span class="required">*</span></label>

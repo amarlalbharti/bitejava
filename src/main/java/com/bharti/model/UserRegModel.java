@@ -17,26 +17,27 @@ public class UserRegModel implements Serializable
 	private static final long serialVersionUID = -9109891689929237489L;
 	
 	@NotBlank(message="Name is required !")
-	private String fullName;
+	private String name;
 	
 	@NotEmpty(message="Email id is required !")
 	@Email(message="Please enter valid email !")
-	private String email;
+	private String userid;
 	
 	@Pattern(regexp="(?=.*\\d)(?=.*[a-z]).{6,20}",message="Please enter valid password")
 	private String password;
 	
-	public String getFullName() {
-		return fullName;
+	
+	public String getName() {
+		return name;
 	}
-	public void setFullName(String fullName) {
-		this.fullName = fullName;
+	public void setName(String name) {
+		this.name = name;
 	}
-	public String getEmail() {
-		return email;
+	public String getUserid() {
+		return userid;
 	}
-	public void setEmail(String email) {
-		this.email = email;
+	public void setUserid(String userid) {
+		this.userid = userid;
 	}
 	public String getPassword() {
 		return password;

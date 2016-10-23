@@ -82,7 +82,7 @@
 					%>
 				  <div class="form-group">
 					<label>Email Address <span class="required">*</span></label>
-					<input class="form-control" type="mail"  placeholder="User id" name="j_username" id="j_username" >
+					<input class="form-control" type="email"  placeholder="User id" name="j_username" id="j_username" >
 				  </div>
 				  
 				  <div class="form-group">
