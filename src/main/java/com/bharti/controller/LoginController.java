@@ -3,6 +3,7 @@ package com.bharti.controller;
 import java.security.Principal;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -47,10 +48,6 @@ public class LoginController
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String login(ModelMap map, HttpServletRequest request, Principal principal)
 	{
-		if(principal != null)
-		{
-//			return "redirect:userHome";
-		}
 		System.out.println("from index page of index controller");
 		return "login";
 	}
@@ -96,21 +93,22 @@ public class LoginController
 			java.util.Date dt = new java.util.Date();
 			java.sql.Date date = new java.sql.Date(dt.getTime());
 			
-			reg.setCreateDate(date);
+			String uuid = UUID.randomUUID().toString();
 			
+			login.setForgotpwdid(uuid);
 			login.setRegistration(reg);
+			reg.setCreateDate(date);
 			reg.setLog(login);
-			
-			urole.setUserrole(Roles.ROLE_USER.toString());
 			Set<UserRole> roles = new HashSet<UserRole>();
+			urole.setUserrole(Roles.ROLE_USER.toString());
 			roles.add(urole);
 			login.setRoles(roles);
 			login.setIsactive("false");
+			urole.setLog(login);
 			loginInfoService.addLoginInfo(login);
 			
 			map.addAttribute("regSuccess", "true");
 			map.addAttribute("name", reg.getName());
-			
 			
 			String mailContent="Dear "+reg.getName()+",<br><br><br>"+
  
@@ -131,7 +129,7 @@ public class LoginController
 
 			
 			
-			return "signup";
+			return "redirect:login";
 		}
 	}
 	
@@ -169,7 +167,6 @@ public class LoginController
 		System.out.println("from failtologin page of index controller");
 		String error="true";
 		return "redirect:/login?error="+error;
-		
 	}
 	
 	/**
@@ -210,10 +207,88 @@ public class LoginController
 		{
 			return "redirect:adminDashboard";
 		}
-		
 		else
 		{
 			return "redirect:index";
 		}
 	}
+	
+	
+	@RequestMapping(value = "/forgotpassword", method = RequestMethod.GET)
+	public String forgotpassword(ModelMap map, HttpServletRequest request, Principal principal)
+	{
+		logger.info("From forgot password..............");
+		map.addAttribute("resetPwd", "forgot");
+		return "forgotpassword";
+	}
+	
+	
+	@RequestMapping(value = "/forgotpassword", method = RequestMethod.POST)
+	public String forgotpassword(@RequestParam("email") String userid , ModelMap map, HttpServletRequest request, Principal principal)
+	{
+		logger.info("From forgot password..............");
+		map.addAttribute("resetPwd", "forgot");
+		if(Validation.validateEmail(userid))
+		{
+			Registration reg = registrationService.getRegistrationByUserid(userid);
+			if(reg != null)
+			{
+				LoginInfo login = loginInfoService.getLoginInfoByUserid(userid);
+				if(login != null)
+				{
+					String uuid = UUID.randomUUID().toString();
+					login.setForgotpwdid(uuid);
+					loginInfoService.updateLoginInfo(login);
+					
+					String path_url = (String)request.getSession().getAttribute("path_url");
+					String mailContent = "Dear "+reg.getName()+",<br><br><br>"+
+										
+										"Retrieve your password here <br><br>"+
+										"Please click on link below to change your password.<br><br> <a href='"+path_url+"/resetpassword?email="+reg.getUserid()+"&token="+uuid+"' >"+path_url+"/resetpassword?email="+reg.getUserid()+"&token="+uuid+"</a>  <br> <br>For any assistance, please feel free to reach out to us at support@bitejava.com<br><br>"+
+										"Username - "+reg.getUserid()+"<br>"+
+										"<br><br>"+
+										"Regards,<br>"+
+										"Team Bitejava";
+					
+					mailService.sendMail(reg.getUserid(), "Thank you for registration in BiteJava.com", mailContent);
+					map.addAttribute("reset", "success");
+					return "forgotpassword";
+				}
+				
+			}
+			else{
+				map.addAttribute("emailError", "This email id is not registered !");
+			}
+		}
+		else
+		{
+			map.addAttribute("emailError", "Please enter a valid email id !");
+		}
+		return "forgotpassword";
+	}
+	
+	
+	@RequestMapping(value = "/resetpassword", method = RequestMethod.GET)
+	public String resetpassword(ModelMap map, HttpServletRequest request, Principal principal)
+	{
+		logger.info("From resetpassword ..............");
+		String email = request.getParameter("email");
+		String token = request.getParameter("token");
+		
+		if(email != null && Validation.validateEmail(email))
+		{
+			LoginInfo login = loginInfoService.getLoginInfoByUserid(email);
+			if(login != null && login.getForgotpwdid() != null && login.getForgotpwdid().equals(token))
+			{
+				map.addAttribute("token", token);
+				map.addAttribute("email", email);
+				map.addAttribute("resetPwd", "reset");
+				return "forgotpassword";
+			}
+				
+		}
+		return "forgotpassword";
+	}
+	
+	
 }

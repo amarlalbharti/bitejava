@@ -18,8 +18,6 @@ public class UserRole implements Serializable
 {
 	private int sn;
 	
-//	private String userid;
-	
 	private String userrole;
 	
 	private LoginInfo log;

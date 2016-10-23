@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <!doctype html>
 <html class="full-height"><head>
   <title>Login - BiteJava Tutorials</title>
@@ -57,53 +58,67 @@
 		<div data-appear-animation="bounceInDown">
 		  <div class="rotation">
 			<div class="front-end">
-			  <div class="form-content">
-				<form action="j_spring_security_check" method="post" class="form-box login-form form-validator">
-				  <h3 class="title">Sign In <small>or <a href="signup" class="">Sign Up</a></small></h3>
-				  <p>If you have an account with us, please log in.</p>
-				  <c:if test="${param.error}">
-						<div class="error text-danger" style="height: auto;">
-							Your login attempt was not successful, try again.<br /> Reason:
-							${sessionScope.SPRING_SECURITY_LAST_EXCEPTION.message}
-						</div>
-						<br>
-					</c:if>
-					<%
-						String resetPwd = (String)request.getParameter("resetPwd");
-						if(resetPwd != null && resetPwd.equals("true"))
-						{
-							%>
-								<div class="text-green" style="height: auto;">
-									Password reset successfully, Login with new password ! <br>
-								</div>
-								<br>
-							<%
-						}
-					%>
-				  <div class="form-group">
-					<label>Email Address <span class="required">*</span></label>
-					<input class="form-control" type="email"  placeholder="User id" name="j_username" id="j_username" >
-				  </div>
-				  
-				  <div class="form-group">
-					<label>Password: <span class="required">*</span></label>
-					<input class="form-control" type="password" placeholder="Password" name="j_password" id="j_password">
-				  </div>
-				  
-				  <div class="form-group">
-					<label class="checkbox">
-					  <input type="checkbox"> Remember password
-					</label>
-				  </div>
-				  
-				  <div class="buttons-box clearfix">
-					<button type="submit" class="btn btn-default">Login</button>
-					<button type="button" class="btn btn-info"><i class="fa fa-twitter"></i> Login with Twitter</button>
-					<a href="forgotpassword" class="forgot">Forgot Your Password?</a>
-					<span class="required"><b>*</b> Required Field</span>
-				  </div>
-				  
-				</form><!-- .form-box -->
+			  <div class="form-content" style="height: 600px">
+			  	<%
+			  		String resetPwd = (String)request.getAttribute("resetPwd");
+			  		if(resetPwd != null && resetPwd.equals("forgot"))
+			  		{
+			  			%>
+						  	<form action="forgotpassword" class="form-box register-form bv-form"  role="form" method="POST">
+								  <button type="submit" class="bv-hidden-submit" style="display: none; width: 0px; height: 0px;"></button>
+								  <h3 class="title">Retrieve your password here</h3>
+								  <p>Please enter your email address below. You will receive a link to reset your password.</p><br>
+								  <%
+								  	String reset = (String)request.getAttribute("reset");
+								  	if(reset != null && reset.equals("success"))
+								  	{
+								  		%>
+										  <p class="text-success">Reset link has been send </p>
+								  		<%
+								  	}
+								  %>
+								  
+								  <div class="form-group has-feedback">
+									<label>Email Address <span class="required">*</span></label>
+									<input class="form-control" name="email" required="required" data-bv-field="Email Register" type="email"><i style="display: none;" class="form-control-feedback" data-bv-icon-for="Email Register"></i>
+									<small class="text-danger" data-bv-validator="emailAddress" data-bv-for="Email Register" data-bv-result="NOT_VALIDATED">${emailError}</small>
+								  	<small style="display: none;" class="help-block" data-bv-validator="emailAddress" data-bv-for="Email Register" data-bv-result="NOT_VALIDATED">Please enter a valid email address</small><small style="display: none;" class="help-block" data-bv-validator="notEmpty" data-bv-for="Email Register" data-bv-result="NOT_VALIDATED">Please enter a value</small>
+							  	  </div>
+					  				
+								  <div class="buttons-box clearfix">
+									<button class="btn btn-default">Submit</button>
+									<a href="login" class="btn btn-border "><i class="fa fa-long-arrow-left"></i> Back to Login</a>
+									<span class="required"><b>*</b> Required Field</span>
+								  </div>
+								</form><!-- .form-box -->
+			  			<%
+			  		}
+			  		else if(resetPwd != null && resetPwd.equals("reset"))
+			  		{
+			  			%>
+			  				<form action="forgotpassword" class="form-box register-form bv-form"  role="form" method="POST">
+							  <h3 class="title">Change your password here</h3>
+							  <p>Please enter new password.</p><br>
+							  
+							  <div class="form-group has-feedback">
+								<label>New Password<span class="required">*</span></label>
+								<input class="form-control" name="email" required="required" data-bv-field="Reset Password" type="password">
+								<input type="hidden" name="email" value="${email}">
+								<input type="hidden" name="token" value="${token}">
+								
+						  	  </div>
+				  				
+							  <div class="buttons-box clearfix">
+								<button class="btn btn-default">Change Password</button>
+								<a href="login" class="btn btn-border "><i class="fa fa-long-arrow-left"></i> Back to Login</a>
+								<span class="required"><b>*</b> Required Field</span>
+							  </div>
+							</form><!-- .form-box -->
+			  			<%
+			  		}
+			  			
+			  	%>
+			  
 			  </div>
 			</div><!-- .front-end -->
 			

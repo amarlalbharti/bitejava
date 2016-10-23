@@ -25,6 +25,13 @@
 			<img width="568" height="351" alt="" src="theme/images/homepageGraphics-2.png" class="replace-2x">
 		  </div>
 		  <div class="content-box white col-sm-6 col-md-6">
+		  	<div class="input-group input-group-lg">
+                <input class="form-control input-group-lg" type="text" style="border: 3px solid #9DA5B1;">
+                    <span class="input-group-btn">
+                      <button type="button" class="btn btn-info btn-flat"><i class="fa fa-search"></i></button>
+                    </span>
+          	</div>
+          	<br>
 			<h2 class="title light"><strong>Java : </strong> write once, run away!</h2>
 			<p class="description">
 			  If debugging is the process of removing software bugs,<br>

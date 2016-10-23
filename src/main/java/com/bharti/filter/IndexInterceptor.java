@@ -33,7 +33,7 @@ public class IndexInterceptor implements HandlerInterceptor
 			if(reg == null)
 			{
 				Principal principal = request.getUserPrincipal();
-				System.out.println("principal : " + principal);
+//				System.out.println("principal : " + principal);
 				if(principal != null)
 				{
 					System.out.println("user  : " + principal.getName());

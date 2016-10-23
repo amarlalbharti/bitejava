@@ -1,4 +1,7 @@
 <!doctype html>
+<%@page import="com.bharti.domain.Registration"%>
+<%@page import="java.util.Date"%>
+<%@page import="com.bharti.constraints.DateFormats"%>
 <html>
 <head>
   <meta charset="utf-8">
@@ -41,11 +44,37 @@
 	    color: #fff !important;
 	    }
   </style>
+  <script>
+		function getLogOut(){
+			if (XMLHttpRequest)
+			{
+				x=new XMLHttpRequest();
+			}
+			else
+			{
+				x=new ActiveXObject("Microsoft.XMLHTTP");
+			}
+		     x.onreadystatechange=function()
+			{
+		    	 if(x.readyState==4 && x.status==200)
+					{
+		    		 var res = x.responseText;
+		    		 window.location.href="${pageContext.request.contextPath}/j_spring_security_logout";
+		    		}
+			}
+			x.open("GET", "${pageContext.request.contextPath}/insertLogOut",true);
+			x.send();
+			return true;
+		}
+</script>
 </head>
 <body class="fixed-header">
 <div class="page-box" style="min-height: 300px;">
 <div class="page-box-content">
-
+<%
+Registration reg = (Registration) request.getSession().getAttribute("registration");
+System.out.println("Registration :" + reg);
+%>
 <header class="header header-two">
   <div class="header-wrapper">
 	<div class="container">
@@ -82,6 +111,73 @@
 				  </svg>
 				</a>
 			  </div><!-- .phone-header -->
+			  	<%
+			  		if(reg != null)
+			  		{
+			  			%>
+						  <div class="btn-group cart-header">
+								<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+								  <div class="icon">
+									<i class="fa fa-user"></i>
+								  </div>
+								  <span class="count"><%= reg.getName() %></span>
+								</a>
+								<div class="dropdown-menu">
+								  <strong>Welcome <%= reg.getName() %></strong>
+								  <ul class="list-unstyled">
+									<li>
+									  <a href="#" class="product-image "><img class="replace-2x image  img-circle" src="theme/images/Preview-icon.png" alt="" width="70" height="70"></a>
+									  <h4 class="product-name"><%= reg.getUserid() %></h4>
+									  <div class="product-name">Since : <%= DateFormats.ddMMMyyyy.format(reg.getCreateDate()) %></div>
+									  <%
+									  	if(reg.getGender() != null)
+									  	{
+									  		%>
+											  <div class="product-name">Gender : <%=  reg.getGender()%></div>
+									  		<%
+									  	}
+									  %>
+									  <div class="clearfix"></div>
+									</li>
+								  </ul>
+								  <div class="cart-button">
+									<a href="profile" class="btn btn-default pull-left">Profile</a>
+									<button class="btn checkout btn-default" onclick="getLogOut()">Logout</button>
+								  </div>
+								</div>
+						  </div>
+			  			<%
+			  		}
+			  		else
+			  		{
+			  			%>
+			  				<div class="btn-group cart-header">
+								<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+								  <div class="icon">
+									<i class="fa fa-user"></i>
+								  </div>
+								  <span class="count">Guest</span>
+								</a>
+								<div class="dropdown-menu">
+								  <strong>Welcome Guest</strong>
+								  <ul class="list-unstyled">
+									<%-- <li>
+									  <a href="#" class="product-image "><img class="replace-2x image  img-circle" src="theme/images/Preview-icon.png" alt="" width="70" height="70"></a>
+									  <h4 class="product-name">amarlalbharti@gmail.com</h4>
+									  <div class="product-name">Since : <%= DateFormats.ddMMMyyyy.format(new Date()) %></div>
+									  <div class="product-name">Gender : Male</div>
+									  <div class="clearfix"></div>
+									</li> --%>
+								  </ul>
+								  <div class="cart-button">
+									<a href="signup" class="btn btn-default pull-left">Sign Up</a>
+									<a href="login" class="btn checkout btn-default" onclick="getLogOut()">Sign In</a>
+								  </div>
+								</div>
+						  </div>
+			  			<%
+			  		}
+			  	%>
 			</div><!-- .header-icons -->
 			
 			<div class="primary">
