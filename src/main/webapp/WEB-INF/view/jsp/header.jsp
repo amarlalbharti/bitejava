@@ -253,6 +253,8 @@ System.out.println("Registration :" + reg);
 			</button>
 		  </form>
 		</div>
+		
+		
 	  </div><!--.row -->
 	</div>
   </div><!-- .header-wrapper -->
