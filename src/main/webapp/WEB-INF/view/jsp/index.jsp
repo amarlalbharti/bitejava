@@ -32,12 +32,38 @@
                     </span>
           	</div>
           	<br>
-			<h2 class="title light"><strong>Java : </strong> write once, run away!</h2>
+          	<div class="text-center">
+          		<h2 class="title light ">Top Tutorials</h2>
+          	</div>
+          	
+          	<div class="clearfix"></div>
+          	<div class="bottom-padding col-xs-3 col-sm-3 col-md-3">
+			  <div class="frame frame-padding">
+				<img class="replace-2x" src="theme/images/JAVA-ICON.png" alt="" width="570" height="320">
+			  </div>
+			</div>
+			<div class="bottom-padding col-xs-3 col-sm-3 col-md-3">
+			  <div class="frame frame-padding">
+				<img class="replace-2x" src="theme/images/javascript.png" alt="" width="570" height="320">
+			  </div>
+			</div>
+			<div class="bottom-padding col-xs-3 col-sm-3 col-md-3">
+			  <div class="frame frame-padding">
+				<img class="replace-2x" src="theme/images/nodejs.png" alt="" width="570" height="320">
+			  </div>
+			</div>
+			<div class="bottom-padding col-xs-3 col-sm-3 col-md-3">
+			  <div class="frame frame-padding">
+				<img class="replace-2x" src="theme/images/HTML5.png" alt="" width="570" height="320">
+			  </div>
+			</div>
+			<!-- 
+			
 			<p class="description">
 			  If debugging is the process of removing software bugs,<br>
 			  Then programming must be the process of putting them in.<br>
 			  <strong>&ndash; Edsger Dijkstra</strong>
-			</p>
+			</p> -->
 		  </div>
 		</div>
 	  </div>
