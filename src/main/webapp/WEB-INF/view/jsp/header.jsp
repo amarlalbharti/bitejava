@@ -10,7 +10,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
   <!-- Favicon -->
-  <link rel="shortcut icon" href="${path_url}/theme/img/favicon.ico">
+<%--   <link rel="shortcut icon" href="${path_url}/theme/img/favicon.ico"> --%>
   
   <!-- Font -->
   <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Arimo:400,700,400italic,700italic'>
@@ -18,7 +18,7 @@
   <!-- Plagins CSS -->
   <link rel="stylesheet" href="${path_url}/theme/css/bootstrap.css">
   <link rel="stylesheet" href="${path_url}/theme/css/font-awesome.min.css">
-  <link rel="stylesheet" href="${path_url}/theme/css/jslider.css">
+<%--   <link rel="stylesheet" href="${path_url}/theme/css/jslider.css"> --%>
   <link rel="stylesheet" href="${path_url}/theme/css/settings.css">
   <link rel="stylesheet" href="${path_url}/theme/css/jquery.fancybox.css">
   <link rel="stylesheet" href="${path_url}/theme/css/animate.css">
@@ -161,13 +161,14 @@ System.out.println("Registration :" + reg);
 								<div class="dropdown-menu">
 								  <strong>Welcome Guest</strong>
 								  <ul class="list-unstyled">
-									<%-- <li>
-									  <a href="#" class="product-image "><img class="replace-2x image  img-circle" src="theme/images/Preview-icon.png" alt="" width="70" height="70"></a>
-									  <h4 class="product-name">amarlalbharti@gmail.com</h4>
-									  <div class="product-name">Since : <%= DateFormats.ddMMMyyyy.format(new Date()) %></div>
-									  <div class="product-name">Gender : Male</div>
+									<li>
+<!--  									  <a href="#" class="product-image "><img class="replace-2x image  img-circle" src="theme/images/Preview-icon.png" alt="" width="70" height="70"></a> -->
+<!-- 									  <h4 class="product-name"></h4> -->
+									  <div class="">If you have already registered please Log In, otherwise Sign Up to use other feature.</div>
+<!-- 									  <div class="product-name">Gender : Male</div> -->
+									  
 									  <div class="clearfix"></div>
-									</li> --%>
+									</li>
 								  </ul>
 								  <div class="cart-button">
 									<a href="signup" class="btn btn-default pull-left">Sign Up</a>

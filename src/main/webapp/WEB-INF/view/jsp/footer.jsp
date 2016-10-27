@@ -124,46 +124,18 @@
 <div class="clearfix"></div>
 
 <script src="${path_url}/theme/js/bootstrap.min.js"></script>
-<script src="${path_url}/theme/js/price-regulator/jshashtable-2.1_src.js"></script>
-<script src="${path_url}/theme/js/price-regulator/jquery.numberformatter-1.2.3.js"></script>
-<script src="${path_url}/theme/js/price-regulator/tmpl.js"></script>
-<script src="${path_url}/theme/js/price-regulator/jquery.dependClass-0.1.js"></script>
-<script src="${path_url}/theme/js/price-regulator/draggable-0.1.js"></script>
-<script src="${path_url}/theme/js/price-regulator/jquery.slider.js"></script>
 <script src="${path_url}/theme/js/jquery.carouFredSel-6.2.1-packed.js"></script>
-<script src="${path_url}/theme/js/jquery.touchwipe.min.js"></script>
-<script src="${path_url}/theme/js/jquery.elevateZoom-3.0.8.min.js"></script>
 <script src="${path_url}/theme/js/jquery.imagesloaded.min.js"></script>
 <script src="${path_url}/theme/js/jquery.appear.js"></script>
-<script src="${path_url}/theme/js/jquery.sparkline.min.js"></script>
-<script src="${path_url}/theme/js/jquery.easypiechart.min.js"></script>
-<script src="${path_url}/theme/js/jquery.easing.1.3.js"></script>
+
+
 <script src="${path_url}/theme/js/jquery.fancybox.pack.js"></script>
 <script src="${path_url}/theme/js/isotope.pkgd.min.js"></script>
-<script src="${path_url}/theme/js/jquery.knob.js"></script>
-<script src="${path_url}/theme/js/jquery.selectBox.min.js"></script>
-<script src="${path_url}/theme/js/jquery.royalslider.min.js"></script>
-<script src="${path_url}/theme/js/jquery.tubular.1.0.js"></script>
-<script src="${path_url}/theme/js/SmoothScroll.js"></script>
-<script src="${path_url}/theme/js/country.js"></script>
-<script src="${path_url}/theme/js/spin.min.js"></script>
-<script src="${path_url}/theme/js/ladda.min.js"></script>
-<script src="${path_url}/theme/js/masonry.pkgd.min.js"></script>
-<script src="${path_url}/theme/js/morris.min.js"></script>
-<script src="${path_url}/theme/js/raphael.min.js"></script>
-<script src="${path_url}/theme/js/video.js"></script>
-<script src="${path_url}/theme/js/pixastic.custom.js"></script>
-<script src="${path_url}/theme/js/livicons-1.4.min.js"></script>
-<script src="${path_url}/theme/js/layerslider/greensock.js"></script>
-<script src="${path_url}/theme/js/layerslider/layerslider.transitions.js"></script>
-<script src="${path_url}/theme/js/layerslider/layerslider.kreaturamedia.jquery.js"></script>
-<script src="${path_url}/theme/js/revolution/jquery.themepunch.tools.min.js"></script>
-<script src="${path_url}/theme/js/revolution/jquery.themepunch.revolution.min.js"></script>
-<script src="${path_url}/theme/js/bootstrapValidator.min.js"></script>
-<script src="${path_url}/theme/js/bootstrap-datepicker.js"></script>
-<script src="${path_url}/theme/js/jplayer/jquery.jplayer.min.js"></script>
+
+
+
 <script src="${path_url}/theme/js/jplayer/jplayer.playlist.min.js"></script>
-<script src="${path_url}/theme/js/jquery.scrollbar.min.js"></script>
+
 <script src="${path_url}/theme/js/main.js"></script>
  
 </body>
