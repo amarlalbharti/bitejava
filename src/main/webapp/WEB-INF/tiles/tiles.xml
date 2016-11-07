@@ -62,6 +62,10 @@
         <put-attribute name="title" value="Forgot Password - BiteJava Tutoritals" />
         <put-attribute name="body" value="/WEB-INF/view/jsp/forgotpassword.jsp" />
     </definition>
+    <definition name="profile" extends="homeTemplate">
+        <put-attribute name="title" value="User profile - Bite Java tutorials" />
+        <put-attribute name="body" value="/WEB-INF/view/jsp/profile.jsp" />
+    </definition>
     
     
     

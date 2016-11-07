@@ -172,7 +172,7 @@ System.out.println("Registration :" + reg);
 								  </ul>
 								  <div class="cart-button">
 									<a href="signup" class="btn btn-default pull-left">Sign Up</a>
-									<a href="login" class="btn checkout btn-default" onclick="getLogOut()">Sign In</a>
+									<a href="${path_url}/login" class="btn checkout btn-default" >Sign In</a>
 								  </div>
 								</div>
 						  </div>
