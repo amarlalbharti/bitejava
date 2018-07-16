@@ -9,8 +9,8 @@
   
   <meta class="viewport" name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<link href="${path_url}/theme/ckeditor/plugins/codesnippet/lib/highlight/styles/monokai_sublime.css" rel="stylesheet">
-    <script src="${path_url}/theme/ckeditor/plugins/codesnippet/lib/highlight/highlight.pack.js"></script>
+	<link href="${pageContext.request.contextPath}/theme/ckeditor/plugins/codesnippet/lib/highlight/styles/monokai_sublime.css" rel="stylesheet">
+    <script src="${pageContext.request.contextPath}/theme/ckeditor/plugins/codesnippet/lib/highlight/highlight.pack.js"></script>
     <style type="text/css">
     .subject_data h1{
     font-size: 22px;

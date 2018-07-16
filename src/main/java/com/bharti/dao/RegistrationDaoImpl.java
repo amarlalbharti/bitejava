@@ -25,9 +25,9 @@ public class RegistrationDaoImpl implements RegistrationDao
 	public Registration getRegistrationByUserid(String userid)
 	{
 		List<Registration> list = this.sessionFactory.getCurrentSession().createCriteria(Registration.class)
-				.createAlias("log", "logAlias")
+				.createAlias("loginInfo", "logAlias")
 				.add(Restrictions.eq("logAlias.userid", userid))
-				.setFetchMode("log", FetchMode.JOIN)
+				.setFetchMode("logAlias", FetchMode.JOIN)
 				.list();
 		if(!list.isEmpty())
 		{
@@ -35,13 +35,12 @@ public class RegistrationDaoImpl implements RegistrationDao
 		}
 		return null;
 	}
-	
 	@SuppressWarnings("unchecked")
 	public List<Registration> getRegistrationList()
 	{
 		return this.sessionFactory.getCurrentSession().createCriteria(Registration.class)
 				.addOrder(Order.desc("regdate"))
-				.setFetchMode("log", FetchMode.JOIN)
+				.setFetchMode("loginInfo", FetchMode.JOIN)
 				.list();
 	}
 	
@@ -54,12 +53,12 @@ public class RegistrationDaoImpl implements RegistrationDao
         List<String> rl = new ArrayList<String>();
         for(UserRole role : list)
         {
-            rl.add(role.getLog().getUserid());
+            rl.add(role.getLoginInfo().getUserid());
         }
         
         return this.sessionFactory.getCurrentSession().createCriteria(Registration.class)
                 .add(Restrictions.not(Restrictions.in("userid",rl)))
-                .setFetchMode("log", FetchMode.JOIN)
+                .setFetchMode("loginInfo", FetchMode.JOIN)
                 .list();
 	}
 	
@@ -80,7 +79,7 @@ public class RegistrationDaoImpl implements RegistrationDao
         List<String> rl = new ArrayList<String>();
         for(UserRole role : list)
         {
-            rl.add(role.getLog().getUserid());
+            rl.add(role.getLoginInfo().getUserid());
         }
 		return (Long)this.sessionFactory.getCurrentSession().createCriteria(Registration.class)
 				.add(Restrictions.not(Restrictions.in("userid",rl)))
@@ -113,7 +112,7 @@ public class RegistrationDaoImpl implements RegistrationDao
         List<String> rl = new ArrayList<String>();
         for(UserRole role : list)
         {
-            rl.add(role.getLog().getUserid());
+            rl.add(role.getLoginInfo().getUserid());
         }
         
         return this.sessionFactory.getCurrentSession().createCriteria(Registration.class)
@@ -122,7 +121,7 @@ public class RegistrationDaoImpl implements RegistrationDao
         		
                 .add(Restrictions.not(Restrictions.in("userid",rl)))
                 .add(Restrictions.eq("country.countryId", countryId))
-                .setFetchMode("log", FetchMode.JOIN)
+                .setFetchMode("loginInfo", FetchMode.JOIN)
                 .list();
 	}
 	
@@ -135,13 +134,13 @@ public class RegistrationDaoImpl implements RegistrationDao
         List<String> rl = new ArrayList<String>();
         for(UserRole role : list)
         {
-            rl.add(role.getLog().getUserid());
+            rl.add(role.getLoginInfo().getUserid());
         }
         
         return this.sessionFactory.getCurrentSession().createCriteria(Registration.class)
         		.add(Restrictions.eq("branch.branchId", branchId))
                 .add(Restrictions.not(Restrictions.in("userid",rl)))
-                .setFetchMode("log", FetchMode.JOIN)
+                .setFetchMode("loginInfo", FetchMode.JOIN)
                 .list();
 	}
 

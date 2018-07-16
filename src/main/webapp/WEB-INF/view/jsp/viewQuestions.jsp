@@ -12,8 +12,8 @@
   
   <meta class="viewport" name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<link href="${path_url}/theme/ckeditor/plugins/codesnippet/lib/highlight/styles/monokai_sublime.css" rel="stylesheet">
-    <script src="${path_url}/theme/ckeditor/plugins/codesnippet/lib/highlight/highlight.pack.js"></script>
+	<link href="${pageContext.request.contextPath}/theme/ckeditor/plugins/codesnippet/lib/highlight/styles/monokai_sublime.css" rel="stylesheet">
+    <script src="${pageContext.request.contextPath}/theme/ckeditor/plugins/codesnippet/lib/highlight/highlight.pack.js"></script>
 </head>
 <body class="fixed-header">
 <section id="main">
@@ -57,13 +57,13 @@
 		  		
 			  <ul class="nav nav-tabs pull-right">
 				<li class="ponter ${mode == 'recent' ? 'active' : ''}">
-				  <a href="${path_url}/questions?mode=recent"><i class="fa fa-gears"></i> Recent</a>
+				  <a href="${pageContext.request.contextPath}/questions?mode=recent"><i class="fa fa-gears"></i> Recent</a>
 				</li>
 				<li class="${mode == 'featured' ? 'active' : ''}">
-				  <a href="${path_url}/questions?mode=featured"><i class="fa fa-share-square-o"></i> Featured</a>
+				  <a href="${pageContext.request.contextPath}/questions?mode=featured"><i class="fa fa-share-square-o"></i> Featured</a>
 				</li>
 				<li class="${mode == 'most' ? 'active' : ''}">
-				  <a href="${path_url}/questions?mode=most"><i class="fa fa-folder-open-o"></i> Most Viewed</a>
+				  <a href="${pageContext.request.contextPath}/questions?mode=most"><i class="fa fa-folder-open-o"></i> Most Viewed</a>
 				</li>
 			  </ul>
 			</div>
@@ -101,7 +101,7 @@
 									</div>
 									<div class="col-xs-9 col-sm-10 col-md-10 col-lg-11">
 										  <div class="list-group-item border-bottom-only" >
-											<a href="${path_url}/questions/<%= que.getQid() %>/<%= q %>"  class="list-group-item-heading ">
+											<a href="${pageContext.request.contextPath}/questions/<%= que.getQid() %>/<%= q %>"  class="list-group-item-heading ">
 												<%= que.getQustion() %>
 											</a>
 											<%
@@ -115,7 +115,7 @@
 															{
 																Tag tag = it.next();
 																%>
-																	<li><a href="${path_url}/questions/tagged/<%= tag.getTag() %>" class="tag"><%= tag.getTag() %></a></li>
+																	<li><a href="${pageContext.request.contextPath}/questions/tagged/<%= tag.getTag() %>" class="tag"><%= tag.getTag() %></a></li>
 																<%
 															}
 														%>
@@ -147,10 +147,10 @@
 			<h3 class="title">Top Tutorials</h3>
 		  </header>
 		  <ul>
-			<li><a href="${path_url}/note/java">Java Tutorials</a></li>
-			<li><a href="${path_url}/note/php">PHP Tutorials</a></li>
-			<li><a href="${path_url}/note/asp_net">ASP.NET Tutorials</a></li>
-			<li><a href="${path_url}/note/mysql">MYSQL Tutorials</a></li>
+			<li><a href="${pageContext.request.contextPath}/note/java">Java Tutorials</a></li>
+			<li><a href="${pageContext.request.contextPath}/note/php">PHP Tutorials</a></li>
+			<li><a href="${pageContext.request.contextPath}/note/asp_net">ASP.NET Tutorials</a></li>
+			<li><a href="${pageContext.request.contextPath}/note/mysql">MYSQL Tutorials</a></li>
 		  </ul>
 		</aside><!-- .list -->
 		
@@ -167,7 +167,7 @@
 		  			for(Tag tag : topTags)
 		  			{
 		  				%>
-							<li><a href="${path_url}/questions/tagged/<%= tag.getTag() %>"><%= tag.getTag() %></a></li>
+							<li><a href="${pageContext.request.contextPath}/questions/tagged/<%= tag.getTag() %>"><%= tag.getTag() %></a></li>
 		  				<%
 		  			}
 		  		}

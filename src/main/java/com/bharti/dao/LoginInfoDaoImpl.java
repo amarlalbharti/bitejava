@@ -24,7 +24,7 @@ public class LoginInfoDaoImpl implements LoginInfoDao
 		{
 			this.sessionFactory.getCurrentSession().save(loginInfo);
 			this.sessionFactory.getCurrentSession().flush();
-			loginInfo.getRegistration().setLog(loginInfo);
+			loginInfo.getRegistration().setLoginInfo(loginInfo);
 			this.sessionFactory.getCurrentSession().save(loginInfo.getRegistration());
 			this.sessionFactory.getCurrentSession().flush();
 			return true;

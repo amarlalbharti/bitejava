@@ -98,25 +98,25 @@ public class LoginController
 			login.setForgotpwdid(uuid);
 			login.setRegistration(reg);
 			reg.setCreateDate(date);
-			reg.setLog(login);
+			reg.setLoginInfo(login);
 			Set<UserRole> roles = new HashSet<UserRole>();
 			urole.setUserrole(Roles.ROLE_USER.toString());
 			roles.add(urole);
 			login.setRoles(roles);
-			login.setIsactive("false");
-			urole.setLog(login);
+			login.setIsActive("false");
+			urole.setLoginInfo(login);
 			loginInfoService.addLoginInfo(login);
 			
 			map.addAttribute("regSuccess", "true");
-			map.addAttribute("name", reg.getName());
+			map.addAttribute("name", reg.getFirstName() + " " + reg.getLastName());
 			
-			String mailContent="Dear "+reg.getName()+",<br><br><br>"+
+			String mailContent="Dear "+reg.getFirstName() + " " + reg.getLastName()+",<br><br><br>"+
  
 								"Congratulations, you have successfully registered to BiteJava. <br><br>"+
 								 
 								"Please find below your user credentials. Please <a href='http://www.bitejava.com/login' >login</a>  and change password for security reasons. For any assistance, please feel free to reach out to us at support@bitejava.com<br><br>"+
 								 
-								"Username - "+reg.getUserid()+"<br>"+
+								"Username - "+reg.getLoginInfo().getUserid()+"<br>"+
 								"Password - "+model.getPassword()+"<br><br><br>"+
 								 
 								"Regards,<br>"+
@@ -125,7 +125,7 @@ public class LoginController
 			
 			
 			
-			mailService.sendMail(reg.getUserid(), "Thank you for registration in BiteJava.com", mailContent);
+			mailService.sendMail(reg.getLoginInfo().getUserid(), "Thank you for registration in BiteJava.com", mailContent);
 
 			
 			
@@ -147,7 +147,7 @@ public class LoginController
 		Registration reg = registrationService.getRegistrationByUserid(principal.getName());
 		if(reg != null)
 		{
-			logger.info("Login user name  : " + reg.getName());
+			logger.info("Login user name  : " + reg.getFirstName());
 			request.getSession(true).setAttribute("registration", reg);
 			return "redirect:userHome";
 		}
@@ -241,16 +241,16 @@ public class LoginController
 					loginInfoService.updateLoginInfo(login);
 					
 					String path_url = (String)request.getSession().getAttribute("path_url");
-					String mailContent = "Dear "+reg.getName()+",<br><br><br>"+
+					String mailContent = "Dear "+reg.getFirstName()+",<br><br><br>"+
 										
 										"Retrieve your password here <br><br>"+
-										"Please click on link below to change your password.<br><br> <a href='"+path_url+"/resetpassword?email="+reg.getUserid()+"&token="+uuid+"' >"+path_url+"/resetpassword?email="+reg.getUserid()+"&token="+uuid+"</a>  <br> <br>For any assistance, please feel free to reach out to us at support@bitejava.com<br><br>"+
-										"Username - "+reg.getUserid()+"<br>"+
+										"Please click on link below to change your password.<br><br> <a href='"+path_url+"/resetpassword?email="+reg.getLoginInfo().getUserid()+"&token="+uuid+"' >"+path_url+"/resetpassword?email="+reg.getLoginInfo().getUserid()+"&token="+uuid+"</a>  <br> <br>For any assistance, please feel free to reach out to us at support@bitejava.com<br><br>"+
+										"Username - "+reg.getLoginInfo().getUserid()+"<br>"+
 										"<br><br>"+
 										"Regards,<br>"+
 										"Team Bitejava";
 					
-					mailService.sendMail(reg.getUserid(), "Thank you for registration in BiteJava.com", mailContent);
+					mailService.sendMail(reg.getLoginInfo().getUserid(), "Thank you for registration in BiteJava.com", mailContent);
 					map.addAttribute("reset", "success");
 					return "forgotpassword";
 				}

@@ -12,14 +12,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.Lob;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
+
+
+import com.bharti.domain.LoginInfo;
 
 @Entity
 @Table(name="registration")
@@ -32,11 +29,13 @@ public class Registration implements Serializable
 	
 	private int rid;
 	
-	private String name;
+	private String firstName;
 	
-	private String userid;
+	private String lastName;
 	
-	private String contact;
+	private String contactno;
+	
+	private Date dob;
 	
 	private Date createDate;
 
@@ -46,11 +45,10 @@ public class Registration implements Serializable
 	
 	private String profileImage;
 	
-	private LoginInfo log;
-	
+	private LoginInfo loginInfo;
 	
 	@Id
-	@Column(nullable=false)
+	@Column(name = "rid", nullable=false)
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	public int getRid() {
 		return rid;
@@ -60,55 +58,42 @@ public class Registration implements Serializable
 		this.rid = rid;
 	}
 	
-	@Column(nullable=false)
-	public String getUserid() {
-		return userid;
-	}
-
-	public void setUserid(String userid) {
-		this.userid = userid;
-	}
-	
-	@Column(nullable=false)
-	public String getName()
+	@Column(name = "first_name", nullable=false)
+	public String getFirstName()
 	{
-		return name;
+		return firstName;
 	}
 
-	public void setName(String name)
+	public void setFirstName(String firstName)
 	{
-		this.name = name;
-	}
-	
-	
-	@Column
-	public String getGender() {
-		return gender;
+		this.firstName = firstName;
 	}
 
-	public void setGender(String gender) {
-		this.gender = gender;
+	@Column(name = "last_name")
+	public String getLastName()
+	{
+		return lastName;
 	}
 
-	@Column
-	public String getProfileImage() {
-		return profileImage;
+	public void setLastName(String lastName)
+	{
+		this.lastName = lastName;
 	}
 
-	public void setProfileImage(String profileImage) {
-		this.profileImage = profileImage;
-	}
-		
-	@Column
-	public String getContact() {
-		return contact;
+	@Column(name = "contact_no")
+	public String getContactno()
+	{
+		return contactno;
 	}
 
-	public void setContact(String contact) {
-		this.contact = contact;
+	public void setContactno(String contactno)
+	{
+		this.contactno = contactno;
 	}
 
-	@Column(nullable=false)
+
+
+	@Column(name = "create_date", nullable=false)
 	public Date getCreateDate() {
 		return createDate;
 	}
@@ -117,7 +102,7 @@ public class Registration implements Serializable
 		this.createDate = createDate;
 	}
 
-	@Column
+	@Column(name = "modify_date")
 	public Date getModifyDate() {
 		return modifyDate;
 	}
@@ -126,14 +111,44 @@ public class Registration implements Serializable
 		this.modifyDate = modifyDate;
 	}
 
-	@OneToOne(fetch = FetchType.LAZY) 
-    @JoinColumn(name="log_id" , referencedColumnName="lid") 
-	public LoginInfo getLog() {
-		return log;
+	
+
+	@Column(name = "dob")
+	public Date getDob() {
+		return dob;
 	}
 
-	public void setLog(LoginInfo log) {
-		this.log = log;
+	public void setDob(Date dob) {
+		this.dob = dob;
 	}
+
+	@Column(name = "gender", nullable= false)
+	public String getGender() {
+		return gender;
+	}
+
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
+
+	@Column(name = "profile_image")
+	public String getProfileImage() {
+		return profileImage;
+	}
+
+	public void setProfileImage(String profileImage) {
+		this.profileImage = profileImage;
+	}
+	
+	@OneToOne(fetch = FetchType.LAZY) 
+    @JoinColumn(name="userid" , referencedColumnName="userid") 
+	public LoginInfo getLoginInfo() {
+		return loginInfo;
+	}
+
+	public void setLoginInfo(LoginInfo loginInfo) {
+		this.loginInfo = loginInfo;
+	}
+	
 
 }

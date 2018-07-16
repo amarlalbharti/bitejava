@@ -58,12 +58,12 @@
   </div><!-- .footer-bottom -->
 </footer>
 <div class="clearfix"></div>
-<%-- <script src="${path_url}/theme/js/jquery-2.1.3.min.js"></script> --%>
-<script src="${path_url}/theme/js/bootstrap.min.js"></script>
-<script src="${path_url}/theme/js/jquery.imagesloaded.min.js"></script>
-<script src="${path_url}/theme/js/jquery.fancybox.pack.js"></script>
-<script src="${path_url}/theme/js/isotope.pkgd.min.js"></script>
-<script src="${path_url}/theme/js/main.js"></script>
+<%-- <script src="${pageContext.request.contextPath}/theme/js/jquery-2.1.3.min.js"></script> --%>
+<script src="${pageContext.request.contextPath}/theme/js/bootstrap.min.js"></script>
+<script src="${pageContext.request.contextPath}/theme/js/jquery.imagesloaded.min.js"></script>
+<script src="${pageContext.request.contextPath}/theme/js/jquery.fancybox.pack.js"></script>
+<script src="${pageContext.request.contextPath}/theme/js/isotope.pkgd.min.js"></script>
+<script src="${pageContext.request.contextPath}/theme/js/main.js"></script>
 
 </body>
 </html>

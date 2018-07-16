@@ -216,14 +216,14 @@
 					%>
 						<div class="col-sm-6 col-md-4 col-lg-3">
 							<div class="pricing">
-							  <div class="title"><a href="${path_url}/note/<%= sub.getUrl()%>"><%= sub.getSubject() %></a></div>
+							  <div class="title"><a href="${pageContext.request.contextPath}/note/<%= sub.getUrl()%>"><%= sub.getSubject() %></a></div>
 							  <ul class="options">
 								<%
 								
 								for(Keynote kn : kList)
 								{
 									%>
-										<a href="${path_url}/note/<%= sub.getUrl()%>/<%= kn.getUrl()%>"><li class="active"><span><i class="fa fa-check"></i></span><%= kn.getKeynote() %></li></a>
+										<a href="${pageContext.request.contextPath}/note/<%= sub.getUrl()%>/<%= kn.getUrl()%>"><li class="active"><span><i class="fa fa-check"></i></span><%= kn.getKeynote() %></li></a>
 									<%	
 								}
 								%>

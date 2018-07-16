@@ -53,13 +53,13 @@
 					  <div class="form-group col-md-6">
 						<label for="fullname" class="col-sm-3 control-label input-sm"  >Full Name</label>
 						<div class = "col-sm-9">
-							<label class="form-control input-sm" ><%= user.getName() %></label>
+							<label class="form-control input-sm" ><%= user.getFirstName()+" "+ user.getLastName() %></label>
 						</div>
 					  </div>
 					  <div class="form-group col-md-6">
 						<label for="email" class="col-sm-3 control-label input-sm">Email Id</label>
 						<div class = "col-sm-9">
-						<label class="form-control input-sm " ><%= user.getUserid() %></label>
+						<label class="form-control input-sm " ><%= user.getLoginInfo().getUserid() %></label>
 						</div>
 					  </div>
 					</form>

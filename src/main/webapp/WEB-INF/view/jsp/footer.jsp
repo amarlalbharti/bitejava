@@ -34,7 +34,7 @@
 		  <div>
 			<p>Sign up for newsletter</p>
 			<div class="clearfix"></div>
-			<form  class="" method="post" action="${path_url}/subscribe">
+			<form  class="" method="post" action="${pageContext.request.contextPath}/subscribe">
 			  <input class="form-control" type="email" name="email">
 			  <button class="submit" type="submit">
 				<span class="glyphicon glyphicon-arrow-right"></span>
@@ -50,7 +50,7 @@
 		  </div>
 		  <nav>
 			<ul>
-			  <li><a href="${path_url}/aboutus">About us</a></li>
+			  <li><a href="${pageContext.request.contextPath}/aboutus">About us</a></li>
 			  <li><a href="#">Privacy Policy</a></li>
 			  <li><a href="#">Terms &amp; Condotions</a></li>
 			  <li><a href="#">Secure payment</a></li>
@@ -123,20 +123,20 @@
 </footer>
 <div class="clearfix"></div>
 
-<script src="${path_url}/theme/js/bootstrap.min.js"></script>
-<script src="${path_url}/theme/js/jquery.carouFredSel-6.2.1-packed.js"></script>
-<script src="${path_url}/theme/js/jquery.imagesloaded.min.js"></script>
-<script src="${path_url}/theme/js/jquery.appear.js"></script>
+<script src="${pageContext.request.contextPath}/theme/js/bootstrap.min.js"></script>
+<script src="${pageContext.request.contextPath}/theme/js/jquery.carouFredSel-6.2.1-packed.js"></script>
+<script src="${pageContext.request.contextPath}/theme/js/jquery.imagesloaded.min.js"></script>
+<script src="${pageContext.request.contextPath}/theme/js/jquery.appear.js"></script>
 
 
-<script src="${path_url}/theme/js/jquery.fancybox.pack.js"></script>
-<script src="${path_url}/theme/js/isotope.pkgd.min.js"></script>
+<script src="${pageContext.request.contextPath}/theme/js/jquery.fancybox.pack.js"></script>
+<script src="${pageContext.request.contextPath}/theme/js/isotope.pkgd.min.js"></script>
 
 
 
-<script src="${path_url}/theme/js/jplayer/jplayer.playlist.min.js"></script>
+<script src="${pageContext.request.contextPath}/theme/js/jplayer/jplayer.playlist.min.js"></script>
 
-<script src="${path_url}/theme/js/main.js"></script>
+<script src="${pageContext.request.contextPath}/theme/js/main.js"></script>
  
 </body>
 </html>

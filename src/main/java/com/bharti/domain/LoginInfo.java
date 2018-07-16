@@ -16,8 +16,11 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.bharti.domain.Registration;
+import com.bharti.domain.UserRole;
+
 @Entity
-@Table(name="logininfo")
+@Table(name="login_info")
 public class LoginInfo implements Serializable
 {
 	
@@ -29,18 +32,18 @@ public class LoginInfo implements Serializable
 	
 	private String password;
 	
-	private Date modification_date;
+	private Date modifyDate;
 	
 	private String forgotpwdid;
 	
-	private String isactive;
+	private String isActive;
 	
 	
 	private Set<UserRole> roles = new HashSet();
 
 	
 	@Id
-	@Column(nullable=false)
+	@Column(name = "lid", nullable=false)
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	public int getLid() {
 		return lid;
@@ -49,7 +52,7 @@ public class LoginInfo implements Serializable
 		this.lid = lid;
 	}
 	
-	@Column(nullable=false, unique=true)
+	@Column(name = "userid", nullable=false, unique=true)
 	public String getUserid() {
 		return userid;
 	}
@@ -57,7 +60,7 @@ public class LoginInfo implements Serializable
 		this.userid = userid;
 	}
 	
-	@Column(nullable=false)
+	@Column(name = "password", nullable=false)
 	public String getPassword() {
 		return password;
 	}
@@ -65,15 +68,15 @@ public class LoginInfo implements Serializable
 		this.password = password;
 	}
 	
-	@Column
-	public Date getModification_date() {
-		return modification_date;
+	@Column(name = "modify_date")
+	public Date getModifyDate() {
+		return modifyDate;
 	}
-	public void setModification_date(Date modification_date) {
-		this.modification_date = modification_date;
+	public void setModifyDate(Date modifyDate) {
+		this.modifyDate = modifyDate;
 	}
 	
-	@Column
+	@Column(name = "forgotpwdid")
 	public String getForgotpwdid() {
 		return forgotpwdid;
 	}
@@ -81,15 +84,15 @@ public class LoginInfo implements Serializable
 		this.forgotpwdid = forgotpwdid;
 	}
 	
-	@Column(nullable=false)
-	public String getIsactive() {
-		return isactive;
+	@Column(name = "active", nullable=false)
+	public String getIsActive() {
+		return isActive;
 	}
-	public void setIsactive(String isactive) {
-		this.isactive = isactive;
+	public void setIsActive(String isActive) {
+		this.isActive = isActive;
 	}
 	
-	@OneToMany(fetch = FetchType.LAZY, cascade=CascadeType.ALL, mappedBy="userrole" )  
+	@OneToMany(mappedBy="loginInfo", fetch = FetchType.EAGER, cascade=CascadeType.ALL)  
 	public Set<UserRole> getRoles() {
 		return roles;
 	}
@@ -100,7 +103,7 @@ public class LoginInfo implements Serializable
 	private Registration registration;
 
 
-	@OneToOne(mappedBy="log")
+	@OneToOne(mappedBy="loginInfo")
     public Registration getRegistration() {
 		return registration;
 	}

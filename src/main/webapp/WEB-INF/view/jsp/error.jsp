@@ -8,7 +8,7 @@
 				<h1>404</h1>
 				<h2>The page cannot be found.</h2><br>
 				<a href="javascript:window.history.back();">
-				<img alt="Back" src="${path_url}/theme/images/arrow-back-icon.png" width="50px">
+				<img alt="Back" src="${pageContext.request.contextPath}/theme/images/arrow-back-icon.png" width="50px">
 				</a>
 			</div>
 		  </div>

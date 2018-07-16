@@ -16,28 +16,28 @@
 
   
   <!-- Plagins CSS -->
-  <link rel="stylesheet" href="${path_url}/theme/css/bootstrap.css">
-  <link rel="stylesheet" href="${path_url}/theme/css/font-awesome.min.css">
-  <link rel="stylesheet" href="${path_url}/theme/css/jslider.css">
-  <link rel="stylesheet" href="${path_url}/theme/css/settings.css">
-  <link rel="stylesheet" href="${path_url}/theme/css/jquery.fancybox.css">
-  <link rel="stylesheet" href="${path_url}/theme/css/animate.css">
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/theme/css/bootstrap.css">
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/theme/css/font-awesome.min.css">
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/theme/css/jslider.css">
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/theme/css/settings.css">
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/theme/css/jquery.fancybox.css">
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/theme/css/animate.css">
   <!-- Theme CSS -->
-  <link rel="stylesheet" href="${path_url}/theme/css/style.css">
-  <link rel="stylesheet" href="${path_url}/theme/css/bitejava_css.css">
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/theme/css/style.css">
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/theme/css/bitejava_css.css">
   
   <!-- Custom CSS -->
-  <link rel="stylesheet" href="${path_url}/theme/css/customizer/pages.css">
-  <link rel="stylesheet" href="${path_url}/theme/css/customizer/home-pages-customizer.css">
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/theme/css/customizer/pages.css">
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/theme/css/customizer/home-pages-customizer.css">
 
-  <link rel="stylesheet" href="${path_url}/theme/css/select2.min.css">
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/theme/css/select2.min.css">
   
-  <script src="${path_url}/theme/js/jquery-2.1.3.min.js"></script>
-  <script src="${path_url}/theme/js/common_js.js"></script>
+  <script src="${pageContext.request.contextPath}/theme/js/jquery-2.1.3.min.js"></script>
+  <script src="${pageContext.request.contextPath}/theme/js/common_js.js"></script>
   
-  <link rel="stylesheet" href="${path_url}/theme/css/lobibox.min.css"/>
-  <script src="${path_url}/theme/js/lobibox.min.js"></script>
-  <script src="${path_url}/theme/js/notifications.min.js"></script>
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/theme/css/lobibox.min.css"/>
+  <script src="${pageContext.request.contextPath}/theme/js/lobibox.min.js"></script>
+  <script src="${pageContext.request.contextPath}/theme/js/notifications.min.js"></script>
   
 <style type="text/css">
 input[type="file"] {
@@ -90,14 +90,13 @@ input[type="file"] {
 </head>
 <body class="fixed-header">
 <div class="bodyCoverWait" style="text-align: center; ">
-	<img style="position: relative;top: 250px;" alt="Please wait..." src="${path_url}/theme/images/loading_spinner.gif">
+	<img style="position: relative;top: 250px;" alt="Please wait..." src="${pageContext.request.contextPath}/theme/images/loading_spinner.gif">
 </div>
 <%
 Registration reg = (Registration) request.getSession().getAttribute("registration");
 System.out.println("Registration :" + reg);
 if(reg != null)
 {
-	System.out.println("User name :" + reg.getName());
 	%>
 	<div class="page-box" style="min-height: 520px;">
 	<div class="page-box-content">
@@ -109,7 +108,7 @@ if(reg != null)
 			<div class="col-xs-6 col-md-2 col-lg-3 logo-box">
 			  <div class="logo">
 					<a href="adminDashboard">
-						<img src="${path_url}/theme/images/bitejava-logo.jpg" class="logo-img" alt="">
+						<img src="${pageContext.request.contextPath}/theme/images/bitejava-logo.jpg" class="logo-img" alt="">
 					</a>
 			  </div>
 			</div><!-- .logo-box -->
@@ -123,14 +122,14 @@ if(reg != null)
 					  <div class="icon">
 						<i class="fa fa-user"></i>
 					  </div>
-					  <span class="count"><%= reg.getName() %></span>
+					  <span class="count"><%= reg.getFirstName()+" "+ reg.getLastName() %></span>
 					</a>
 					<div class="dropdown-menu">
-					  <strong><%= reg.getName() %></strong>
+					  <strong><%= reg.getFirstName()+" "+ reg.getLastName() %></strong>
 					  <ul class="list-unstyled">
 						<li>
 						  <a href="#" class="product-image "><img class="replace-2x image  img-circle" src="theme/images/amar1.jpg" alt="" width="70" height="70"></a>
-						  <h4 class="product-name"><%= reg.getUserid() %></h4>
+						  <h4 class="product-name"><%= reg.getLoginInfo().getUserid() %></h4>
 						  <div class="product-name">Since : <%= DateFormats.ddMMMyyyy.format(reg.getCreateDate()) %></div>
 						  <div class="product-name">Gender : <%= reg.getGender() %></div>
 						  <div class="clearfix"></div>

@@ -12,19 +12,29 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.bharti.domain.LoginInfo;
+
 @Entity
-@Table(name="userrole")
+@Table(name="user_role")
 public class UserRole implements Serializable
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1328046800720780173L;
+
+	@Id
+	@Column(name = "sn", nullable=false)
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int sn;
 	
+	@Column(name = "user_role", nullable=false)
 	private String userrole;
 	
-	private LoginInfo log;
+	@ManyToOne() 
+	@JoinColumn(name="userid", referencedColumnName="userid")
+	private LoginInfo loginInfo;
 	
-	@Id
-	@Column(nullable=false)
-	@GeneratedValue(strategy=GenerationType.AUTO)
 	public int getSn() {
 		return sn;
 	}
@@ -33,20 +43,18 @@ public class UserRole implements Serializable
 	}
 	
 	
-	@Column(nullable=false)
 	public String getUserrole() {
 		return userrole;
 	}
 	public void setUserrole(String userrole) {
 		this.userrole = userrole;
 	}
-	
-	@ManyToOne(cascade=CascadeType.ALL) 
-	@JoinColumn(name="userid", referencedColumnName="userid")
-	public LoginInfo getLog() {
-		return log;
+	public LoginInfo getLoginInfo()
+	{
+		return loginInfo;
 	}
-	public void setLog(LoginInfo log) {
-		this.log = log;
+	public void setLoginInfo(LoginInfo loginInfo)
+	{
+		this.loginInfo = loginInfo;
 	}
 }

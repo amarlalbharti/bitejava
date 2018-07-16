@@ -10,29 +10,29 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
   <!-- Favicon -->
-<%--   <link rel="shortcut icon" href="${path_url}/theme/img/favicon.ico"> --%>
+<%--   <link rel="shortcut icon" href="${pageContext.request.contextPath}/theme/img/favicon.ico"> --%>
   
   <!-- Font -->
   <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Arimo:400,700,400italic,700italic'>
 
   <!-- Plagins CSS -->
-  <link rel="stylesheet" href="${path_url}/theme/css/bootstrap.css">
-  <link rel="stylesheet" href="${path_url}/theme/css/font-awesome.min.css">
-<%--   <link rel="stylesheet" href="${path_url}/theme/css/jslider.css"> --%>
-  <link rel="stylesheet" href="${path_url}/theme/css/settings.css">
-  <link rel="stylesheet" href="${path_url}/theme/css/jquery.fancybox.css">
-  <link rel="stylesheet" href="${path_url}/theme/css/animate.css">
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/theme/css/bootstrap.css">
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/theme/css/font-awesome.min.css">
+<%--   <link rel="stylesheet" href="${pageContext.request.contextPath}/theme/css/jslider.css"> --%>
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/theme/css/settings.css">
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/theme/css/jquery.fancybox.css">
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/theme/css/animate.css">
 
   <!-- Theme CSS -->
-  <link rel="stylesheet" href="${path_url}/theme/css/style.css">
-  <link rel="stylesheet" href="${path_url}/theme/css/bitejava_css.css">
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/theme/css/style.css">
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/theme/css/bitejava_css.css">
   
   
   <!-- Custom CSS -->
-  <link rel="stylesheet" href="${path_url}/theme/css/customizer/pages.css">
-  <link rel="stylesheet" href="${path_url}/theme/css/customizer/home-pages-customizer.css">
-  <script src="${path_url}/theme/js/jquery-2.1.3.min.js"></script>
-  <script src="${path_url}/theme/js/common_js.js"></script>
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/theme/css/customizer/pages.css">
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/theme/css/customizer/home-pages-customizer.css">
+  <script src="${pageContext.request.contextPath}/theme/js/jquery-2.1.3.min.js"></script>
+  <script src="${pageContext.request.contextPath}/theme/js/common_js.js"></script>
   <style type="text/css">
 	    .subject_data h1{
 	    font-size: 22px;
@@ -81,8 +81,8 @@ System.out.println("Registration :" + reg);
 	  <div class="row">
 		<div class="col-xs-6 col-md-2 col-lg-3 logo-box">
 		  <div class="logo">
-				<a href="${path_url}/index.html">
-					<img src="${path_url}/theme/images/bitejava-logo.jpg" class="logo-img" alt="">
+				<a href="${pageContext.request.contextPath}/index.html">
+					<img src="${pageContext.request.contextPath}/theme/images/bitejava-logo.jpg" class="logo-img" alt="">
 				</a>
 		  </div>
 		</div><!-- .logo-box -->
@@ -120,14 +120,14 @@ System.out.println("Registration :" + reg);
 								  <div class="icon">
 									<i class="fa fa-user"></i>
 								  </div>
-								  <span class="count"><%= reg.getName() %></span>
+								  <span class="count"><%= reg.getFirstName()+" " +reg.getLastName() %></span>
 								</a>
 								<div class="dropdown-menu">
-								  <strong>Welcome <%= reg.getName() %></strong>
+								  <strong>Welcome <%= reg.getLastName() %></strong>
 								  <ul class="list-unstyled">
 									<li>
 									  <a href="#" class="product-image "><img class="replace-2x image  img-circle" src="theme/images/Preview-icon.png" alt="" width="70" height="70"></a>
-									  <h4 class="product-name"><%= reg.getUserid() %></h4>
+									  <h4 class="product-name"><%= reg.getLoginInfo().getUserid() %></h4>
 									  <div class="product-name">Since : <%= DateFormats.ddMMMyyyy.format(reg.getCreateDate()) %></div>
 									  <%
 									  	if(reg.getGender() != null)
@@ -172,7 +172,7 @@ System.out.println("Registration :" + reg);
 								  </ul>
 								  <div class="cart-button">
 									<a href="signup" class="btn btn-default pull-left">Sign Up</a>
-									<a href="${path_url}/login" class="btn checkout btn-default" >Sign In</a>
+									<a href="${pageContext.request.contextPath}/login" class="btn checkout btn-default" >Sign In</a>
 								  </div>
 								</div>
 						  </div>
@@ -193,13 +193,13 @@ System.out.println("Registration :" + reg);
 				<nav class="collapse collapsing navbar-collapse">
 				  <ul class="nav navbar-nav navbar-center">
 					<li>
-					  <a href="${path_url}/note/java">Java Bites</a>
+					  <a href="${pageContext.request.contextPath}/note/java">Java Bites</a>
 					</li>
 					<li>
-					  <a href="${path_url}/note/php">PHP Bites</a>
+					  <a href="${pageContext.request.contextPath}/note/php">PHP Bites</a>
 					</li>
 					<li>
-					  <a href="${path_url}/note/asp_net">.NET Bites</a>
+					  <a href="${pageContext.request.contextPath}/note/asp_net">.NET Bites</a>
 					</li>
 					
 					<li class="parent megamenu promo">
@@ -219,14 +219,14 @@ System.out.println("Registration :" + reg);
 						  
 						  <div class="promo-block bg">
 							<a href="#">
-							  <img src="${path_url}/theme/images/java_png.png" class="replace-2x" width="253" height="457" alt="">
+							  <img src="${pageContext.request.contextPath}/theme/images/java_png.png" class="replace-2x" width="253" height="457" alt="">
 							</a>
 						  </div><!-- .promo-block -->
 						</li>
 					  </ul><!-- .sub -->
 					</li>
 					<li>
-					  <a href="${path_url}/questions">Q's & A's</a>
+					  <a href="${pageContext.request.contextPath}/questions">Q's & A's</a>
 					</li>
 					
 				  </ul>

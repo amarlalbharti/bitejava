@@ -8,7 +8,7 @@
   
   <meta class="viewport" name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<script type="text/javascript" src="${path_url}/theme/js/question_js.js"></script>
+	<script type="text/javascript" src="${pageContext.request.contextPath}/theme/js/question_js.js"></script>
 </head>
 <body class="fixed-header">
 

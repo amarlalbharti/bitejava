@@ -12,8 +12,8 @@
   <title>Bite Java Tutorials</title>
   <meta class="viewport" name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<link href="${path_url}/theme/ckeditor/plugins/codesnippet/lib/highlight/styles/monokai_sublime.css" rel="stylesheet">
-    <script src="${path_url}/theme/ckeditor/plugins/codesnippet/lib/highlight/highlight.pack.js"></script>
+	<link href="${pageContext.request.contextPath}/theme/ckeditor/plugins/codesnippet/lib/highlight/styles/monokai_sublime.css" rel="stylesheet">
+    <script src="${pageContext.request.contextPath}/theme/ckeditor/plugins/codesnippet/lib/highlight/highlight.pack.js"></script>
 </head>
 <body>
 <section id="main">
@@ -45,7 +45,7 @@
 											{
 												Tag tag = it1.next();
 												%>
-													<li><a href="${path_url}/questions/tagged/<%= tag.getTag() %>" class="tag"><%= tag.getTag() %></a></li>
+													<li><a href="${pageContext.request.contextPath}/questions/tagged/<%= tag.getTag() %>" class="tag"><%= tag.getTag() %></a></li>
 												<%
 											}
 										%>
@@ -79,10 +79,10 @@
 								<h3 class="title">Top Tutorials</h3>
 							  </header>
 							  <ul>
-								<li><a href="${path_url}/note/java">Java Tutorials</a></li>
-								<li><a href="${path_url}/note/php">PHP Tutorials</a></li>
-								<li><a href="${path_url}/note/asp_net">ASP.NET Tutorials</a></li>
-								<li><a href="${path_url}/note/mysql">MYSQL Tutorials</a></li>
+								<li><a href="${pageContext.request.contextPath}/note/java">Java Tutorials</a></li>
+								<li><a href="${pageContext.request.contextPath}/note/php">PHP Tutorials</a></li>
+								<li><a href="${pageContext.request.contextPath}/note/asp_net">ASP.NET Tutorials</a></li>
+								<li><a href="${pageContext.request.contextPath}/note/mysql">MYSQL Tutorials</a></li>
 							  </ul>
 							</aside><!-- .list -->
 							
@@ -98,7 +98,7 @@
 							  			for(Tag tag : topTags)
 							  			{
 							  				%>
-												<li><a href="${path_url}/questions/tagged/<%= tag.getTag() %>"><%= tag.getTag() %></a></li>
+												<li><a href="${pageContext.request.contextPath}/questions/tagged/<%= tag.getTag() %>"><%= tag.getTag() %></a></li>
 							  				<%
 							  			}
 							  		}

@@ -10,8 +10,8 @@
   
   <meta class="viewport" name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<link href="${path_url}/theme/ckeditor/plugins/codesnippet/lib/highlight/styles/monokai_sublime.css" rel="stylesheet">
-    <script src="${path_url}/theme/ckeditor/plugins/codesnippet/lib/highlight/highlight.pack.js"></script>
+	<link href="${pageContext.request.contextPath}/theme/ckeditor/plugins/codesnippet/lib/highlight/styles/monokai_sublime.css" rel="stylesheet">
+    <script src="${pageContext.request.contextPath}/theme/ckeditor/plugins/codesnippet/lib/highlight/highlight.pack.js"></script>
     <style type="text/css">
 	    .subject_data h1{
 	    font-size: 22px;
@@ -47,13 +47,13 @@ if(subject != null && keynote != null)
 			{
 				String url = "/bj_uploads/subjects/"+subject.getSid() + "/subject_image/"+subject.getSubject_image();
 				%>
-					<a href="${path_url}/note/<%= subject.getUrl() %>"><img alt="<%=  subject.getSubject() %>" src="<%= url%>"></a>
+					<a href="${pageContext.request.contextPath}//note/<%= subject.getUrl() %>"><img alt="<%=  subject.getSubject() %>" src="<%= url%>"></a>
 				<%
 			}
 			else
 			{
 				%>
-					<img alt="<%=  subject.getSubject() %>" src="${path_url}/theme/images/banner-corejava.jpg">
+					<img alt="<%=  subject.getSubject() %>" src="${pageContext.request.contextPath}/theme/images/banner-corejava.jpg">
 				<%
 			}
 		%>
@@ -79,13 +79,13 @@ if(subject != null && keynote != null)
 								if(kn.getKid() != keynote.getParent_keynote().getKid())
 								{
 									%>
-									  <li><a href="${path_url}/note/<%= kn.getSubject().getUrl() %>/<%= kn.getUrl() %>"><%= kn.getKeynote() %></a></li>
+									  <li><a href="${pageContext.request.contextPath}//note/<%= kn.getSubject().getUrl() %>/<%= kn.getUrl() %>"><%= kn.getKeynote() %></a></li>
 									<%
 								}
 								else
 								{
 									%>
-									  <li class="bg-info current"><a href="${path_url}/note/<%= kn.getSubject().getUrl() %>/<%= kn.getUrl() %>"><%= kn.getKeynote() %></a></li>
+									  <li class="bg-info current"><a href="${pageContext.request.contextPath}/note/<%= kn.getSubject().getUrl() %>/<%= kn.getUrl() %>"><%= kn.getKeynote() %></a></li>
 									<%
 								}
 							}
@@ -97,13 +97,13 @@ if(subject != null && keynote != null)
 								if(kn.getKid() != keynote.getKid())
 								{
 									%>
-									  <li><a href="${path_url}/note/<%= kn.getSubject().getUrl() %>/<%= kn.getUrl() %>"><%= kn.getKeynote() %></a></li>
+									  <li><a href="${pageContext.request.contextPath}//note/<%= kn.getSubject().getUrl() %>/<%= kn.getUrl() %>"><%= kn.getKeynote() %></a></li>
 									<%
 								}
 								else
 								{
 									%>
-									  <li class="bg-info current"><a href="${path_url}/note/<%= kn.getSubject().getUrl() %>/<%= kn.getUrl() %>"><%= kn.getKeynote() %></a></li>
+									  <li class="bg-info current"><a href="${pageContext.request.contextPath}/note/<%= kn.getSubject().getUrl() %>/<%= kn.getUrl() %>"><%= kn.getKeynote() %></a></li>
 									<%
 								}
 							}
@@ -125,7 +125,7 @@ if(subject != null && keynote != null)
 			  		if(prevKn != null)
 			  		{
 			  			%>
-						  	<a href="${path_url}/note/<%= prevKn.getSubject().getUrl() %>/<%= prevKn.getUrl() %>" class="btn btn-default btn-flat btn-sm">
+						  	<a href="${pageContext.request.contextPath}/note/<%= prevKn.getSubject().getUrl() %>/<%= prevKn.getUrl() %>" class="btn btn-default btn-flat btn-sm">
 						  		<i class="fa fa-arrow-circle-left"></i> Previous Page 
 					  		</a>
 			  			<%
@@ -141,7 +141,7 @@ if(subject != null && keynote != null)
 				  	if(nextKn != null)
 			  		{
 			  			%>
-						  	<a href="${path_url}/note/<%= nextKn.getSubject().getUrl() %>/<%= nextKn.getUrl() %>" class="btn btn-default btn-flat btn-sm pull-right">
+						  	<a href="${pageContext.request.contextPath}/note/<%= nextKn.getSubject().getUrl() %>/<%= nextKn.getUrl() %>" class="btn btn-default btn-flat btn-sm pull-right">
 						  		Next Page <i class="fa fa-arrow-circle-right"></i>
 						  	</a>
 			  			<%
@@ -174,7 +174,7 @@ if(subject != null && keynote != null)
 								for(Keynote chkn : childKeynotes)
 								{
 									%>
-									  <a href="${path_url}/note/<%= chkn.getSubject().getUrl() %>/<%= chkn.getUrl() %>" class="list-group-item <% if(chkn.getKid() == keynote.getKid()){out.println("active");} %>">
+									  <a href="${pageContext.request.contextPath}/note/<%= chkn.getSubject().getUrl() %>/<%= chkn.getUrl() %>" class="list-group-item <% if(chkn.getKid() == keynote.getKid()){out.println("active");} %>">
 										<h5 class="list-group-item-heading"><%= chkn.getKeynote() %></h5>
 										<p class="list-group-item-text">List groups are a flexible and powerful component for displaying not only simple lists of elements, but complex ones with custom content.</p>
 									  </a>
@@ -192,7 +192,7 @@ if(subject != null && keynote != null)
 		  		if(nextKn != null)
 		  		{
 		  			%>
-		  			 <a href="${path_url}/note/<%= nextKn.getSubject().getUrl() %>/<%= nextKn.getUrl() %>">
+		  			 <a href="${pageContext.request.contextPath}/note/<%= nextKn.getSubject().getUrl() %>/<%= nextKn.getUrl() %>">
 			  			<div class="input-group has-success">
 			                <div class="input-group-btn">
 			                  <button class="btn btn-success" type="button">Next</button>
@@ -210,7 +210,7 @@ if(subject != null && keynote != null)
 		  		if(prevKn != null)
 		  		{
 		  			%>
-					  	<a href="${path_url}/note/<%= prevKn.getSubject().getUrl() %>/<%= prevKn.getUrl() %>" class="btn btn-default btn-flat btn-sm">
+					  	<a href="${pageContext.request.contextPath}/note/<%= prevKn.getSubject().getUrl() %>/<%= prevKn.getUrl() %>" class="btn btn-default btn-flat btn-sm">
 					  		<i class="fa fa-arrow-circle-left"></i> Previous Page 
 				  		</a>
 		  			<%
@@ -226,7 +226,7 @@ if(subject != null && keynote != null)
 			  	if(nextKn != null)
 		  		{
 		  			%>
-					  	<a href="${path_url}/note/<%= nextKn.getSubject().getUrl() %>/<%= nextKn.getUrl() %>" class="btn btn-default btn-flat btn-sm pull-right">
+					  	<a href="${pageContext.request.contextPath}/note/<%= nextKn.getSubject().getUrl() %>/<%= nextKn.getUrl() %>" class="btn btn-default btn-flat btn-sm pull-right">
 					  		Next Page <i class="fa fa-arrow-circle-right"></i>
 					  	</a>
 		  			<%

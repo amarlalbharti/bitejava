@@ -54,7 +54,7 @@ else
 						<h3 class="title text-danger">Oops, Something wrong Please try again !</h3>
 						<div class="col-sm-6 col-md-4 sidebar" style="margin: 0 auto; float: none">
 							<div class="newsletter">
-								<form  class="" method="post" action="${path_url}/subscribe">
+								<form  class="" method="post" action="${pageContext.request.contextPath}/subscribe">
 								  <input class="form-control" type="email" name="email" value="${email}" required="required">
 								  <button class="submit" type="submit">
 									<span class="glyphicon glyphicon-arrow-right"></span>
