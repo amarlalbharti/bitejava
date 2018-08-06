@@ -193,40 +193,20 @@ System.out.println("Registration :" + reg);
 				<nav class="collapse collapsing navbar-collapse">
 				  <ul class="nav navbar-nav navbar-center">
 					<li>
-					  <a href="${pageContext.request.contextPath}/note/java">Java Bites</a>
+					  <a href="${pageContext.request.contextPath}/note/core_java">Core Java</a>
 					</li>
 					<li>
-					  <a href="${pageContext.request.contextPath}/note/php">PHP Bites</a>
+					  <a href="${pageContext.request.contextPath}/note/collections">Collections</a>
 					</li>
 					<li>
-					  <a href="${pageContext.request.contextPath}/note/asp_net">.NET Bites</a>
+					  <a href="${pageContext.request.contextPath}/note/hibernate">Hibernate</a>
 					</li>
 					
-					<li class="parent megamenu promo">
-					  <a href="#">Tutorals</a>
-					  <ul class="sub">
-						<li class="sub-wrapper">
-						  <div class="sub-list">
-							<div class="box closed">
-							  <h6 class="title">Savant Apple Integration</h6>
-							  <ul>
-								<li><a href="#">iPad, iPod touch, iPhone &amp; Mac Control</a></li>
-								<li><a href="#">iPod touch Remote Control</a></li>
-								<li><a href="#">Savant Host (Mac Mini)<span class="item-new bg-warning">Wow</span></a></li>
-							  </ul>
-							</div><!-- .box -->
-						  </div><!-- .sub-list -->
-						  
-						  <div class="promo-block bg">
-							<a href="#">
-							  <img src="${pageContext.request.contextPath}/theme/images/java_png.png" class="replace-2x" width="253" height="457" alt="">
-							</a>
-						  </div><!-- .promo-block -->
-						</li>
-					  </ul><!-- .sub -->
+					<li>
+					  <a href="${pageContext.request.contextPath}/note/spring">Spring MVC</a>
 					</li>
 					<li>
-					  <a href="${pageContext.request.contextPath}/questions">Q's & A's</a>
+					  <a href="${pageContext.request.contextPath}/questions">Articles</a>
 					</li>
 					
 				  </ul>
@@ -238,7 +218,7 @@ System.out.println("Registration :" + reg);
 		
 		<div class="phone-active col-sm-9 col-md-9">
 		  <a href="#" class="close"><span>close</span>X</a>
-		  <span class="title">Call Us</span> <strong>+1 (777) 123 45 67</strong>
+		  <span class="title">Call Us</span> <strong>+91 7007 614 898</strong>
 		</div>
 		<div class="search-active col-sm-9 col-md-9">
 		  <a href="#" class="close"><span>close</span>X</a>

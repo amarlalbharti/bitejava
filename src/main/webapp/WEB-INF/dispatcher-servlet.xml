@@ -25,13 +25,13 @@
 	</mvc:interceptors>
 	<context:component-scan base-package="com" />
 	 
-	<mvc:resources location="/WEB-INF/view/jsp/theme/css/" mapping="theme/css/**"  />
-	<mvc:resources location="/WEB-INF/view/jsp/theme/images/" mapping="theme/images/**"  />
-	<mvc:resources location="/WEB-INF/view/jsp/theme/js/" mapping="theme/js/**"  />
-	<mvc:resources location="/WEB-INF/view/jsp/theme/fonts/" mapping="theme/fonts/**" />
-	<mvc:resources location="/WEB-INF/view/jsp/theme/img/" mapping="theme/img/**" />
-	<mvc:resources location="/WEB-INF/view/jsp/theme/content/" mapping="theme/content/**" />
-	<mvc:resources location="/WEB-INF/view/jsp/theme/ckeditor/" mapping="theme/ckeditor/**" />
+	<mvc:resources location="/WEB-INF/view/jsp/theme/css/" mapping="theme/css/**" cache-period="31556926" />
+	<mvc:resources location="/WEB-INF/view/jsp/theme/images/" mapping="theme/images/**" cache-period="31556926" />
+	<mvc:resources location="/WEB-INF/view/jsp/theme/js/" mapping="theme/js/**" cache-period="31556926" />
+	<mvc:resources location="/WEB-INF/view/jsp/theme/fonts/" mapping="theme/fonts/**" cache-period="31556926" />
+	<mvc:resources location="/WEB-INF/view/jsp/theme/img/" mapping="theme/img/**" cache-period="31556926" />
+	<mvc:resources location="/WEB-INF/view/jsp/theme/content/" mapping="theme/content/**" cache-period="31556926" />
+	<mvc:resources location="/WEB-INF/view/jsp/theme/ckeditor/" mapping="theme/ckeditor/**" cache-period="31556926" />
 	
 	<bean id="tilesConfigurer"
 		class="org.springframework.web.servlet.view.tiles3.TilesConfigurer">

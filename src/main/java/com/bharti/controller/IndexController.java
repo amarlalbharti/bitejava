@@ -87,6 +87,21 @@ public class IndexController
 		System.out.println("From page about us");
 		return "aboutus";
 	}
+	
+	@RequestMapping(value = "/contactus", method = RequestMethod.GET)
+	public String contactus(ModelMap map, HttpServletRequest request, Principal principal)
+	{
+		System.out.println("From page contact us");
+		return "contactus";
+	}
+	
+	@RequestMapping(value = "/privacy_policy", method = RequestMethod.GET)
+	public String privacyPolicy(ModelMap map, HttpServletRequest request, Principal principal)
+	{
+		System.out.println("From page contact us");
+		return "privacyPolicy";
+	}
+	
 	@RequestMapping(value = "/subscribe", method = RequestMethod.POST)
 	public String subscribe(ModelMap map, HttpServletRequest request, Principal principal)
 	{

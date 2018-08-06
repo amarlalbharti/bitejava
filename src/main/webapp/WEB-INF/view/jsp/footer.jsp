@@ -50,10 +50,9 @@
 		  </div>
 		  <nav>
 			<ul>
-			  <li><a href="${pageContext.request.contextPath}/aboutus">About us</a></li>
-			  <li><a href="#">Privacy Policy</a></li>
-			  <li><a href="#">Terms &amp; Condotions</a></li>
-			  <li><a href="#">Secure payment</a></li>
+			  <li><a href="${pageContext.request.contextPath}/aboutus">About Us</a></li>
+			  <li><a href="${pageContext.request.contextPath}/contactus">Contact Us</a></li>
+			  <li><a href="${pageContext.request.contextPath}/privacy_policy">Privacy Policy</a></li>
 			</ul>
 		  </nav>
         </aside>
@@ -64,10 +63,9 @@
 		  </div>
 		  <nav>
 			<ul>
-			  <li><a href="#">My account</a></li>
-			  <li><a href="#">Order History</a></li>
-			  <li><a href="#">Wish List</a></li>
-			  <li><a href="#">Newsletter</a></li>
+			  <li><a href="${pageContext.request.contextPath}/bitejava/profile">My account</a></li>
+			  <li><a href="#">My Articles</a></li>
+			  <li><a href="#">My Comments</a></li>
 			</ul>
 		  </nav>
 		</aside>
@@ -79,7 +77,7 @@
     <div class="container">
       <div class="row">
         <div class="copyright col-xs-12 col-sm-3 col-md-3">
-		  Copyright© Bitejava, 2016
+		  &copy; Bitejava, 2016
 		</div>
 		
         <div class="phone col-xs-6 col-sm-3 col-md-3">
@@ -90,8 +88,8 @@
 			  M11.001,12H5V2h6V12z"></path>
 			</svg>
 		  </div>
-          <strong class="title">Call Us:</strong> +91 (919) 853-01-54 <br>
-          <strong>or</strong> +91 (919) 853-01-54
+          <strong class="title">Call Us:</strong><a href="tel:917007614898">+91 7007 614 8 98</a><br>
+          <strong>or</strong> <a href="tel:919198530154">+91 9198 530 154</a>
         </div>
 		
         <div class="address col-xs-6 col-sm-3 col-md-3">
@@ -109,7 +107,7 @@
 			  </g>
 			</svg>
 		  </div>
-          Dusyant Vihar, Kanpur by pass Dubagga<br> Lucknow, UP
+          RamVihar Colony Para Crossing Rajajipuram<br> Lucknow, UP
         </div>
 		
         <div class="col-xs-12 col-sm-3 col-md-3">
