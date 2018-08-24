@@ -2,6 +2,9 @@
 <%@page import="com.bharti.domain.Subject"%>
 <%@page import="com.bharti.domain.Keynote"%>
 <%@page import="java.util.List"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <html>
 <head>
   <meta charset="utf-8">
@@ -55,23 +58,43 @@
 			
 		  </div>
 		  <div class="col-sm-6 col-md-6 bottom-padding">
-			<form id="contactform" class="form-box register-form contact-form" method="POST">
+		  	<form:form action="submitContactUs"  role="form" cssClass="form-box register-form " commandName="form_contactus" method="POST" >
 			  <h3 class="title">Quick Contact</h3>
-			  <div id="success"></div>
-			  <label>Name: <span class="required">*</span></label>
-			  <input class="form-control" type="text" name="name">
+			  <%
+			  	if(session.getAttribute("successMsg") != null){
+			  		%>
+			  		<span class="text-success">${successMsg}</span>
+			  		<%
+			  		session.removeAttribute("successMsg");
+			  	}
+			  %>
+			  <span class="text-success"></span>
+			  <div class="form-group">
+				  <label>Name: <span class="required">*</span></label>
+				  <form:input class="form-control"  path="name"/>
+			 	  <span class="text-danger"><form:errors path="name"></form:errors></span>
+		 	  </div>
+		 	  <div class="form-group">
 			  <label>Email Address: <span class="required">*</span></label>
-			  <input class="form-control" type="email" name="email">
+			  <form:input class="form-control" type="email" path="email"/>
+			  <span class="text-danger"><form:errors path="email"></form:errors></span>
+			  </div>
+			  <div class="form-group">
 			  <label>Mobile:</label>
-			  <input class="form-control" type="text" name="phone">
+			  <form:input class="form-control" type="text" path="mobile"/>
+			  <span class="text-danger"><form:errors path="mobile"></form:errors></span>
+			  </div>
+			  <div class="form-group">
 			  <label>Comment:</label>
-			  <textarea class="form-control" name="comment"></textarea>
+			  <form:textarea class="form-control" path="comment"/>
+			  <span class="text-danger"><form:errors path="comment"></form:errors></span>
+			  </div>
 			  <div class="clearfix"></div>
 			  <div class="buttons-box clearfix">
-				<button id="submit" class="btn btn-default">Submit</button>
+				<form:button id="submit" type="submit" class="btn btn-default">Submit</form:button>
 				<span class="required"><b>*</b> Required Field</span>
 			  </div><!-- .buttons-box -->
-			</form>
+			</form:form>
 		  </div>
 		  
 		</div>

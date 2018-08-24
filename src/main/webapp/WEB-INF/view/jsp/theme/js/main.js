@@ -2023,17 +2023,7 @@ $(document).ready(function(){
 	</svg>\n\
   ');
   
-  //Contact Us
-  $('#submit').click(function(){
-    $.post('php/form.php', $('#contactform').serialize(),  function(data) {
-      $('#success').html(data).animate({opacity: 1}, 500, function(){
-				if ($(data).is('.send-true')) {
-					$('#contactform').trigger( 'reset' );
-				}
-      });
-    });
-    return false;
-  });
+  
 	
   //Subscribe
 	$('.subscribe-form').submit(function(e){

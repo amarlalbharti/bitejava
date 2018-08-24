@@ -17,8 +17,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.LazyToOne;
-import org.hibernate.annotations.LazyToOneOption;
 
 @Entity
 @Table(name="keynotes")
@@ -141,7 +139,6 @@ public class Keynote
 	private KeynoteDetail KeynoteDetail;
 	
 	@OneToOne(mappedBy="keynote", cascade = CascadeType.ALL,fetch=FetchType.LAZY)
-	@LazyToOne(value = LazyToOneOption.NO_PROXY)
 	public KeynoteDetail getKeynoteDetail() {
 		return KeynoteDetail;
 	}

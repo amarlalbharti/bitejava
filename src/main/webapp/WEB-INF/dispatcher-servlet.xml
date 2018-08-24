@@ -86,9 +86,12 @@
 	
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close"
         p:driverClassName="${jdbc.driverClassName}"
-        p:url="${jdbc.databaseurl}" p:username="${jdbc.username}"
-        p:password="${jdbc.password}"
-         />
+        p:url="${jdbc.databaseurl}" 
+        p:username="${jdbc.username}"
+        p:password="${jdbc.password}" 
+        p:validationQuery="select 1"
+        p:testOnBorrow="true"
+    />
         
 	<tx:annotation-driven transaction-manager="transactionManager"/>
 	<bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
@@ -107,8 +110,8 @@
 	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
 	    <property name="host" value="smtp.gmail.com" />
 	    <property name="port" value="587" />
-	    <property name="username" value="amarlalbharti@gmail.com" />
-	    <property name="password" value="Bharti#2015" />
+	    <property name="username" value="bitejavatutorials@gmail.com" />
+	    <property name="password" value="Bharti#2017" />
 	    <property name="javaMailProperties">
 	        <props>
 	            <prop key="mail.transport.protocol">smtp</prop>

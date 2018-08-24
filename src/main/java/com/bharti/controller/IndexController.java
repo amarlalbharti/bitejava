@@ -1,27 +1,36 @@
 package com.bharti.controller;
 
 import java.security.Principal;
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.StringUtils;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.bharti.constraints.Validation;
+import com.bharti.domain.ContactUs;
 import com.bharti.domain.Keynote;
 import com.bharti.domain.NewsLater;
 import com.bharti.domain.Subject;
+import com.bharti.model.ContactUsModel;
+import com.bharti.model.KeynoteModel;
+import com.bharti.service.ContactUsService;
 import com.bharti.service.KeynoteService;
 import com.bharti.service.NewsLaterService;
 import com.bharti.service.SubjectService;
@@ -31,7 +40,8 @@ public class IndexController
 {
 	@Autowired private NewsLaterService newsLaterService; 
 	@Autowired private KeynoteService keynoteService; 
-	@Autowired private SubjectService subjectService; 
+	@Autowired private SubjectService subjectService;
+	@Autowired private ContactUsService contactUsService;
 	
 	private Logger logger = Logger.getLogger(IndexController.class);
 	
@@ -92,9 +102,33 @@ public class IndexController
 	public String contactus(ModelMap map, HttpServletRequest request, Principal principal)
 	{
 		System.out.println("From page contact us");
+		map.addAttribute("form_contactus", new ContactUsModel());
 		return "contactus";
 	}
-	
+	@RequestMapping(value = "/submitContactUs", method = RequestMethod.POST)
+	public String submitContactUs(@ModelAttribute(value = "form_contactus") @Valid ContactUsModel model,BindingResult result, ModelMap map, HttpServletRequest request,Principal principal)
+	{
+		if (result.hasErrors())
+		{
+				return "contactus";
+		}else {
+			ContactUs contactUs = new ContactUs();
+			contactUs.setName(model.getName());
+			contactUs.setEmail(model.getEmail());
+			contactUs.setMobile(model.getMobile());
+			contactUs.setComment(model.getComment());
+			contactUs.setMarkAsRead(Boolean.FALSE);
+			contactUs.setCreateDate(new Date());
+			if(principal != null) {
+				contactUs.setCreateBy(principal.getName());
+			}else {
+				contactUs.setCreateBy("GUEST");
+			}
+			this.contactUsService.add(contactUs);
+			request.getSession().setAttribute("successMsg", "Thank you for your feedback/request. We will respond soon.");
+			return "redirect:contactus";
+		}
+	}
 	@RequestMapping(value = "/privacy_policy", method = RequestMethod.GET)
 	public String privacyPolicy(ModelMap map, HttpServletRequest request, Principal principal)
 	{
