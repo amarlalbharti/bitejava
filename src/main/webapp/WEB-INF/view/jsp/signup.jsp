@@ -4,13 +4,14 @@
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <!doctype html>
 <html class="full-height"><head>
-  <title>Login - BiteJava Tutorials</title>
-  <meta name="keywords" content="HTML5 Template">
-  <meta name="description" content="Progressive — Responsive Multipurpose HTML Template">
-  <meta name="author" content="itembridge.com">
+  <meta charset="utf-8">
+  <title>${pageTitle}</title>
+  <meta name="description" content="${pageDescription}">
+  <meta name="keywords" content="${pageKeywords}">
+  <meta name="author" content="${pageAuthor}">
   <meta class="viewport" name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-
+	
   <!-- Favicon -->
 <!--   <link rel="shortcut icon" href="img/favicon.ico"> -->
   

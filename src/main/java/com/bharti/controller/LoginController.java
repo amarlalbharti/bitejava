@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.bharti.constraints.Roles;
+import com.bharti.constraints.SeoConstants;
 import com.bharti.constraints.Validation;
 import com.bharti.domain.LoginInfo;
 import com.bharti.domain.Registration;
@@ -48,13 +49,20 @@ public class LoginController
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String login(ModelMap map, HttpServletRequest request, Principal principal)
 	{
-		System.out.println("from index page of index controller");
+		map.addAttribute("pageKeywords", SeoConstants.SEO_DEFAULT_KEYWORDS);
+		map.addAttribute("pageAuthor", SeoConstants.SEO_DEFAULT_AUTHOR);
+		map.addAttribute("pageDescription", SeoConstants.SEO_DEFAULT_DESCRIPTION);
+		map.addAttribute("pageTitle", "Login Page"+SeoConstants.SEO_POST_TITLE);
 		return "login";
 	}
 	
 	@RequestMapping(value = "/signup", method = RequestMethod.GET)
 	public String signup(ModelMap map, HttpServletRequest request, Principal principal)
 	{
+		map.addAttribute("pageKeywords", SeoConstants.SEO_DEFAULT_KEYWORDS);
+		map.addAttribute("pageAuthor", SeoConstants.SEO_DEFAULT_AUTHOR);
+		map.addAttribute("pageDescription", SeoConstants.SEO_DEFAULT_DESCRIPTION);
+		map.addAttribute("pageTitle", "Signup Page"+SeoConstants.SEO_POST_TITLE);
 		map.addAttribute("regForm", new UserRegModel());
 		return "signup";
 	}
@@ -217,7 +225,10 @@ public class LoginController
 	@RequestMapping(value = "/forgotpassword", method = RequestMethod.GET)
 	public String forgotpassword(ModelMap map, HttpServletRequest request, Principal principal)
 	{
-		logger.info("From forgot password..............");
+		map.addAttribute("pageKeywords", SeoConstants.SEO_DEFAULT_KEYWORDS);
+		map.addAttribute("pageAuthor", SeoConstants.SEO_DEFAULT_AUTHOR);
+		map.addAttribute("pageDescription", SeoConstants.SEO_DEFAULT_DESCRIPTION);
+		map.addAttribute("pageTitle", "Forgot Password"+SeoConstants.SEO_POST_TITLE);
 		map.addAttribute("resetPwd", "forgot");
 		return "forgotpassword";
 	}
@@ -274,6 +285,10 @@ public class LoginController
 		logger.info("From resetpassword ..............");
 		String email = request.getParameter("email");
 		String token = request.getParameter("token");
+		map.addAttribute("pageKeywords", SeoConstants.SEO_DEFAULT_KEYWORDS);
+		map.addAttribute("pageAuthor", SeoConstants.SEO_DEFAULT_AUTHOR);
+		map.addAttribute("pageDescription", SeoConstants.SEO_DEFAULT_DESCRIPTION);
+		map.addAttribute("pageTitle", "Reset Password"+SeoConstants.SEO_POST_TITLE);
 		
 		if(email != null && Validation.validateEmail(email))
 		{

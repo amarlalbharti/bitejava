@@ -4,14 +4,7 @@
 <%@page import="com.bharti.domain.Keynote"%>
 <%@page import="java.util.List"%>
 <html>
-<head>
-  <meta charset="utf-8">
-  <title>Bite Java Tutorials</title>
-  
-  <meta class="viewport" name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-	
-</head>
+
 <body>
 <section id="main">
   

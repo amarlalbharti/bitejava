@@ -4,13 +4,6 @@
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <!doctype html>
 <html class="full-height"><head>
-  <title>Login - BiteJava Tutorials</title>
-  <meta name="keywords" content="HTML5 Template">
-  <meta name="description" content="Progressive — Responsive Multipurpose HTML Template">
-  <meta name="author" content="itembridge.com">
-  <meta class="viewport" name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-
   <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Arimo:400,700,400italic,700italic'>
 
   <!-- Plagins CSS -->

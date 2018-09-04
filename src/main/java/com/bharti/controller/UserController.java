@@ -11,6 +11,8 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.bharti.constraints.RegistrationUtils;
+import com.bharti.constraints.SeoConstants;
 import com.bharti.domain.Registration;
 import com.bharti.service.LoginInfoService;
 import com.bharti.service.RegistrationService;
@@ -30,6 +32,10 @@ public class UserController
 		Registration reg = registrationService.getRegistrationByUserid(principal.getName());
 		if(reg != null)
 		{
+			map.addAttribute("pageKeywords", SeoConstants.SEO_DEFAULT_KEYWORDS);
+			map.addAttribute("pageAuthor", SeoConstants.SEO_DEFAULT_AUTHOR);
+			map.addAttribute("pageDescription", RegistrationUtils.getUserFullDetail(reg));
+			map.put("pageTitle", RegistrationUtils.getFullName(reg)+SeoConstants.SEO_POST_TITLE);
 			map.addAttribute("user", reg);
 			return "profile";
 		}

@@ -5,6 +5,7 @@ import java.sql.Timestamp;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -12,6 +13,7 @@ import javax.validation.Valid;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.StringUtils;
@@ -23,6 +25,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.bharti.constraints.RegistrationUtils;
+import com.bharti.constraints.SeoConstants;
 import com.bharti.constraints.Validation;
 import com.bharti.domain.ContactUs;
 import com.bharti.domain.Keynote;
@@ -43,10 +47,12 @@ public class IndexController
 	@Autowired private SubjectService subjectService;
 	@Autowired private ContactUsService contactUsService;
 	
+	@Autowired private MessageSource messageSource;
+	
 	private Logger logger = Logger.getLogger(IndexController.class);
 	
 	@RequestMapping(value = "/index", method = RequestMethod.GET)
-	public String index(ModelMap map, HttpServletRequest request, Principal principal)
+	public String index(ModelMap map, HttpServletRequest request, Principal principal, Locale locale)
 	{
 		logger.info("Hello from index");
 
@@ -58,6 +64,11 @@ public class IndexController
 		}
 		map.addAttribute("mapList", mapList);
 		map.addAttribute("sList", sList);
+		map.addAttribute("pageKeywords", SeoConstants.SEO_DEFAULT_KEYWORDS);
+		map.addAttribute("pageAuthor", SeoConstants.SEO_DEFAULT_AUTHOR);
+		map.addAttribute("pageDescription", SeoConstants.SEO_DEFAULT_DESCRIPTION);
+		map.addAttribute("pageTitle", SeoConstants.SEO_DEFAULT_TITLE);
+		
 		return "index";
 	}
 	
@@ -73,35 +84,31 @@ public class IndexController
 	public String error(ModelMap map, HttpServletRequest request, Principal principal)
 	{
 		
-		System.out.println("::::::::::::::: from error");
-		System.out.println("URL : "+ request.getRequestURL());
-		
+		map.addAttribute("pageKeywords", SeoConstants.SEO_DEFAULT_KEYWORDS);
+		map.addAttribute("pageAuthor", SeoConstants.SEO_DEFAULT_AUTHOR);
+		map.addAttribute("pageDescription", SeoConstants.SEO_DEFAULT_DESCRIPTION);
+		map.addAttribute("pageTitle", "Page Not Found Error - 404"+SeoConstants.SEO_POST_TITLE);
 		
 		return "error";
-	}
-	
-	@RequestMapping(value = "/test", method = RequestMethod.GET)
-	public String test(ModelMap map, HttpServletRequest request, Principal principal)
-	{
-		
-		System.out.println("::::::::::::::: from test");
-		System.out.println("URL : "+ request.getRequestURL());
-		
-		
-		return "test";
 	}
 	
 	@RequestMapping(value = "/aboutus", method = RequestMethod.GET)
 	public String aboutus(ModelMap map, HttpServletRequest request, Principal principal)
 	{
-		System.out.println("From page about us");
+		map.addAttribute("pageKeywords", SeoConstants.SEO_DEFAULT_KEYWORDS);
+		map.addAttribute("pageAuthor", SeoConstants.SEO_DEFAULT_AUTHOR);
+		map.addAttribute("pageDescription", SeoConstants.SEO_DEFAULT_DESCRIPTION);
+		map.addAttribute("pageTitle", "About Us"+SeoConstants.SEO_POST_TITLE);
 		return "aboutus";
 	}
 	
 	@RequestMapping(value = "/contactus", method = RequestMethod.GET)
 	public String contactus(ModelMap map, HttpServletRequest request, Principal principal)
 	{
-		System.out.println("From page contact us");
+		map.addAttribute("pageKeywords", SeoConstants.SEO_DEFAULT_KEYWORDS);
+		map.addAttribute("pageAuthor", SeoConstants.SEO_DEFAULT_AUTHOR);
+		map.addAttribute("pageDescription", SeoConstants.SEO_DEFAULT_DESCRIPTION);
+		map.addAttribute("pageTitle", "Contact Us"+SeoConstants.SEO_POST_TITLE);
 		map.addAttribute("form_contactus", new ContactUsModel());
 		return "contactus";
 	}
@@ -132,7 +139,10 @@ public class IndexController
 	@RequestMapping(value = "/privacy_policy", method = RequestMethod.GET)
 	public String privacyPolicy(ModelMap map, HttpServletRequest request, Principal principal)
 	{
-		System.out.println("From page contact us");
+		map.addAttribute("pageKeywords", SeoConstants.SEO_DEFAULT_KEYWORDS);
+		map.addAttribute("pageAuthor", SeoConstants.SEO_DEFAULT_AUTHOR);
+		map.addAttribute("pageDescription", SeoConstants.SEO_DEFAULT_DESCRIPTION);
+		map.addAttribute("pageTitle", "Privacy Policy"+SeoConstants.SEO_POST_TITLE);
 		return "privacyPolicy";
 	}
 	

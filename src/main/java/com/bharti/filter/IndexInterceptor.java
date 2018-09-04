@@ -19,65 +19,39 @@ import com.bharti.service.RegistrationService;
 
 public class IndexInterceptor implements HandlerInterceptor 
 {
-
-	
-	@Autowired private KeynoteService keynoteService; 
 	@Autowired private RegistrationService registrationService; 
-	
+
 	@Override
-	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
-			throws Exception {
-		try
-		{
+	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+		try {
 			Registration reg = (Registration) request.getSession().getAttribute("registration");
-			if(reg == null)
-			{
+			if(reg == null) {
 				Principal principal = request.getUserPrincipal();
-//				System.out.println("principal : " + principal);
-				if(principal != null)
-				{
+				if(principal != null) {
 					System.out.println("user  : " + principal.getName());
 					reg = registrationService.getRegistrationByUserid(principal.getName());
-					if(reg != null)
-					{
+					if(reg != null) {
 						request.getSession(true).setAttribute("registration", reg);
 					}
 				}
-			}
-			String path_url = (String)request.getSession().getAttribute("path_url");
-			if(path_url == null || path_url.trim().length() <= 0)
-			{
-				String url = request.getRequestURL().toString();
-				int port = request.getLocalPort();
-				
-				if(url != null && url.trim().length() > 0)
-				{
-					int index =url.indexOf(""+port) ;
-					String path = url.substring(0, index);
-					request.getSession().setAttribute("path_url", path+port+"/bitejava");
-					System.out.println("Path : " + path+port+"/bitejava");
-				}
-			}
-		}
-		catch(Exception e)
-		{
+}
+		} catch(Exception e) {
 			e.printStackTrace();
 		}
-		
 		return true;
 	}
 
 	@Override
-	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
-			ModelAndView modelAndView) throws Exception {
-		// TODO Auto-generated method stub
+	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
 		
 	}
 
 	@Override
-	public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex)
-			throws Exception {
-		// TODO Auto-generated method stub
+	public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
+		System.out.println("pageTitle : " + request.getAttribute("pageTitle"));
+		System.out.println("pageDescription : " + request.getAttribute("pageDescription"));
+		System.out.println("pageKeywords : " + request.getAttribute("pageKeywords"));
+		System.out.println("pageAuthor : " + request.getAttribute("pageAuthor"));
 		
 	}
 

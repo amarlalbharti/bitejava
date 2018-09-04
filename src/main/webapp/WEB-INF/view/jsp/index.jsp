@@ -6,14 +6,7 @@
 <%@page import="com.bharti.domain.Subject"%>
 <%@page import="java.util.Map"%>
 <html>
-<head>
-  <meta charset="utf-8">
-  <title>Bite Java Tutorials</title>
-  
-  <meta class="viewport" name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-</head>
 <body class="fixed-header">
 <!-- <div class="page-box"> -->
 <!-- <div class="page-box-content"> -->
