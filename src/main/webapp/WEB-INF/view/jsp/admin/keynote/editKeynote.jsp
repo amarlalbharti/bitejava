@@ -7,12 +7,7 @@
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <html>
 <head>
-  <meta charset="utf-8">
-  <title>Bite Java Tutorials</title>
-  
-  <meta class="viewport" name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<script type="text/javascript" src="theme/js/keynote_js.js"></script>
+  <script type="text/javascript" src="theme/js/keynote_js.js"></script>
 </head>
 <body class="fixed-header">
 
@@ -36,7 +31,7 @@
 					  </div>
 					  <div class="panel-body">
 						<form:form action="adminEditKeynote"  role="form" commandName="form_keynote" method="POST">
-							  <div class="form-group">
+							  <div class="form-group col-sm-6 col-md-6 no-padding">
 								<label class="control-label">Select Subject</label>
 								<form:select path = "subject.sid" id="sid" class="form-control" >
 									<form:option value="0">Select Subject</form:option>
@@ -46,7 +41,7 @@
 								</form:select>
 								<span class="text-danger"><form:errors path="subject"></form:errors></span>
 							  </div>
-							  <div class="form-group">
+							  <div class="form-group col-sm-6 col-md-6">
 								<label class="control-label">Select Parent Keynote</label>
 								<form:select path = "parent.kid" id="parent_kid" class="form-control" >
 									<form:option value="0">Select Parent Keynote</form:option>
@@ -74,6 +69,11 @@
 								<label class="control-label">Display Order</label>
 								<form:input type="number" path = "displayOrder" class="form-control number_only" />
 								<span class="text-danger"><form:errors path="displayOrder"></form:errors></span>
+							  </div>
+							  <div class="form-group">
+								<label class="control-label">SEO Description</label>
+								<form:textarea  path = "seoDescription" id="kn_seoDescription" class="form-control" />
+								<span class="text-danger"><form:errors path="seoDescription"></form:errors></span>
 							  </div>
 							  <div class="form-group">
 								<label class="control-label">Key Note Detail</label>

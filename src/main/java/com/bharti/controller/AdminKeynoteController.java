@@ -162,6 +162,7 @@ public class AdminKeynoteController
 				}
 			}
 			kn.setSubject(model.getSubject());
+			kn.setSeoDescription(model.getSeoDescription());
 			kn.setShowOnHomePage(model.isShowOnHomePage());
 			String url = model.getKeynote().replaceAll("[^a-zA-Z0-9]+","_");
 			kn.setUrl(url.toLowerCase());
@@ -213,6 +214,7 @@ public class AdminKeynoteController
 					model.setSubject(kn.getSubject());
 					model.setParent(kn.getParent_keynote());
 					model.setKeynote(kn.getKeynote());
+					model.setSeoDescription(kn.getSeoDescription());
 					model.setShowOnHomePage(kn.isShowOnHomePage());
 					model.setDisplayOrder(String.valueOf(kn.getDisplayOrder()));
 					if(kn.getKeynoteDetail() != null)
@@ -237,44 +239,35 @@ public class AdminKeynoteController
 	@RequestMapping(value = "/adminEditKeynote", method = RequestMethod.POST)
 	public String adminEditKeynote(@ModelAttribute(value = "form_keynote") @Valid KeynoteModel model,BindingResult result, ModelMap map, HttpServletRequest request,Principal principal)
 	{
-		if (result.hasErrors())
-		{
-			if(model.getSubject().getSid() == 0)
-			{
+		if (result.hasErrors()) {
+			if(model.getSubject().getSid() == 0) {
 				result.addError(new FieldError("form_keynote", "subject", model.getSubject() , false, new String[1],new String[1], "Please Select Subject !"));
 				return "redirect:adminKeynotes";
-			}
-			else
-			{
+			} else {
 				map.addAttribute("kList", keynoteService.getKeynoteList(model.getSubject().getSid()));
 				System.out.println("in validation");
 				List<Subject> sList = subjectService.getSubjectsList(0, 1000);
 				map.addAttribute("sList", sList);
 			}
-			
 			return "editKeynote";
 		}
-		else if(model.getKid() > 0)
-		{
+		else if(model.getKid() > 0) {
 			Date date = new Date();
 			java.sql.Date dt = new java.sql.Date(date.getTime());
 			
 			Keynote kn = keynoteService.getKeynoteById(model.getKid());
-			if(kn != null)
-			{
+			if(kn != null) {
 				String  btnType = request.getParameter("submit");
 				System.out.println("Submited Buttom value : "+ btnType);
 				
-				
+				kn.setSeoDescription(model.getSeoDescription());
 				kn.setKeynote(model.getKeynote());
 				kn.setDisplayOrder(Integer.parseInt(model.getDisplayOrder()));
 				kn.setShowOnHomePage(model.isShowOnHomePage());
-				if(kn.getPublishDate() == null && btnType != null && btnType.equals("Save And Publish"))
-				{
+				if(kn.getPublishDate() == null && btnType != null && btnType.equals("Save And Publish")) {
 					kn.setPublishDate(dt);
 				}
-				if(model.getParent() != null && model.getParent().getKid() > 0)
-				{
+				if(model.getParent() != null && model.getParent().getKid() > 0) {
 					Keynote parent_kn = keynoteService.getKeynoteById(model.getParent().getKid());
 					kn.setParent_keynote(parent_kn);
 					
@@ -282,14 +275,11 @@ public class AdminKeynoteController
 				
 				keynoteService.updateKeynote(kn);
 				
-				if(kn.getKeynoteDetail() != null)
-				{
+				if(kn.getKeynoteDetail() != null) {
 					KeynoteDetail knd = kn.getKeynoteDetail();
 					knd.setDetail(model.getKnDetail());
 					keynoteDetailService.updateKeynoteDetail(knd);
-				}
-				else
-				{
+				} else {
 					KeynoteDetail knd = new KeynoteDetail();
 					knd.setDetail(model.getKnDetail());
 					knd.setKeynote(kn);

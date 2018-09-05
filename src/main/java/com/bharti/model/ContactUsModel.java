@@ -15,7 +15,6 @@ public class ContactUsModel {
 	@Email(message="Please enter valid email !")
 	private String email;
 	
-	@NotEmpty(message="Mobile is required")
 	@Pattern(regexp="(^$|[0-9]{10})", message="Please enter valid mobile number !")
 	private String mobile;
 	

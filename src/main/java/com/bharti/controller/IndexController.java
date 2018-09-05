@@ -62,6 +62,7 @@ public class IndexController
 		{
 			mapList.put(sub.getSid(), keynoteService.getKeynotesForHomePage(sub.getSid()));
 		}
+		map.addAttribute("recentArticle", keynoteService.getRecentPublishedKeynotes(0, 3));
 		map.addAttribute("mapList", mapList);
 		map.addAttribute("sList", sList);
 		map.addAttribute("pageKeywords", SeoConstants.SEO_DEFAULT_KEYWORDS);

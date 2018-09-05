@@ -37,7 +37,7 @@
 					  </div>
 					  <div class="panel-body">
 						<form:form action="adminAddKeynote"  role="form" commandName="form_keynote" method="POST" onsubmit="return validateForm()">
-							  <div class="form-group">
+							  <div class="form-group col-sm-6 col-md-6 no-padding">
 								<label class="control-label">Select Subject</label>
 								<form:select path = "subject.sid" id="sid" class="form-control" >
 									<form:option value="0">Select Subject</form:option>
@@ -47,7 +47,7 @@
 								</form:select>
 								<span class="text-danger"><form:errors path="subject"></form:errors></span>
 							  </div>
-							  <div class="form-group">
+							  <div class="form-group col-sm-6 col-md-6 ">
 								<label class="control-label">Select Parent Keynote</label>
 								<form:select path = "parent.kid" id="parent_kid" class="form-control" >
 									<form:option value="0">Select Parent Keynote</form:option>
@@ -77,11 +77,15 @@
 								<span class="text-danger"><form:errors path="displayOrder"></form:errors></span>
 							  </div>
 							  <div class="form-group">
+								<label class="control-label">SEO Description</label>
+								<form:textarea  path = "seoDescription" id="kn_seoDescription" class="form-control" />
+								<span class="text-danger"><form:errors path="seoDescription"></form:errors></span>
+							  </div>
+							  <div class="form-group">
 								<label class="control-label">Key Note Detail</label>
 								<form:textarea  path = "knDetail" id="kn_detail" class="form-control" />
 								<span class="text-danger"><form:errors path="knDetail"></form:errors></span>
 							  </div>
-<!-- 							  <button type="submit" class="btn btn-default" >Save</button> -->
 							  <div class="form-group">
 							  	<input class="btn btn-default btn-flat" type="submit"  name="submit" value="Save">
 							  	<input class="btn btn-default btn-flat" type="submit"  name="submit" value="Save And Publish">

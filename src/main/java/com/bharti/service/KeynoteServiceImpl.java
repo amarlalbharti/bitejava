@@ -79,4 +79,8 @@ public class KeynoteServiceImpl implements KeynoteService
 	{
 		return this.keynoteDao.getRecentKeynotes(first, max);
 	}
+	
+	public List<Keynote> getRecentPublishedKeynotes(int first, int max){
+		return this.keynoteDao.getRecentPublishedKeynotes(first, max);
+	}
 }

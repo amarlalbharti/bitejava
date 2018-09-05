@@ -164,4 +164,17 @@ public class KeynoteDaoImpl implements KeynoteDao
 				.setMaxResults(max)
 				.list();
 	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Keynote> getRecentPublishedKeynotes(int first, int max){
+		return this.sessionFactory.getCurrentSession().createCriteria(Keynote.class)
+				.addOrder(Order.desc("publishDate"))
+				.add(Restrictions.isNull("deleteDate"))
+				.add(Restrictions.eq("showOnHomePage", true))
+				.add(Restrictions.isNotNull("publishDate"))
+				.setFirstResult(first)
+				.setMaxResults(max)
+				.list();
+	}
+	
 }

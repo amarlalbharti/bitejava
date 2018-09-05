@@ -1,4 +1,5 @@
 <!doctype html>
+<%@page import="com.bharti.constraints.DateFormats"%>
 <%@page import="java.util.Map.Entry"%>
 <%@page import="java.util.Iterator"%>
 <%@page import="com.bharti.domain.Keynote"%>
@@ -50,13 +51,6 @@
 				<a href="#"><img class="replace-2x" src="theme/images/HTML5.png" alt="" width="570" height="320"></a>
 			  </div>
 			</div>
-			<!-- 
-			
-			<p class="description">
-			  If debugging is the process of removing software bugs,<br>
-			  Then programming must be the process of putting them in.<br>
-			  <strong>&ndash; Edsger Dijkstra</strong>
-			</p> -->
 		  </div>
 		</div>
 	  </div>
@@ -64,13 +58,14 @@
 <section id="main">
   <article class="content">
 	<div class="container">
-	  <div class="title-box">
-		<h1 class="title">Bite Java</h1>
-	  </div>
-
+	  
 	  <div class="row">
-		<div class="col-sm-5 col-md-5 bottom-padding">
-		  <p class="lead"><strong>Bite Java provides best online tutorials with proper definitions and a lot of examples with each concept. </strong></p>
+		<div class="col-sm-12 col-md-6 bottom-padding">
+		  <div class="title-box">
+			<h2 class="title">Bite Java</h2>
+		  </div>
+			  
+		  <p class="lead"><strong>Bite Java provides best online tutorials with proper definitions and a lot of examples for each concept. </strong></p>
 		  <p>
 			  Are you  newcomer or experienced in java ? check concepts you have, 
 			  is right or not. There is too many examples with real world relationship. 
@@ -78,65 +73,39 @@
  		  <p></p>
 		  <a href="#" class="btn btn-default">Read more</a>
 		</div>
-		
-		<div class="bottom-padding respond-carousel col-sm-7 col-md-7">
-		  <div class="carousel-box no-nav no-pagination" data-carousel-one="true" data-carousel-autoplay="true" data-carousel-nav="false">
-			
-			
-			<div class="row">
-			  <div class="carousel">
-				<div class="respond respond-blockquote bg col-sm-12 col-md-12">
-				  <div class="description bg-info">
-					<blockquote>
-					  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim ducimus eveniet distinctio amet quaerat maxime fugit nesciunt sunt ut quasi nulla dolor soluta ratione incidunt necessitatibus cumque culpa esse dolorum ab magni quae dolorem aliquam. Ratione consequatur optio obcaecati laborum voluptas adipisci quia placeat quos maiores enim non.
-					</blockquote>
-				  </div>
-				  <div class="name">
-					<div class="icon">
-					  <img class="replace-2x img-circle" src="theme/images/amar1.jpg" alt="">
-					</div>
-					
-					<strong>John Doe</strong>
-					<div>Designer, Infostyle</div>
-				  </div>
-				</div>
-				
-				<div class="respond respond-blockquote bg col-sm-12 col-md-12">
-				  <div class="description bg-info">
-					<blockquote>
-					  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim ducimus eveniet distinctio amet quaerat maxime fugit nesciunt sunt ut quasi nulla dolor soluta ratione incidunt necessitatibus cumque culpa esse dolorum ab magni quae dolorem aliquam. Ratione consequatur optio obcaecati laborum voluptas adipisci quia placeat quos maiores enim non.
-					</blockquote>
-				  </div>
-				  <div class="name">
-					<div class="icon">
-					  <img class="replace-2x img-circle" src="theme/images/amar1.jpg" alt="">
-					</div>
-					<strong>Derek Smitt</strong>
-					<div>Director, Infostyle</div>
-				  </div>
-				</div>
-				
-				<div class="respond respond-blockquote bg col-sm-12 col-md-12">
-				  <div class="description bg-info">
-					<blockquote>
-					  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim ducimus eveniet distinctio amet quaerat maxime fugit nesciunt sunt ut quasi nulla dolor soluta ratione incidunt necessitatibus cumque culpa esse dolorum ab magni quae dolorem aliquam. Ratione consequatur optio obcaecati laborum voluptas adipisci quia placeat quos maiores enim non.
-					</blockquote>
-				  </div>
-				  <div class="name">
-					<div class="icon">
-					  <img class="replace-2x img-circle" src="theme/images/amar1.jpg" alt="">
-					</div>
-					
-					<strong>John Doe</strong>
-					<div>Designer, Infostyle</div>
-				  </div>
-				</div>
-			  </div>
-			</div>
-			<div class="clearfix"></div>
-			<div class="pagination switches"></div>
+		<div class="col-sm-12 col-md-6">
+		  <div class="title-box">
+			<h2 class="title">Latest Posts</h2>
 		  </div>
+		  <%
+		  	List<Keynote> recentKeynote = (List<Keynote>)request.getAttribute("recentArticle");
+			if(recentKeynote != null && !recentKeynote.isEmpty()){
+				%>
+					<ul class="latest-posts">
+						<%
+							for(Keynote kn : recentKeynote){
+								%>
+									<li>
+									  <div class="meta">
+										<span><%= kn.getSubject().getSubject() %></span>, 
+										<span class="time"><%=DateFormats.ddMMMyyyyathhmm.format(kn.getPublishDate())  %></span>
+									  </div>
+									  <div class="description">
+										<a href="${pageContext.request.contextPath}/note/<%= kn.getSubject().getUrl()%>/<%= kn.getUrl()%>">
+										  <%=kn.getKeynote() %> 
+										</a>
+									  </div>
+									</li>
+								<%
+							}
+						%>
+					</ul>
+				<%
+			}
+		  %>
+		  
 		</div>
+		
 	  </div>
 	  
 	  
@@ -194,38 +163,44 @@
 	
 	<div class="container">
 		<div class="row">
-			<div class="col-sm-12 col-md-12">
-			  <div class="title-box">
-				<h1 class="title">Tutorials</h1>
-			  </div>
-			</div>
+			
 			<%
 				List<Subject> sList = (List)request.getAttribute("sList");
 				Map<Long, List<Keynote>> mapList = (Map)request.getAttribute("mapList");
-				for (Subject sub : sList) 
-				{
-					List<Keynote> kList = mapList.get(sub.getSid());
-					System.out.println(sub.getSubject() + " : " + kList.size());
-					%>
-						<div class="col-sm-6 col-md-4 col-lg-3">
-							<div class="pricing">
-							  <div class="title"><a href="${pageContext.request.contextPath}/note/<%= sub.getUrl()%>"><%= sub.getSubject() %></a></div>
-							  <ul class="options">
-								<%
-								
-								for(Keynote kn : kList)
-								{
-									%>
-										<a href="${pageContext.request.contextPath}/note/<%= sub.getUrl()%>/<%= kn.getUrl()%>"><li class="active"><span><i class="fa fa-check"></i></span><%= kn.getKeynote() %></li></a>
-									<%	
-								}
-								%>
-							  </ul>
-							</div>
-					 	</div>
-					<%
-					
-				}
+				  if(mapList != null && !mapList.isEmpty()){
+					  %>
+					  	<div class="col-sm-12 col-md-12">
+						  <div class="title-box">
+							<h1 class="title">Articles</h1>
+						  </div>
+						</div>
+					  <%
+					  for (Subject sub : sList) 
+						{
+							List<Keynote> kList = mapList.get(sub.getSid());
+							System.out.println(sub.getSubject() + " : " + kList.size());
+							%>
+								<div class="col-sm-6 col-md-4 col-lg-3">
+									<div class="pricing">
+									  <div class="title"><a href="${pageContext.request.contextPath}/note/<%= sub.getUrl()%>"><%= sub.getSubject() %></a></div>
+									  <ul class="options">
+										<%
+										
+										for(Keynote kn : kList)
+										{
+											%>
+												<a href="${pageContext.request.contextPath}/note/<%= sub.getUrl()%>/<%= kn.getUrl()%>"><li class="active"><span><i class="fa fa-check"></i></span><%= kn.getKeynote() %></li></a>
+											<%	
+										}
+										%>
+									  </ul>
+									</div>
+							 	</div>
+							<%
+							
+						}
+				  }
+				
 			%>
 			
 		</div>

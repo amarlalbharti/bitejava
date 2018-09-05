@@ -36,7 +36,7 @@
 		  <div class="col-sm-6 col-md-6 contact-info bottom-padding">
 			<address>
 			  <div class="title">Address</div>
-			  Ram Vihar Colony Para Crossing Rajajipuram<br> Lucknow, India
+			  Ram Vihar Colony, Para Crossing, Rajajipuram<br> Lucknow, India
 			</address>
 			<div class="row">
 			  <address class="col-sm-6 col-md-6">

@@ -40,6 +40,16 @@ public class Keynote
 	
 	private Date deleteDate;
 
+	private Subject subject;
+
+	private KeynoteDetail KeynoteDetail;
+	
+	private String seoDescription;
+
+	private Keynote parent_keynote;
+	
+	private Set<Keynote> childKeynote = new HashSet<Keynote>();
+
 	@Id
 	@Column(nullable=false)
 	@GeneratedValue(strategy=GenerationType.AUTO)
@@ -123,8 +133,6 @@ public class Keynote
 		this.deleteDate = deleteDate;
 	}
 	
-	private Subject subject;
-
 	@ManyToOne  
     @JoinColumn(name = "subject_id")
 	public Subject getSubject() {
@@ -136,8 +144,6 @@ public class Keynote
 	}
 	
 	
-	private KeynoteDetail KeynoteDetail;
-	
 	@OneToOne(mappedBy="keynote", cascade = CascadeType.ALL,fetch=FetchType.LAZY)
 	public KeynoteDetail getKeynoteDetail() {
 		return KeynoteDetail;
@@ -146,10 +152,6 @@ public class Keynote
 	public void setKeynoteDetail(KeynoteDetail keynoteDetail) {
 		KeynoteDetail = keynoteDetail;
 	}
-
-	private Keynote parent_keynote;
-	
-	private Set<Keynote> childKeynote = new HashSet<Keynote>();
 
 	@ManyToOne(cascade={CascadeType.ALL})
 	@JoinColumn(name="parent_id")
@@ -169,8 +171,16 @@ public class Keynote
 	public void setChildKeynote(Set<Keynote> childKeynote) {
 		this.childKeynote = childKeynote;
 	}
-
 	
+	@Column
+	public String getSeoDescription() {
+		return seoDescription;
+	}
+
+	public void setSeoDescription(String seoDescription) {
+		this.seoDescription = seoDescription;
+	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (obj == null)
@@ -190,4 +200,6 @@ public class Keynote
 	public String toString() {
 		return String.valueOf(kid);
 	}
+	
+	
 }

@@ -31,4 +31,7 @@ public interface KeynoteDao
 	public List<Keynote> getKeynotesForHomePage(long sid);
 	
 	public List<Keynote> getRecentKeynotes(int first, int max);
+	
+	public List<Keynote> getRecentPublishedKeynotes(int first, int max);
+	
 }

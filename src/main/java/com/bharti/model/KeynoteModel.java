@@ -24,6 +24,10 @@ public class KeynoteModel
 	@NotEmpty(message="Detail is required")
 	private String knDetail;
 
+	private Keynote parent;
+
+	private String seoDescription;
+
 	public long getKid() {
 		return kid;
 	}
@@ -72,14 +76,20 @@ public class KeynoteModel
 		this.knDetail = knDetail;
 	}
 	
-	private Keynote parent;
-
 	public Keynote getParent() {
 		return parent;
 	}
 
 	public void setParent(Keynote parent) {
 		this.parent = parent;
+	}
+
+	public String getSeoDescription() {
+		return seoDescription;
+	}
+
+	public void setSeoDescription(String seoDescription) {
+		this.seoDescription = seoDescription;
 	}
 	
 	

@@ -42,7 +42,7 @@ if(subject != null && keynote != null)
 			{
 				String url = "/bj_uploads/subjects/"+subject.getSid() + "/subject_image/"+subject.getSubject_image();
 				%>
-					<a href="${pageContext.request.contextPath}//note/<%= subject.getUrl() %>"><img alt="<%=  subject.getSubject() %>" src="<%= url%>"></a>
+					<a href="${pageContext.request.contextPath}/note/<%= subject.getUrl() %>"><img alt="<%=  subject.getSubject() %>" src="<%= url%>"></a>
 				<%
 			}
 			else
@@ -57,46 +57,32 @@ if(subject != null && keynote != null)
 		  <nav>
 			<ul >
 				<%
-					System.out.println("subject : "  + subject);
-					if(subject != null)
-					{
+					if(subject != null) {
 						%>
 							<li class="active"><a href="#"><%= subject.getSubject()%></a></li>
 						<%
 					}
 					List<Keynote> kList = (List)request.getAttribute("kList");
-					if(kList != null && !kList.isEmpty())
-					{
-						if(keynote.getParent_keynote() != null)
-						{
-							for(Keynote kn : kList)
-							{
-								if(kn.getKid() != keynote.getParent_keynote().getKid())
-								{
+					if(kList != null && !kList.isEmpty()) {
+						if(keynote.getParent_keynote() != null) {
+							for(Keynote kn : kList) {
+								if(kn.getKid() != keynote.getParent_keynote().getKid()) {
 									%>
-									  <li><a href="${pageContext.request.contextPath}//note/<%= kn.getSubject().getUrl() %>/<%= kn.getUrl() %>"><%= kn.getKeynote() %></a></li>
+									  <li><a href="${pageContext.request.contextPath}/note/<%= kn.getSubject().getUrl() %>/<%= kn.getUrl() %>"><%= kn.getKeynote() %></a></li>
 									<%
-								}
-								else
-								{
+								} else {
 									%>
 									  <li class="bg-info current"><a href="${pageContext.request.contextPath}/note/<%= kn.getSubject().getUrl() %>/<%= kn.getUrl() %>"><%= kn.getKeynote() %></a></li>
 									<%
 								}
 							}
-						}
-						else
-						{
-							for(Keynote kn : kList)
-							{
-								if(kn.getKid() != keynote.getKid())
-								{
+						} else {
+							for(Keynote kn : kList) {
+								if(kn.getKid() != keynote.getKid()) {
 									%>
-									  <li><a href="${pageContext.request.contextPath}//note/<%= kn.getSubject().getUrl() %>/<%= kn.getUrl() %>"><%= kn.getKeynote() %></a></li>
+									  <li><a href="${pageContext.request.contextPath}/note/<%= kn.getSubject().getUrl() %>/<%= kn.getUrl() %>"><%= kn.getKeynote() %></a></li>
 									<%
-								}
-								else
-								{
+								} else {
 									%>
 									  <li class="bg-info current"><a href="${pageContext.request.contextPath}/note/<%= kn.getSubject().getUrl() %>/<%= kn.getUrl() %>"><%= kn.getKeynote() %></a></li>
 									<%

@@ -50,6 +50,9 @@ public class SubjectController
 				
 				Keynote keynote = keynoteService.getKeynoteWithChildByUrl(kList.get(0).getUrl());
 				pageTitle = keynote.getKeynote()+ SeoConstants.SEO_POST_TITLE;
+				if(keynote.getSeoDescription() != null) {
+					map.addAttribute("pageDescription", keynote.getSeoDescription());
+				}
 				map.addAttribute("keynote", keynote);
 				map.addAttribute("prevKn", null);
 				if(kList.size()>1)
@@ -87,6 +90,9 @@ public class SubjectController
 			Keynote kn = keynoteService.getKeynoteWithChildByUrl(keynote);
 			if(kn != null) {
 				pageTitle = kn.getKeynote()+ SeoConstants.SEO_POST_TITLE;
+				if(kn.getSeoDescription() != null) {
+					map.addAttribute("pageDescription", kn.getSeoDescription());
+				}
 				List<Keynote> kList = keynoteService.getKeynoteList(kn.getSubject().getSid());
 				map.addAttribute("kList", kList);
 				map.addAttribute("subject", subject);
