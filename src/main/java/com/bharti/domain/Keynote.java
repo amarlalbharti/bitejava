@@ -44,12 +44,12 @@ public class Keynote
 
 	private KeynoteDetail KeynoteDetail;
 	
-	private String seoDescription;
-
 	private Keynote parent_keynote;
 	
 	private Set<Keynote> childKeynote = new HashSet<Keynote>();
 
+	private SeoKeynote seoKeynote;
+	
 	@Id
 	@Column(nullable=false)
 	@GeneratedValue(strategy=GenerationType.AUTO)
@@ -172,13 +172,13 @@ public class Keynote
 		this.childKeynote = childKeynote;
 	}
 	
-	@Column
-	public String getSeoDescription() {
-		return seoDescription;
+	@OneToOne(mappedBy="keynote")
+	public SeoKeynote getSeoKeynote() {
+		return seoKeynote;
 	}
 
-	public void setSeoDescription(String seoDescription) {
-		this.seoDescription = seoDescription;
+	public void setSeoKeynote(SeoKeynote seoKeynote) {
+		this.seoKeynote = seoKeynote;
 	}
 
 	@Override

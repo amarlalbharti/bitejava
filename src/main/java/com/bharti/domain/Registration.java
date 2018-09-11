@@ -140,7 +140,7 @@ public class Registration implements Serializable
 		this.profileImage = profileImage;
 	}
 	
-	@OneToOne(fetch = FetchType.LAZY) 
+	@OneToOne(fetch = FetchType.EAGER) 
     @JoinColumn(name="userid" , referencedColumnName="userid") 
 	public LoginInfo getLoginInfo() {
 		return loginInfo;

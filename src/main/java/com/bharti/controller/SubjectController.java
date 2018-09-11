@@ -38,10 +38,6 @@ public class SubjectController
 		Subject subject =subjectService.getSubjectById(sub);
 		if(subject != null)
 		{
-			map.addAttribute("pageKeywords", SeoConstants.SEO_DEFAULT_KEYWORDS);
-			map.addAttribute("pageAuthor", SeoConstants.SEO_DEFAULT_AUTHOR);
-			map.addAttribute("pageDescription", SeoConstants.SEO_DEFAULT_KEYWORDS);
-			String pageTitle = SeoConstants.SEO_DEFAULT_TITLE;
 			List<Keynote> kList = keynoteService.getKeynoteList(subject.getSid());
 			if(kList != null && !kList.isEmpty())
 			{
@@ -49,10 +45,7 @@ public class SubjectController
 				map.addAttribute("subject", subject);
 				
 				Keynote keynote = keynoteService.getKeynoteWithChildByUrl(kList.get(0).getUrl());
-				pageTitle = keynote.getKeynote()+ SeoConstants.SEO_POST_TITLE;
-				if(keynote.getSeoDescription() != null) {
-					map.addAttribute("pageDescription", keynote.getSeoDescription());
-				}
+				
 				map.addAttribute("keynote", keynote);
 				map.addAttribute("prevKn", null);
 				if(kList.size()>1)
@@ -68,7 +61,7 @@ public class SubjectController
 				{
 					map.addAttribute("childKeynotes", keynoteService.getChildKeynoteList(keynote.getKid()));
 				}
-				map.addAttribute("pageTitle", pageTitle);
+				setMetaData(map, keynote);
 				return "subject";
 			}
 		}
@@ -78,21 +71,13 @@ public class SubjectController
 	@RequestMapping(value = "/note/{subject}/{keynote}", method = RequestMethod.GET)
 	public String getKeynote(@PathVariable("subject") String sub, @PathVariable("keynote") String keynote, ModelMap map, HttpServletRequest request, Principal principal)
 	{
-		map.addAttribute("pageKeywords", SeoConstants.SEO_DEFAULT_KEYWORDS);
-		map.addAttribute("pageAuthor", SeoConstants.SEO_DEFAULT_AUTHOR);
-		map.addAttribute("pageDescription", SeoConstants.SEO_DEFAULT_KEYWORDS);
 		
-		String pageTitle = SeoConstants.SEO_DEFAULT_TITLE;
 		System.out.println("Hello from admin dashboard " + sub);
 		Subject subject =subjectService.getSubjectById(sub);
 		if(subject != null)
 		{
 			Keynote kn = keynoteService.getKeynoteWithChildByUrl(keynote);
 			if(kn != null) {
-				pageTitle = kn.getKeynote()+ SeoConstants.SEO_POST_TITLE;
-				if(kn.getSeoDescription() != null) {
-					map.addAttribute("pageDescription", kn.getSeoDescription());
-				}
 				List<Keynote> kList = keynoteService.getKeynoteList(kn.getSubject().getSid());
 				map.addAttribute("kList", kList);
 				map.addAttribute("subject", subject);
@@ -144,11 +129,27 @@ public class SubjectController
 						map.addAttribute("nextKn", kList.get(index+1));
 					}
 				}
-				map.addAttribute("pageTitle", pageTitle);
+				setMetaData(map, kn);
 				return "subject";
 			}
 		}
 		return "redirect:/error";
+	}
+	
+	private void setMetaData(ModelMap map, Keynote kn) {
+		if(kn != null &&  kn.getSeoKeynote()!= null) {
+			map.addAttribute("pageTitle", kn.getSeoKeynote().getTitle()+ SeoConstants.SEO_POST_TITLE);
+			map.addAttribute("pageDescription", kn.getSeoKeynote().getDescription());
+			map.addAttribute("pageKeywords", kn.getSeoKeynote().getKeywrds());
+			map.addAttribute("pageImageUrl", kn.getSeoKeynote().getImageUrl());
+		}else if (kn != null) {
+			map.addAttribute("pageTitle", kn.getKeynote()+ SeoConstants.SEO_POST_TITLE);
+			map.addAttribute("pageKeywords", SeoConstants.SEO_DEFAULT_KEYWORDS);
+		}else {
+			map.addAttribute("pageTitle", SeoConstants.SEO_DEFAULT_TITLE);
+		}
+		map.addAttribute("pageAuthor", SeoConstants.SEO_DEFAULT_AUTHOR);
+		
 	}
 	
 }

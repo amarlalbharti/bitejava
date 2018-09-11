@@ -162,7 +162,6 @@ public class AdminKeynoteController
 				}
 			}
 			kn.setSubject(model.getSubject());
-			kn.setSeoDescription(model.getSeoDescription());
 			kn.setShowOnHomePage(model.isShowOnHomePage());
 			String url = model.getKeynote().replaceAll("[^a-zA-Z0-9]+","_");
 			kn.setUrl(url.toLowerCase());
@@ -214,7 +213,6 @@ public class AdminKeynoteController
 					model.setSubject(kn.getSubject());
 					model.setParent(kn.getParent_keynote());
 					model.setKeynote(kn.getKeynote());
-					model.setSeoDescription(kn.getSeoDescription());
 					model.setShowOnHomePage(kn.isShowOnHomePage());
 					model.setDisplayOrder(String.valueOf(kn.getDisplayOrder()));
 					if(kn.getKeynoteDetail() != null)
@@ -260,7 +258,6 @@ public class AdminKeynoteController
 				String  btnType = request.getParameter("submit");
 				System.out.println("Submited Buttom value : "+ btnType);
 				
-				kn.setSeoDescription(model.getSeoDescription());
 				kn.setKeynote(model.getKeynote());
 				kn.setDisplayOrder(Integer.parseInt(model.getDisplayOrder()));
 				kn.setShowOnHomePage(model.isShowOnHomePage());
