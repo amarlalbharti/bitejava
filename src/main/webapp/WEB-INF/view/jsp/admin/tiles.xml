@@ -95,4 +95,16 @@
     
     
     
+    
+    <definition name="seoKeynote" extends="adminTemplate">
+        <put-attribute name="title" value="SEO Keynotes - Bite Java tutorials" />
+        <put-attribute name="body" value="/WEB-INF/view/jsp/admin/keynote/seoKeynote.jsp" />
+    </definition>
+    <definition name="addSeoKeynote" extends="adminTemplate">
+        <put-attribute name="title" value="Add SEO Keynotes - Bite Java tutorials" />
+        <put-attribute name="body" value="/WEB-INF/view/jsp/admin/keynote/addSeoKeynote.jsp" />
+    </definition>
+    
+    
+    
 </tiles-definitions>

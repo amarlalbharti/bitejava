@@ -11,6 +11,24 @@
 	<meta name="author" content="${pageAuthor}">
 	<meta class="viewport" name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	
+	 <!-- Twitter Card data -->
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:site" content="${pageAuthor}">
+	<meta name="twitter:title" content="${pageTitle}">
+	<meta name="twitter:description" content="${pageDescription}">
+<!-- 	<meta name="twitter:creator" content="@author_handle"> -->
+	<meta name="twitter:image" content="${pageImageUrl}">
+	
+	<!-- Open Graph data -->
+	<meta property="og:title" content="${pageTitle}" />
+	<meta property="og:type" content="article" />
+	<meta property="og:url" content="${pageContext.request.requestURL}" />
+	<meta property="og:image" content="${pageImageUrl}" />
+	<meta property="og:description" content="${pageDescription}" />
+	<meta property="og:site_name" content="${pageAuthor}" />
+<!-- 	<meta property="fb:admins" content="Facebook numeric ID" />  -->
+
 </head>
 <body id="boxed-bg" class="boxed fixed-header">
 <tiles:insertAttribute name="header" />

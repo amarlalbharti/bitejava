@@ -71,11 +71,6 @@
 								<span class="text-danger"><form:errors path="displayOrder"></form:errors></span>
 							  </div>
 							  <div class="form-group">
-								<label class="control-label">SEO Description</label>
-								<form:textarea  path = "seoDescription" id="kn_seoDescription" class="form-control" />
-								<span class="text-danger"><form:errors path="seoDescription"></form:errors></span>
-							  </div>
-							  <div class="form-group">
 								<label class="control-label">Key Note Detail</label>
 								<form:textarea  path = "knDetail" id="kn_detail" class="form-control" />
 								<span class="text-danger"><form:errors path="knDetail"></form:errors></span>

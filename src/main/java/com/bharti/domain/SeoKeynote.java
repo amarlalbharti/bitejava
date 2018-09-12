@@ -13,7 +13,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="seo_keynote")
-public class SeoKeynote {
+public class SeoKeynote extends CommonDomain{
 	
 	@Id
 	@Column(nullable=false)
@@ -27,7 +27,7 @@ public class SeoKeynote {
 	private String description;
 	
 	@Column(nullable=false)
-	private String keywrds;
+	private String keywords;
 	
 	@Column
 	private String imageUrl;
@@ -60,12 +60,12 @@ public class SeoKeynote {
 		this.description = description;
 	}
 
-	public String getKeywrds() {
-		return keywrds;
+	public String getKeywords() {
+		return keywords;
 	}
 
-	public void setKeywrds(String keywrds) {
-		this.keywrds = keywrds;
+	public void setKeywords(String keywords) {
+		this.keywords = keywords;
 	}
 
 	public String getImageUrl() {

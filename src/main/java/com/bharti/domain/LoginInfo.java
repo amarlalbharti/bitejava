@@ -30,6 +30,8 @@ public class LoginInfo implements Serializable
 	
 	private String userid;
 	
+	private String username;
+	
 	private String password;
 	
 	private Date modifyDate;
@@ -60,6 +62,13 @@ public class LoginInfo implements Serializable
 		this.userid = userid;
 	}
 	
+	@Column(name = "username", unique=true)
+	public String getUsername() {
+		return username;
+	}
+	public void setUsername(String username) {
+		this.username = username;
+	}
 	@Column(name = "password", nullable=false)
 	public String getPassword() {
 		return password;

@@ -34,4 +34,7 @@ public interface KeynoteDao
 	
 	public List<Keynote> getRecentPublishedKeynotes(int first, int max);
 	
+	public List<Keynote> getRecentKeynotesForSeo(int first, int max);
+	
+	
 }

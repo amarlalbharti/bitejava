@@ -3,6 +3,8 @@ package com.bharti.constraints;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.commons.lang.StringUtils;
+
 public class Validation {
 	private static Pattern emailNamePtrn = Pattern.compile("^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
 		     
@@ -25,4 +27,17 @@ public class Validation {
         }
         return false;
     }
+    
+    public static boolean isNotNullNotEmpty(String value){
+		if(value != null){
+			return !StringUtils.isEmpty(value.trim());
+		}
+		return false;
+	}
+    public static boolean isNumeric(String value){
+		if(isNotNullNotEmpty(value)){
+			return StringUtils.isNumeric(value.trim());
+		}
+		return false;
+	}
 }

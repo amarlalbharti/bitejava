@@ -21,6 +21,7 @@ import com.bharti.domain.Keynote;
 import com.bharti.domain.Subject;
 import com.bharti.service.KeynoteService;
 import com.bharti.service.SubjectService;
+import com.bharti.utils.SeoUtils;
 
 @Controller
 public class SubjectController 
@@ -32,42 +33,40 @@ public class SubjectController
 	
 	
 	@RequestMapping(value = "/note/{subject}", method = RequestMethod.GET)
-	public String index(@PathVariable("subject") String sub, ModelMap map, HttpServletRequest request, Principal principal)
-	{
+	public String index(@PathVariable("subject") String sub, ModelMap map, HttpServletRequest request, Principal principal) {
 		System.out.println("Hello from admin dashboard " + sub);
-		Subject subject =subjectService.getSubjectById(sub);
-		if(subject != null)
-		{
-			List<Keynote> kList = keynoteService.getKeynoteList(subject.getSid());
-			if(kList != null && !kList.isEmpty())
-			{
+		Subject subject = subjectService.getSubjectById(sub);
+		if (subject != null) {
+			List<Keynote> kList = keynoteService
+					.getKeynoteList(subject.getSid());
+			if (kList != null && !kList.isEmpty()) {
 				map.addAttribute("kList", kList);
 				map.addAttribute("subject", subject);
-				
-				Keynote keynote = keynoteService.getKeynoteWithChildByUrl(kList.get(0).getUrl());
-				
+
+				Keynote keynote = keynoteService
+						.getKeynoteWithChildByUrl(kList.get(0).getUrl());
+
 				map.addAttribute("keynote", keynote);
 				map.addAttribute("prevKn", null);
-				if(kList.size()>1)
-				{
+				if (kList.size() > 1) {
 					map.addAttribute("nextKn", kList.get(1));
 				}
-				
-				if(keynote.getParent_keynote() != null)
-				{
-					map.addAttribute("childKeynotes", keynoteService.getChildKeynoteList(keynote.getParent_keynote().getKid()));
+
+				if (keynote.getParent_keynote() != null) {
+					map.addAttribute("childKeynotes",
+							keynoteService.getChildKeynoteList(
+									keynote.getParent_keynote().getKid()));
+				} else {
+					map.addAttribute("childKeynotes", keynoteService
+							.getChildKeynoteList(keynote.getKid()));
 				}
-				else
-				{
-					map.addAttribute("childKeynotes", keynoteService.getChildKeynoteList(keynote.getKid()));
-				}
-				setMetaData(map, keynote);
+				SeoUtils.setMetaData(map, keynote);
 				return "subject";
 			}
 		}
 		return "redirect:/error";
 	}
-	
+
 	@RequestMapping(value = "/note/{subject}/{keynote}", method = RequestMethod.GET)
 	public String getKeynote(@PathVariable("subject") String sub, @PathVariable("keynote") String keynote, ModelMap map, HttpServletRequest request, Principal principal)
 	{
@@ -129,27 +128,12 @@ public class SubjectController
 						map.addAttribute("nextKn", kList.get(index+1));
 					}
 				}
-				setMetaData(map, kn);
+				SeoUtils.setMetaData(map, kn);
 				return "subject";
 			}
 		}
 		return "redirect:/error";
 	}
 	
-	private void setMetaData(ModelMap map, Keynote kn) {
-		if(kn != null &&  kn.getSeoKeynote()!= null) {
-			map.addAttribute("pageTitle", kn.getSeoKeynote().getTitle()+ SeoConstants.SEO_POST_TITLE);
-			map.addAttribute("pageDescription", kn.getSeoKeynote().getDescription());
-			map.addAttribute("pageKeywords", kn.getSeoKeynote().getKeywrds());
-			map.addAttribute("pageImageUrl", kn.getSeoKeynote().getImageUrl());
-		}else if (kn != null) {
-			map.addAttribute("pageTitle", kn.getKeynote()+ SeoConstants.SEO_POST_TITLE);
-			map.addAttribute("pageKeywords", SeoConstants.SEO_DEFAULT_KEYWORDS);
-		}else {
-			map.addAttribute("pageTitle", SeoConstants.SEO_DEFAULT_TITLE);
-		}
-		map.addAttribute("pageAuthor", SeoConstants.SEO_DEFAULT_AUTHOR);
-		
-	}
 	
 }

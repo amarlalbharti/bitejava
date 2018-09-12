@@ -177,4 +177,12 @@ public class KeynoteDaoImpl implements KeynoteDao
 				.list();
 	}
 	
+	
+	@SuppressWarnings("unchecked")
+	public List<Keynote> getRecentKeynotesForSeo(int first, int max){
+		return this.sessionFactory.getCurrentSession()
+				.createSQLQuery("SELECT k.* FROM `keynotes` k LEFT JOIN `seo_keynote` sk ON k.kid = sk.kid WHERE  sk.kid IS NULL")
+				.addEntity(Keynote.class).list();
+	}
+	
 }

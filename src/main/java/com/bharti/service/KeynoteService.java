@@ -33,4 +33,6 @@ public interface KeynoteService
 	public List<Keynote> getRecentKeynotes(int first, int max);
 	
 	public List<Keynote> getRecentPublishedKeynotes(int first, int max);
+	
+	public List<Keynote> getRecentKeynotesForSeo(int first, int max);
 }

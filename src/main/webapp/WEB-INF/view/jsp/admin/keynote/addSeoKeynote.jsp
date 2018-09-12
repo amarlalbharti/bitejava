@@ -36,54 +36,30 @@
 							</c:forEach>
 					  </div>
 					  <div class="panel-body">
-						<form:form action="adminAddKeynote"  role="form" commandName="form_keynote" method="POST" onsubmit="return validateForm()">
-							  <div class="form-group col-sm-6 col-md-6 no-padding">
-								<label class="control-label">Select Subject</label>
-								<form:select path = "subject.sid" id="sid" class="form-control" >
-									<form:option value="0">Select Subject</form:option>
-									<c:forEach var="itam" items="${sList}">
-										<form:option value='${itam.sid }' selected="${itam.url == sub ? 'selected' : ''}">${itam.subject}</form:option>
-									</c:forEach>
-								</form:select>
-								<span class="text-danger"><form:errors path="subject"></form:errors></span>
-							  </div>
-							  <div class="form-group col-sm-6 col-md-6 ">
-								<label class="control-label">Select Parent Keynote</label>
-								<form:select path = "parent.kid" id="parent_kid" class="form-control" >
-									<form:option value="0">Select Parent Keynote</form:option>
-									<c:forEach var="itam" items="${kList}">
-										<form:option value='${itam.kid }'>${itam.keynote}</form:option>
-									</c:forEach>
-								</form:select>
-								<span class="text-danger"><form:errors path="parent"></form:errors></span>
+						<form:form action="adminAddSeoKeynote"  role="form" commandName="seoModel" method="POST" onsubmit="return validateForm()">
+							  <div class="form-group">
+								<label class="control-label">SEO Title</label>
+								<form:hidden path="keynote.kid"/>
+								<form:input path="title" id="seo_title" class="form-control" />
+								<span class="text-danger"><form:errors path="title"></form:errors></span>
 							  </div>
 							  <div class="form-group">
-								<label class="control-label">KeyNote</label>
-								<form:hidden path="kid" />
-								<form:input path="keynote" class="form-control" />
-								<span class="text-danger"><form:errors path="keynote"></form:errors></span>
-							  </div>
-							  <div class="form-group  col-sm-6 col-md-6 no-padding">
-								<label for="displayOrder" class="control-label">Show On Home Page</label>
-								<form:select path = "showOnHomePage" type="number" class="form-control number_only" >
-									<form:option value="0">No</form:option>
-									<form:option value="1">Yes</form:option>
-								</form:select>
-								<span class="text-danger"><form:errors path="displayOrder"></form:errors></span>
-							  </div>
-							  <div class="form-group col-sm-6 col-md-6 no-padding" style="padding-left: 15px!important;">
-								<label class="control-label">Display Order</label>
-								<form:input type="number" path = "displayOrder" class="form-control number_only" />
-								<span class="text-danger"><form:errors path="displayOrder"></form:errors></span>
+								<label class="control-label">SEO Description</label>
+								<form:textarea  path = "description" id="seo_description" class="form-control" />
+								<span class="text-danger"><form:errors path="description"></form:errors></span>
 							  </div>
 							  <div class="form-group">
-								<label class="control-label">Key Note Detail</label>
-								<form:textarea  path = "knDetail" id="kn_detail" class="form-control" />
-								<span class="text-danger"><form:errors path="knDetail"></form:errors></span>
+								<label class="control-label">SEO Keywords</label>
+								<form:textarea  path = "keywords" id="seo_keywords" class="form-control" />
+								<span class="text-danger"><form:errors path="keywords"></form:errors></span>
+							  </div>
+							  <div class="form-group">
+								<label class="control-label">SEO Image URL</label>
+								<form:input path="imageUrl" id="seo_imageUrl" class="form-control" />
+								<span class="text-danger"><form:errors path="imageUrl"></form:errors></span>
 							  </div>
 							  <div class="form-group">
 							  	<input class="btn btn-default btn-flat" type="submit"  name="submit" value="Save">
-							  	<input class="btn btn-default btn-flat" type="submit"  name="submit" value="Save And Publish">
 							  </div>
 							  
 						</form:form>
@@ -135,7 +111,7 @@ function validateForm()
 	}
 	if(!valid)
 	{
-// 		return false;
+		return false;
 	}
 	
 }

@@ -28,7 +28,7 @@ public class IndexInterceptor implements HandlerInterceptor
 			if(reg == null) {
 				Principal principal = request.getUserPrincipal();
 				if(principal != null) {
-					System.out.println("user  : " + principal.getName());
+//					System.out.println("user  : " + principal.getName());
 					reg = registrationService.getRegistrationByUserid(principal.getName());
 					if(reg != null) {
 						request.getSession(true).setAttribute("registration", reg);
@@ -48,10 +48,10 @@ public class IndexInterceptor implements HandlerInterceptor
 
 	@Override
 	public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
-		System.out.println("pageTitle : " + request.getAttribute("pageTitle"));
-		System.out.println("pageDescription : " + request.getAttribute("pageDescription"));
-		System.out.println("pageKeywords : " + request.getAttribute("pageKeywords"));
-		System.out.println("pageAuthor : " + request.getAttribute("pageAuthor"));
+//		System.out.println("pageTitle : " + request.getAttribute("pageTitle"));
+//		System.out.println("pageDescription : " + request.getAttribute("pageDescription"));
+//		System.out.println("pageKeywords : " + request.getAttribute("pageKeywords"));
+//		System.out.println("pageAuthor : " + request.getAttribute("pageAuthor"));
 		
 	}
 
