@@ -30,7 +30,7 @@
 			<p>Sign up for newsletter</p>
 			<div class="clearfix"></div>
 			<form  class="" method="post" action="${pageContext.request.contextPath}/subscribe">
-			  <input class="form-control" type="email" name="email">
+			  <input class="form-control" type="email" name="email" required="required">
 			  <button class="submit" type="submit">
 				<span class="glyphicon glyphicon-arrow-right"></span>
 			  </button>

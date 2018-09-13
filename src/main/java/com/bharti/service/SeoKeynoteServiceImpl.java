@@ -22,4 +22,7 @@ public class SeoKeynoteServiceImpl implements SeoKeynoteService{
 		return this.seoKeynoteDao.updateSeoKeynote(seoKeynote);
 	}
 	
+	public SeoKeynote getSeoKeynote(long seoId) {
+		return this.seoKeynoteDao.getSeoKeynote(seoId);
+	}
 }

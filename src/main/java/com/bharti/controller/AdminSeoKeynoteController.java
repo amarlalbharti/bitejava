@@ -34,7 +34,7 @@ public class AdminSeoKeynoteController {
 	@RequestMapping(value = "/adminSeoKeynotes", method = RequestMethod.GET)
 	public String adminSeoKeynotes(ModelMap map, HttpServletRequest request, Principal principal)
 	{
-		List<Keynote> list = this.keynoteService.getRecentKeynotesForSeo(0, 10);
+		List<Keynote> list = this.keynoteService.getRecentKeynotesForSeo(0, 25);
 		map.addAttribute("knList", list);
 		return "seoKeynote";
 	}
@@ -63,17 +63,35 @@ public class AdminSeoKeynoteController {
 		if (result.hasErrors()) {
 			return "addSeoKeynote";
 		} else {
-			SeoKeynote seoKeynote = new SeoKeynote();
+			SeoKeynote seoKeynote = null;
+			if(model.getSeoId() > 0 ) {
+				seoKeynote = seoKeynoteService.getSeoKeynote(model.getSeoId());
+			}else {
+				seoKeynote = new SeoKeynote();
+			}
 			seoKeynote.setTitle(model.getTitle());
 			seoKeynote.setDescription(model.getDescription());
 			seoKeynote.setKeywords(model.getKeywords());
 			seoKeynote.setImageUrl(model.getImageUrl());
 			seoKeynote.setKeynote(model.getKeynote());
-			seoKeynote.setCreateDate(new Date());
-			seoKeynote.setModifyDate(new Date());
-			seoKeynote.setCreateBy(principal.getName());
-			this.seoKeynoteService.addSeoKeynote(seoKeynote);
+			if(model.getSeoId() > 0) {
+				seoKeynote.setModifyDate(new Date());
+				seoKeynote.setModifyBy(principal.getName());
+				this.seoKeynoteService.updateSeoKeynote(seoKeynote);
+			} else {
+				seoKeynote.setCreateDate(new Date());
+				seoKeynote.setCreateBy(principal.getName());
+				this.seoKeynoteService.addSeoKeynote(seoKeynote);
+			}
+			
 		}
-		return "redirect:adminSeoKeynotes";
+		String submit = request.getParameter("submit");
+		if(model.getKeynote() != null && submit != null && submit.equals("Submit")) {
+			return "redirect:adminEditKeynote?kid="+model.getKeynote().getKid();
+		}else {
+			return "redirect:adminSeoKeynotes";
+		}
+		
+		
 	}
 }

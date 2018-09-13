@@ -1,4 +1,6 @@
 <!doctype html>
+<%@page import="com.bharti.constraints.DateFormats"%>
+<%@page import="com.bharti.domain.Comments"%>
 <%@page import="java.util.Iterator"%>
 <%@page import="com.bharti.domain.Subject"%>
 <%@page import="com.bharti.domain.Keynote"%>
@@ -43,12 +45,6 @@ if(subject != null && keynote != null)
 				String url = "/bj_uploads/subjects/"+subject.getSid() + "/subject_image/"+subject.getSubject_image();
 				%>
 					<a href="${pageContext.request.contextPath}/note/<%= subject.getUrl() %>"><img alt="<%=  subject.getSubject() %>" src="<%= url%>"></a>
-				<%
-			}
-			else
-			{
-				%>
-					<img alt="<%=  subject.getSubject() %>" src="${pageContext.request.contextPath}/theme/images/banner-corejava.jpg">
 				<%
 			}
 		%>
@@ -224,17 +220,58 @@ if(subject != null && keynote != null)
 		  	%>
 		  	<hr class="hr-bottom"/>
 		  </div>
-		  <!-- <footer class="entry-meta">
-			<span class="autor-name">Mike Example</span>,
-			<span class="time">03.11.2012</span>
-			<span class="separator">|</span>
-			<span class="meta">Posted in <a href="#">Sports</a>, <a href="#">Movies</a></span>
-			<span class="comments-link pull-right">
-			  <a href="#"><i class="fa fa-comment"></i> 3 comment(s)</a>
-			</span>
-		  </footer> -->
 		</article><!-- .post -->
-	
+		<h3 class="title slim">Comments</h3>
+		<ul class="commentlist">
+			<%
+				if(keynote.getComments() != null && !keynote.getComments().isEmpty()){
+					for(Comments comment : keynote.getComments()){
+						%>
+						<li>
+							<div class="meta">
+							  <span><%= comment.getName() %></span>, 
+							  <span class="time"><%= DateFormats.ddMMMyyyyathhmm.format(comment.getCreateDate()) %></span>
+							</div>
+							<p class="description">
+							  <%= comment.getComment() %>
+							</p>
+						 </li>
+						<%
+					}
+				}
+			%>
+		</ul>
+		<h3 class="title slim">Leave a Reaply</h3>
+		
+		<form class="comments-form">
+		  <label>Name: <span class="required">*</span></label>
+		  <div class="row">
+			<div class="col-sm-6 col-md-6">
+			  <input class="form-control" type="text">
+			</div>
+		  </div>
+		  
+		  <label>Email Adress: <span class="required">*</span></label>
+		  <div class="row">
+			<div class="col-sm-6 col-md-6">
+			  <input class="form-control" type="email">
+			</div>
+		  </div>
+
+		  <label>Comment: </label>
+		  <div class="row">
+			<div class="comment-box col-sm-10 col-md-10">
+			  <textarea class="form-control"></textarea>
+			  <i>Note: HTML is not translated!</i>
+			</div>
+		  </div>
+
+		  <div class="clearfix"></div>
+		  <div class="button-set">
+			<span class="required pull-right"><b>*</b> Required Field</span>
+			<button class="btn btn-default">Submit</button>
+		  </div>
+		</form>
       </div><!-- .content -->
     </div>
 	  <div class="clearfix"></div>

@@ -23,4 +23,8 @@ public class SeoKeynoteDaoImpl implements SeoKeynoteDao{
 		return true;
 	}
 	
+	public SeoKeynote getSeoKeynote(long seoId) {
+		return (SeoKeynote)this.sessionFactory.getCurrentSession().get(SeoKeynote.class, seoId);
+	}
+	
 }

@@ -8,5 +8,5 @@ public interface SeoKeynoteDao {
 	
 	public boolean updateSeoKeynote(SeoKeynote seoKeynote);
 	
-	
+	public SeoKeynote getSeoKeynote(long seoId);
 }

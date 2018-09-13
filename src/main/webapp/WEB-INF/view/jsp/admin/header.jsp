@@ -94,7 +94,6 @@ input[type="file"] {
 </div>
 <%
 Registration reg = (Registration) request.getSession().getAttribute("registration");
-System.out.println("Registration :" + reg);
 if(reg != null)
 {
 	%>
@@ -161,6 +160,9 @@ if(reg != null)
 						  <a href="adminKeynotes">KeyNotes</a>
 						</li>
 						<li>
+						  <a href="adminSeoKeynotes">SEO KeyNotes</a>
+						</li>
+						<li>
 						  <a href="adminUploads">Uploaded Files</a>
 						</li>
 						<li class="parent item-primary item-bg">
@@ -169,9 +171,6 @@ if(reg != null)
 							<li><a href="adminAskQuestion">Ask Question</a></li>
 						  </ul>
 						</li>
-						
-						
-						
 						<li class="parent item-primary item-bg">
 						  <a href="#">Bootstrap</a>
 						  <ul class="sub">

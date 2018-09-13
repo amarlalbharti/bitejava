@@ -50,6 +50,8 @@ public class Keynote
 
 	private SeoKeynote seoKeynote;
 	
+	private Set<Comments> comments = new HashSet<Comments>();
+	
 	@Id
 	@Column(nullable=false)
 	@GeneratedValue(strategy=GenerationType.AUTO)
@@ -179,6 +181,15 @@ public class Keynote
 
 	public void setSeoKeynote(SeoKeynote seoKeynote) {
 		this.seoKeynote = seoKeynote;
+	}
+
+	@OneToMany(mappedBy="keynote", cascade=CascadeType.ALL, fetch=FetchType.LAZY)  
+	public Set<Comments> getComments() {
+		return comments;
+	}
+
+	public void setComments(Set<Comments> comments) {
+		this.comments = comments;
 	}
 
 	@Override

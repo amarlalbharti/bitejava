@@ -8,4 +8,5 @@ public interface SeoKeynoteService {
 	
 	public boolean updateSeoKeynote(SeoKeynote seoKeynote);
 	
+	public SeoKeynote getSeoKeynote(long seoId);
 }

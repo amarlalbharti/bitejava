@@ -66,7 +66,6 @@
 <div class="page-box-content">
 <%
 Registration reg = (Registration) request.getSession().getAttribute("registration");
-System.out.println("Registration :" + reg);
 %>
 <header class="header header-two">
   <div class="header-wrapper">

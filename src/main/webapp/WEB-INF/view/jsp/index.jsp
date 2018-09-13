@@ -111,8 +111,51 @@
 	  
 	  <div class="clearfix"></div>
 	</div>
-	  
 	
+	<div class="container">
+		<div class="row">
+			
+			<%
+				List<Subject> sList = (List)request.getAttribute("sList");
+				Map<Long, List<Keynote>> mapList = (Map)request.getAttribute("mapList");
+				  if(mapList != null && !mapList.isEmpty()){
+					  %>
+					  	<div class="col-sm-12 col-md-12">
+						  <div class="title-box">
+							<h1 class="title">Articles</h1>
+						  </div>
+						</div>
+					  <%
+					  for (Subject sub : sList) 
+						{
+							List<Keynote> kList = mapList.get(sub.getSid());
+							System.out.println(sub.getSubject() + " : " + kList.size());
+							%>
+								<div class="col-sm-6 col-md-4 col-lg-3">
+									<div class="pricing">
+									  <div class="title"><a href="${pageContext.request.contextPath}/note/<%= sub.getUrl()%>"><%= sub.getSubject() %></a></div>
+									  <ul class="options">
+										<%
+										
+										for(Keynote kn : kList)
+										{
+											%>
+												<a href="${pageContext.request.contextPath}/note/<%= sub.getUrl()%>/<%= kn.getUrl()%>"><li class="active"><span><i class="fa fa-check"></i></span><%= kn.getKeynote() %></li></a>
+											<%	
+										}
+										%>
+									  </ul>
+									</div>
+							 	</div>
+							<%
+							
+						}
+				  }
+				
+			%>
+			
+		</div>
+	</div>
 	<div class="container">
 	  <div class="row services">
 		<div class="col-sm-12 col-md-12">
@@ -159,53 +202,6 @@
 	  </div>
 	  <br><br>
 	</div>
-	
-	
-	<div class="container">
-		<div class="row">
-			
-			<%
-				List<Subject> sList = (List)request.getAttribute("sList");
-				Map<Long, List<Keynote>> mapList = (Map)request.getAttribute("mapList");
-				  if(mapList != null && !mapList.isEmpty()){
-					  %>
-					  	<div class="col-sm-12 col-md-12">
-						  <div class="title-box">
-							<h1 class="title">Articles</h1>
-						  </div>
-						</div>
-					  <%
-					  for (Subject sub : sList) 
-						{
-							List<Keynote> kList = mapList.get(sub.getSid());
-							System.out.println(sub.getSubject() + " : " + kList.size());
-							%>
-								<div class="col-sm-6 col-md-4 col-lg-3">
-									<div class="pricing">
-									  <div class="title"><a href="${pageContext.request.contextPath}/note/<%= sub.getUrl()%>"><%= sub.getSubject() %></a></div>
-									  <ul class="options">
-										<%
-										
-										for(Keynote kn : kList)
-										{
-											%>
-												<a href="${pageContext.request.contextPath}/note/<%= sub.getUrl()%>/<%= kn.getUrl()%>"><li class="active"><span><i class="fa fa-check"></i></span><%= kn.getKeynote() %></li></a>
-											<%	
-										}
-										%>
-									  </ul>
-									</div>
-							 	</div>
-							<%
-							
-						}
-				  }
-				
-			%>
-			
-		</div>
-	</div>
-	
 	
   </article>
 </section><!-- #main -->

@@ -14587,9 +14587,9 @@ a.big-icon:hover {
   }
 
   /* line 739, ../sass/_responsive.scss */
-  #footer .newsletter form {
-    width: 270px;
-  }
+/*   #footer .newsletter form { */
+/*     width: 270px; */
+/*   } */
 
   /* line 742, ../sass/_responsive.scss */
   .post.carousel .images-box + [class*="span"] {

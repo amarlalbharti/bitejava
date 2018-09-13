@@ -6,6 +6,8 @@ import com.bharti.domain.Keynote;
 
 public class SeoModel {
 
+	private long seoId;
+	
 	@NotEmpty(message="SEO Title is required")
 	private String title;
 	
@@ -18,6 +20,14 @@ public class SeoModel {
 	private String imageUrl;
 	
 	private Keynote keynote;
+
+	public long getSeoId() {
+		return seoId;
+	}
+
+	public void setSeoId(long seoId) {
+		this.seoId = seoId;
+	}
 
 	public String getTitle() {
 		return title;

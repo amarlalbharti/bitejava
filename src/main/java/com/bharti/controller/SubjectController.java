@@ -43,8 +43,7 @@ public class SubjectController
 				map.addAttribute("kList", kList);
 				map.addAttribute("subject", subject);
 
-				Keynote keynote = keynoteService
-						.getKeynoteWithChildByUrl(kList.get(0).getUrl());
+				Keynote keynote = keynoteService.getKeynoteWithChildByUrl(kList.get(0).getUrl());
 
 				map.addAttribute("keynote", keynote);
 				map.addAttribute("prevKn", null);
@@ -53,12 +52,9 @@ public class SubjectController
 				}
 
 				if (keynote.getParent_keynote() != null) {
-					map.addAttribute("childKeynotes",
-							keynoteService.getChildKeynoteList(
-									keynote.getParent_keynote().getKid()));
+					map.addAttribute("childKeynotes", keynoteService.getChildKeynoteList(keynote.getParent_keynote().getKid()));
 				} else {
-					map.addAttribute("childKeynotes", keynoteService
-							.getChildKeynoteList(keynote.getKid()));
+					map.addAttribute("childKeynotes", keynoteService.getChildKeynoteList(keynote.getKid()));
 				}
 				SeoUtils.setMetaData(map, keynote);
 				return "subject";

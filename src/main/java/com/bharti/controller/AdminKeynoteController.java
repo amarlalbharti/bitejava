@@ -22,8 +22,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.bharti.domain.Keynote;
 import com.bharti.domain.KeynoteDetail;
+import com.bharti.domain.SeoKeynote;
 import com.bharti.domain.Subject;
 import com.bharti.model.KeynoteModel;
+import com.bharti.model.SeoModel;
 import com.bharti.service.KeynoteDetailService;
 import com.bharti.service.KeynoteService;
 import com.bharti.service.SubjectService;
@@ -224,6 +226,18 @@ public class AdminKeynoteController
 					map.addAttribute("sub", kn.getSubject().getUrl());
 					
 					map.addAttribute("form_keynote", model);
+					
+					SeoModel seoModel = new SeoModel();
+					if(kn.getSeoKeynote() != null) {
+						seoModel.setTitle(kn.getSeoKeynote().getTitle());
+						seoModel.setDescription(kn.getSeoKeynote().getDescription());
+						seoModel.setKeywords(kn.getSeoKeynote().getKeywords());
+						seoModel.setImageUrl(kn.getSeoKeynote().getImageUrl());
+						seoModel.setSeoId(kn.getSeoKeynote().getSeoId());
+					}
+					seoModel.setKeynote(kn);
+					map.addAttribute("seo_keynote", seoModel);
+					
 					return "editKeynote";
 				}
 			}
@@ -247,6 +261,18 @@ public class AdminKeynoteController
 				List<Subject> sList = subjectService.getSubjectsList(0, 1000);
 				map.addAttribute("sList", sList);
 			}
+			Keynote kn = this.keynoteService.getKeynoteById(model.getKid());
+			SeoModel seoModel = new SeoModel();
+			if(kn.getSeoKeynote() != null) {
+				seoModel.setTitle(kn.getSeoKeynote().getTitle());
+				seoModel.setDescription(kn.getSeoKeynote().getDescription());
+				seoModel.setKeywords(kn.getSeoKeynote().getKeywords());
+				seoModel.setImageUrl(kn.getSeoKeynote().getImageUrl());
+				seoModel.setSeoId(kn.getSeoKeynote().getSeoId());
+				seoModel.setKeynote(kn);
+			}
+			map.addAttribute("seo_keynote", seoModel);
+			
 			return "editKeynote";
 		}
 		else if(model.getKid() > 0) {

@@ -121,6 +121,7 @@ public class KeynoteDaoImpl implements KeynoteDao
 	{
 		List<Keynote> list = this.sessionFactory.getCurrentSession().createCriteria(Keynote.class)
 				.add(Restrictions.eq("url", url))
+				.setFetchMode("comments", FetchMode.JOIN)
 //				.setFetchMode("childKeynote", FetchMode.JOIN)
 				.list();
 		if(!list.isEmpty())
