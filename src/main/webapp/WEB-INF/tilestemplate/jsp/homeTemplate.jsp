@@ -23,7 +23,7 @@
 	<!-- Open Graph data -->
 	<meta property="og:title" content="${pageTitle}" />
 	<meta property="og:type" content="article" />
-	<meta property="og:url" content="${pageContext.request.requestURL}" />
+	<meta property="og:url" content="${pageUrl }" />
 	<meta property="og:image" content="${pageImageUrl}" />
 	<meta property="og:description" content="${pageDescription}" />
 	<meta property="og:site_name" content="${pageAuthor}" />
