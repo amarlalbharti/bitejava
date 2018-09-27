@@ -3,31 +3,40 @@ package com.bharti.controller;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.bharti.constraints.KeynoteCompare;
 import com.bharti.constraints.SeoConstants;
+import com.bharti.domain.Comments;
 import com.bharti.domain.Keynote;
 import com.bharti.domain.Subject;
+import com.bharti.service.CommentService;
 import com.bharti.service.KeynoteService;
 import com.bharti.service.SubjectService;
+import com.bharti.utils.CommentParser;
 import com.bharti.utils.SeoUtils;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Controller
 public class SubjectController 
 {
 	@Autowired private SubjectService subjectService; 
 	@Autowired private KeynoteService keynoteService; 
+	@Autowired private CommentService commentService; 
 	
 	private Logger logger = Logger.getLogger(AdminSubjectController.class);
 	
@@ -131,5 +140,47 @@ public class SubjectController
 		return "redirect:/error";
 	}
 	
+	@SuppressWarnings("unchecked")
+	@RequestMapping(value = "/article/comments/{kid}", method = RequestMethod.GET)
+	public @ResponseBody String getArticleCommentsKeynote(@PathVariable("kid") Long kid, ModelMap map, HttpServletRequest request, Principal principal){
+		JSONObject resp = new JSONObject();
+		try {
+			List<Comments> commentList = commentService.getCommentByKeynote(kid);
+			if(commentList != null && !commentList.isEmpty()) {
+				resp.put("data", CommentParser.parseComment(commentList));
+				resp.put("statusCode", 200);
+				resp.put("status", "success");
+			}
+		}catch (Exception e) {
+			resp.put("statusCode", 215);
+			resp.put("status", "failed");
+			logger.error("Error occured :", e);
+		}
+		return resp.toJSONString();
+	}
 	
+	
+	@RequestMapping(value = "/addArticleComment", method = RequestMethod.POST)
+	public String addComment(ModelMap map, HttpServletRequest request, Principal principal){
+		try {
+			Long kid = Long.parseLong(request.getParameter("kid"));
+			Keynote kn = this.keynoteService.getKeynoteById(kid);
+			if(kn != null && kn.getSubject() != null) {
+				Comments comment = new Comments();
+				comment.setKeynote(kn);
+				comment.setComment(request.getParameter("comment"));
+				comment.setEmail(request.getParameter("email"));
+				comment.setName(request.getParameter("name"));
+				if(principal != null) {
+					comment.setCreateBy(principal.getName());
+				}
+				comment.setCreateDate(new Date());
+				this.commentService.addComment(comment);
+				return "redirect:/note/"+kn.getSubject().getUrl()+"/"+kn.getUrl();
+			}
+		}catch (Exception e) {
+			logger.error("Error occured :", e);
+		}
+		return "redirect:index";
+	}
 }

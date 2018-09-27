@@ -37,6 +37,7 @@ import com.bharti.model.KeynoteModel;
 import com.bharti.service.ContactUsService;
 import com.bharti.service.KeynoteService;
 import com.bharti.service.NewsLaterService;
+import com.bharti.service.QuestionService;
 import com.bharti.service.SubjectService;
 
 @Controller
@@ -46,6 +47,8 @@ public class IndexController
 	@Autowired private KeynoteService keynoteService; 
 	@Autowired private SubjectService subjectService;
 	@Autowired private ContactUsService contactUsService;
+	@Autowired private QuestionService questionService;
+	
 	
 	@Autowired private MessageSource messageSource;
 	
@@ -62,7 +65,7 @@ public class IndexController
 		{
 			mapList.put(sub.getSid(), keynoteService.getKeynotesForHomePage(sub.getSid()));
 		}
-		map.addAttribute("recentArticle", keynoteService.getRecentPublishedKeynotes(0, 3));
+		map.addAttribute("recentArticle", questionService.getFeaturedQuestions(0, 3));
 		map.addAttribute("mapList", mapList);
 		map.addAttribute("sList", sList);
 		map.addAttribute("pageKeywords", SeoConstants.SEO_DEFAULT_KEYWORDS);

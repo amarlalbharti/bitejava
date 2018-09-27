@@ -7,8 +7,8 @@ public class DateFormats
 {
 	public static SimpleDateFormat ddMMyyyy = new SimpleDateFormat("dd/MM/yyyy");
 	public static SimpleDateFormat ddMMMyyyy = new SimpleDateFormat("dd MMM yyyy");
-	public static SimpleDateFormat ddMMyyyyathhmm = new SimpleDateFormat("dd/MM/yyyy hh:mma");
-	public static SimpleDateFormat ddMMMyyyyathhmm = new SimpleDateFormat("dd MMM yyyy 'at' hh:mma");
+	public static SimpleDateFormat ddMMyyyyathhmm = new SimpleDateFormat("dd/MM/yyyy hh:mm a");
+	public static SimpleDateFormat ddMMMyyyyathhmm = new SimpleDateFormat("dd MMM yyyy 'at' hh:mm a");
 	
 	public static String getTimeValue(Date date)
 	{

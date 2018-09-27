@@ -1,4 +1,5 @@
 <!doctype html>
+<%@page import="com.bharti.domain.Question"%>
 <%@page import="com.bharti.constraints.DateFormats"%>
 <%@page import="java.util.Map.Entry"%>
 <%@page import="java.util.Iterator"%>
@@ -78,21 +79,23 @@
 			<h2 class="title">Latest Posts</h2>
 		  </div>
 		  <%
-		  	List<Keynote> recentKeynote = (List<Keynote>)request.getAttribute("recentArticle");
-			if(recentKeynote != null && !recentKeynote.isEmpty()){
+		  	List<Question> recentArticles = (List<Question>)request.getAttribute("recentArticle");
+			if(recentArticles != null && !recentArticles.isEmpty()){
 				%>
 					<ul class="latest-posts">
 						<%
-							for(Keynote kn : recentKeynote){
+							for(Question article : recentArticles){
+								String q = article.getQustion();
+								q = q.replaceAll(" ", "-");
 								%>
 									<li>
 									  <div class="meta">
-										<span><%= kn.getSubject().getSubject() %></span>, 
-										<span class="time"><%=DateFormats.ddMMMyyyyathhmm.format(kn.getPublishDate())  %></span>
+										<span><%= article.getUserType() %></span>, 
+										<span class="time"><%=DateFormats.ddMMMyyyyathhmm.format(article.getPublishDate())  %></span>
 									  </div>
 									  <div class="description">
-										<a href="${pageContext.request.contextPath}/note/<%= kn.getSubject().getUrl()%>/<%= kn.getUrl()%>">
-										  <%=kn.getKeynote() %> 
+										<a href="${pageContext.request.contextPath}/questions/<%= article.getQid()%>/<%= q%>">
+										  <%=article.getQustion() %> 
 										</a>
 									  </div>
 									</li>

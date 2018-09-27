@@ -1,5 +1,7 @@
 package com.bharti.domain;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -30,6 +32,9 @@ public class Comments extends CommonDomain {
 	@ManyToOne  
     @JoinColumn(name = "kid")
 	private Keynote keynote;
+	
+	@JoinColumn
+	private Date deleteDate;
 	
 	public long getCommentId() {
 		return commentId;
@@ -69,6 +74,14 @@ public class Comments extends CommonDomain {
 
 	public void setKeynote(Keynote keynote) {
 		this.keynote = keynote;
+	}
+
+	public Date getDeleteDate() {
+		return deleteDate;
+	}
+
+	public void setDeleteDate(Date deleteDate) {
+		this.deleteDate = deleteDate;
 	}
 	
 	

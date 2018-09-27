@@ -221,70 +221,143 @@ if(subject != null && keynote != null)
 		  	<hr class="hr-bottom"/>
 		  </div>
 		</article><!-- .post -->
-		<h3 class="title slim">Comments</h3>
-		<ul class="commentlist">
-			<%
-				if(keynote.getComments() != null && !keynote.getComments().isEmpty()){
-					for(Comments comment : keynote.getComments()){
-						%>
-						<li>
-							<div class="meta">
-							  <span><%= comment.getName() %></span>, 
-							  <span class="time"><%= DateFormats.ddMMMyyyyathhmm.format(comment.getCreateDate()) %></span>
-							</div>
-							<p class="description">
-							  <%= comment.getComment() %>
-							</p>
-						 </li>
-						<%
-					}
-				}
-			%>
-		</ul>
-		<h3 class="title slim">Leave a Reaply</h3>
+		<div id="comment_div">
+			<h3 class="title slim">Comments</h3>
+			<ul class="commentlist">
+				
+			</ul>
+			<h3 class="title slim">Leave a Reply</h3>
+			<form class="comments-form" action="${pageContext.request.contextPath}/addArticleComment" method="POST">
+			  <label>Name: <span class="required">*</span></label>
+			  <div class="row">
+				<div class="col-sm-6 col-md-6">
+					<input type="hidden" name="kid" value="<%= keynote.getKid()%>">
+				  <input class="form-control"  name="name" id="name" type="text">
+				</div>
+			  </div>
+			  
+			  <label>Email Adress: <span class="required">*</span></label>
+			  <div class="row">
+				<div class="col-sm-6 col-md-6">
+				  <input class="form-control" name="email" id="email" type="email">
+				</div>
+			  </div>
+	
+			  <label>Comment: </label>
+			  <div class="row">
+				<div class="comment-box col-sm-10 col-md-10">
+				  <textarea class="form-control" name="comment"  id="comment"></textarea>
+				  <i>Note: HTML is not translated!</i>
+				</div>
+			  </div>
+	
+			  <div class="clearfix"></div>
+			  <div class="button-set">
+				<span class="required pull-right"><b>*</b> Required Field</span>
+				<button class="btn btn-default submit_comment">Submit</button>
+			  </div>
+			</form>
+		</div>
 		
-		<form class="comments-form">
-		  <label>Name: <span class="required">*</span></label>
-		  <div class="row">
-			<div class="col-sm-6 col-md-6">
-			  <input class="form-control" type="text">
-			</div>
-		  </div>
-		  
-		  <label>Email Adress: <span class="required">*</span></label>
-		  <div class="row">
-			<div class="col-sm-6 col-md-6">
-			  <input class="form-control" type="email">
-			</div>
-		  </div>
-
-		  <label>Comment: </label>
-		  <div class="row">
-			<div class="comment-box col-sm-10 col-md-10">
-			  <textarea class="form-control"></textarea>
-			  <i>Note: HTML is not translated!</i>
-			</div>
-		  </div>
-
-		  <div class="clearfix"></div>
-		  <div class="button-set">
-			<span class="required pull-right"><b>*</b> Required Field</span>
-			<button class="btn btn-default">Submit</button>
-		  </div>
-		</form>
+		
       </div><!-- .content -->
     </div>
 	  <div class="clearfix"></div>
 	</div>
   </article>
 </section><!-- #main -->
+
+
+<script>hljs.initHighlightingOnLoad();</script>
+<script type="text/javascript">
+jQuery(document).ready(function() {
+	getArticleComments(<%= keynote.getKid()%>);
+	
+	function getArticleComments(kid){
+		var cList = $("#comment_div .commentlist");
+		$.ajax({
+			type : "GET",
+			url : "${pageContext.request.contextPath}/article/comments/"+kid,
+			data : {},
+			contentType : "application/json",
+			success : function(data) {
+				var obj = jQuery.parseJSON(data);
+				jQuery.each(obj.data, function(index, item) {
+					
+					var li = $('<li/>')
+			        .addClass('ui-menu-item')
+			        .attr('role', 'menuitem')
+// 			        .html("<span class='replace-2x avatar' src='content/img/avatar-1.jpg' >A</span>")
+			        .appendTo(cList);
+					
+					var div = $('<div/>')
+					.addClass('meta')
+					.appendTo(li);
+					
+					var span = $('<span/>')
+					.text(item.comment_by)
+					.appendTo(div);
+					
+					var span2 = $('<span/>')
+					.addClass('time pull-right')
+					.text(item.comment_date)
+					.appendTo(div);
+					
+					var span2 = $('<p/>')
+					.addClass('description')
+					.text(item.comment)
+					.appendTo(li);
+					
+				});
+				
+			},
+			error: function (xhr, ajaxOptions, thrownError) {
+				alert(xhr.status);
+			}
+		}) ; 
+	}
+	
+	function validateCommentForm(){
+		var isValid = true;
+		$(".has-error").removeClass("has-error");
+		var name = $("#comment_div .comments-form #name").val();
+		var email = $("#comment_div .comments-form #email").val();
+		var comment = $("#comment_div .comments-form #comment").val();
+		if(jQuery.trim(name) == ""){
+			isValid = false;
+			$("#comment_div .comments-form #name").parent().addClass("has-error");
+		}
+		if(jQuery.trim(email) == "" || !isEmail(email)){
+			isValid = false;
+			$("#comment_div .comments-form #email").parent().addClass("has-error");
+		}
+		if(jQuery.trim(comment) == ""){
+			isValid = false;
+			$("#comment_div .comments-form #comment").parent().addClass("has-error");
+		}
+		return isValid;
+	}
+	
+	$(document.body).on('click', '#comment_div .comments-form .submit_comment' ,function(e){
+		e.preventDefault();
+		if(validateCommentForm()){
+			$("#comment_div .comments-form").submit();
+		}
+		
+	});
+	
+	function isEmail(email) {
+	  var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+	  return regex.test(email);
+	}
+	
+});
+</script>
 	
 <%	
 }
 %>
 
 
-
-<script>hljs.initHighlightingOnLoad();</script>
 </body>
 </html>
