@@ -2,7 +2,6 @@ jQuery(document).ready(function() {
 	
 	$(document.body).on('click', '.file_view .btn_file_del' ,function(){
 		var fid = $(this).attr("fid");
-		alert("Hello delete " + fid);
 		if(confirm("Are you sure to delete this file ?"))
 		{
 			$.ajax({

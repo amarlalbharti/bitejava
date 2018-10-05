@@ -24,7 +24,11 @@ public interface KeynoteDao
 	
 	public List<Keynote> getAllKeynoteList(long sid);
 	
+	public List<Keynote> getAllKeynoteList(long sid, String userid);
+	
 	public List<Keynote> getAllKeynoteList(long sid, long parent_kid);
+	
+	public List<Keynote> getAllKeynoteList(long sid, long parent_kid, String userid);
 	
 	public List<Keynote> getChildKeynoteList(long parent_kid);
 	

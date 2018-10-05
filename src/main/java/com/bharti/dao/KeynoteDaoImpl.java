@@ -2,6 +2,7 @@ package com.bharti.dao;
 
 import java.util.List;
 
+import org.hibernate.Criteria;
 import org.hibernate.FetchMode;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Order;
@@ -101,8 +102,25 @@ public class KeynoteDaoImpl implements KeynoteDao
 				.add(Restrictions.isNull("parent_keynote"))
 				.addOrder(Order.asc("displayOrder"))
 				.add(Restrictions.isNull("deleteDate"))
+				.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
 				.list();
 	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Keynote> getAllKeynoteList(long sid, String userid)
+	{
+		return this.sessionFactory.getCurrentSession().createCriteria(Keynote.class)
+				.createAlias("loginInfo", "logAlias")
+				.add(Restrictions.eq("logAlias.userid", userid))
+				.createAlias("subject", "subAlias")
+				.add(Restrictions.eq("subAlias.sid", sid))
+				.add(Restrictions.isNull("parent_keynote"))
+				.addOrder(Order.asc("displayOrder"))
+				.add(Restrictions.isNull("deleteDate"))
+				.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
+				.list();
+	}
+	
 	
 	@SuppressWarnings("unchecked")
 	public List<Keynote> getAllKeynoteList(long sid, long parent_kid)
@@ -113,6 +131,22 @@ public class KeynoteDaoImpl implements KeynoteDao
 				.add(Restrictions.eq("parent_keynote.kid", parent_kid))
 				.addOrder(Order.asc("displayOrder"))
 				.add(Restrictions.isNull("deleteDate"))
+				.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
+				.list();
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Keynote> getAllKeynoteList(long sid, long parent_kid, String userid)
+	{
+		return this.sessionFactory.getCurrentSession().createCriteria(Keynote.class)
+				.createAlias("loginInfo", "logAlias")
+				.add(Restrictions.eq("logAlias.userid", userid))
+				.createAlias("subject", "subAlias")
+				.add(Restrictions.eq("subAlias.sid", sid))
+				.add(Restrictions.eq("parent_keynote.kid", parent_kid))
+				.addOrder(Order.asc("displayOrder"))
+				.add(Restrictions.isNull("deleteDate"))
+				.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
 				.list();
 	}
 	

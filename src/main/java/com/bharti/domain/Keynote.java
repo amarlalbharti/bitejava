@@ -52,6 +52,9 @@ public class Keynote
 	
 	private Set<Comments> comments = new HashSet<Comments>();
 	
+	private LoginInfo loginInfo;
+	
+	
 	@Id
 	@Column(nullable=false)
 	@GeneratedValue(strategy=GenerationType.AUTO)
@@ -212,5 +215,14 @@ public class Keynote
 		return String.valueOf(kid);
 	}
 	
+	@ManyToOne(fetch = FetchType.LAZY) 
+    @JoinColumn(name="userid" , referencedColumnName="userid") 
+	public LoginInfo getLoginInfo() {
+		return loginInfo;
+	}
+
+	public void setLoginInfo(LoginInfo loginInfo) {
+		this.loginInfo = loginInfo;
+	}
 	
 }

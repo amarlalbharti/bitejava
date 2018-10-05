@@ -23,9 +23,11 @@ import com.bharti.constraints.KeynoteCompare;
 import com.bharti.constraints.SeoConstants;
 import com.bharti.domain.Comments;
 import com.bharti.domain.Keynote;
+import com.bharti.domain.Registration;
 import com.bharti.domain.Subject;
 import com.bharti.service.CommentService;
 import com.bharti.service.KeynoteService;
+import com.bharti.service.RegistrationService;
 import com.bharti.service.SubjectService;
 import com.bharti.utils.CommentParser;
 import com.bharti.utils.SeoUtils;
@@ -37,6 +39,7 @@ public class SubjectController
 	@Autowired private SubjectService subjectService; 
 	@Autowired private KeynoteService keynoteService; 
 	@Autowired private CommentService commentService; 
+	@Autowired private RegistrationService registrationService; 
 	
 	private Logger logger = Logger.getLogger(AdminSubjectController.class);
 	
@@ -160,27 +163,40 @@ public class SubjectController
 	}
 	
 	
-	@RequestMapping(value = "/addArticleComment", method = RequestMethod.POST)
-	public String addComment(ModelMap map, HttpServletRequest request, Principal principal){
+	@SuppressWarnings("unchecked")
+	@RequestMapping(value = "/addArticleComment/{kid}", method = RequestMethod.POST)
+	public @ResponseBody String addComment(@PathVariable Long kid, ModelMap map, HttpServletRequest request, Principal principal){
+		JSONObject obj = new JSONObject();
 		try {
-			Long kid = Long.parseLong(request.getParameter("kid"));
+			String com = request.getParameter("comment");
 			Keynote kn = this.keynoteService.getKeynoteById(kid);
 			if(kn != null && kn.getSubject() != null) {
 				Comments comment = new Comments();
 				comment.setKeynote(kn);
-				comment.setComment(request.getParameter("comment"));
-				comment.setEmail(request.getParameter("email"));
-				comment.setName(request.getParameter("name"));
+				comment.setComment(com);
 				if(principal != null) {
-					comment.setCreateBy(principal.getName());
+					Registration reg = this.registrationService.getRegistrationByUserid(principal.getName());
+					if(reg != null) {
+						comment.setCreateBy(principal.getName());
+						comment.setName(reg.getFirstName() +" " + reg.getLastName());
+						comment.setIsAuthenticated(Boolean.TRUE);
+					}
+				}else {
+					comment.setCreateBy(request.getParameter("email"));
+					comment.setName(request.getParameter("name"));
 				}
 				comment.setCreateDate(new Date());
 				this.commentService.addComment(comment);
-				return "redirect:/note/"+kn.getSubject().getUrl()+"/"+kn.getUrl();
+				obj.put("status", Boolean.TRUE);
+				obj.put("statusCode", 200);
 			}
 		}catch (Exception e) {
+			obj.put("status", Boolean.FALSE);
+			obj.put("statusCode", 400);
+			obj.put("msg", "Some error occured !!");
+			
 			logger.error("Error occured :", e);
 		}
-		return "redirect:index";
+		return obj.toJSONString();
 	}
 }

@@ -4,9 +4,12 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -27,6 +30,9 @@ public class UploadFile
 	
 	private Date deleteDate;
 
+	private LoginInfo loginInfo;
+	
+	
 	@Id
 	@Column(nullable=false)
 	@GeneratedValue(strategy=GenerationType.AUTO)
@@ -92,6 +98,15 @@ public class UploadFile
 		this.deleteDate = deleteDate;
 	}
 	
+	@ManyToOne(fetch = FetchType.LAZY) 
+    @JoinColumn(name="userid" , referencedColumnName="userid") 
+	public LoginInfo getLoginInfo() {
+		return loginInfo;
+	}
+
+	public void setLoginInfo(LoginInfo loginInfo) {
+		this.loginInfo = loginInfo;
+	}
 	
 	
 	

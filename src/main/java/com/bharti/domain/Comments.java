@@ -25,9 +25,6 @@ public class Comments extends CommonDomain {
 	
 	@Column(nullable=false)
 	private String name;
-	
-	@Column(nullable=false)
-	private String email;
 
 	@ManyToOne  
     @JoinColumn(name = "kid")
@@ -35,6 +32,9 @@ public class Comments extends CommonDomain {
 	
 	@JoinColumn
 	private Date deleteDate;
+	
+	@Column(name="is_authenticated")
+	private Boolean isAuthenticated;
 	
 	public long getCommentId() {
 		return commentId;
@@ -60,14 +60,6 @@ public class Comments extends CommonDomain {
 		this.name = name;
 	}
 
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
 	public Keynote getKeynote() {
 		return keynote;
 	}
@@ -82,6 +74,14 @@ public class Comments extends CommonDomain {
 
 	public void setDeleteDate(Date deleteDate) {
 		this.deleteDate = deleteDate;
+	}
+
+	public Boolean getIsAuthenticated() {
+		return isAuthenticated;
+	}
+
+	public void setIsAuthenticated(Boolean isAuthenticated) {
+		this.isAuthenticated = isAuthenticated;
 	}
 	
 	

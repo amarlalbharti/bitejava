@@ -16,9 +16,15 @@ public interface SubjectService
 	
 	public List<Subject> getSubjectsList(int first, int max);
 	
+	public List<Subject> getSubjectsList(int first, int max, String userid);
+	
 	public List<Subject> getAllSubjectsList(int first, int max);
 
+	public List<Subject> getAllSubjectsList(int first, int max, String userid);
+	
 	public long countSubjects();
+	
+	public long countSubjects(String userid);
 	
 	public List<Subject> getSubjectsListForHomePage();
 	

@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.bharti.constraints.ProjectConfig;
+import com.bharti.constraints.Roles;
 import com.bharti.constraints.StaticValues;
 import com.bharti.domain.Subject;
 import com.bharti.model.KeynoteModel;
@@ -40,7 +41,11 @@ public class AdminSubjectController
 	public String adminSubjects(ModelMap map, HttpServletRequest request, Principal principal)
 	{
 		System.out.println("Hello from admin dashboard : ");
-		map.addAttribute("sList", subjectService.getAllSubjectsList(0, 10));
+//		if(request.isUserInRole(Roles.ROLE_ADMIN)) {
+//			map.addAttribute("sList", subjectService.getAllSubjectsList(0, 10));
+//		} else if(request.isUserInRole(Roles.ROLE_PUBLISHER)) {
+//			map.addAttribute("sList", subjectService.getAllSubjectsList(0, 10, principal.getName()));
+//		}
 		return "subjects";
 	}
 	
@@ -49,20 +54,23 @@ public class AdminSubjectController
 	{
 		String pn = request.getParameter("pn");
 		int pageno = 1;
-		if(pn != null && pn.trim().length() > 0)
-		{
-			try
-			{
+		if(pn != null && pn.trim().length() > 0) {
+			try {
 				pageno = Integer.parseInt(pn);
-			}
-			catch(NumberFormatException e)
-			{
+			} catch(NumberFormatException e) {
 				e.printStackTrace();
 			}
 		}
-		System.out.println("Hello from admin dashboard");
-		map.addAttribute("sList", subjectService.getAllSubjectsList((pageno-1)*StaticValues.rpp, StaticValues.rpp));
-		map.addAttribute("total_count", (int)subjectService.countSubjects());
+		
+		logger.info("Get the subject list for pn :"+ pn);
+		
+		if(request.isUserInRole(Roles.ROLE_ADMIN)) {
+			map.addAttribute("sList", subjectService.getAllSubjectsList((pageno-1)*StaticValues.rpp, StaticValues.rpp));
+			map.addAttribute("total_count", (int)subjectService.countSubjects());
+		} else if(request.isUserInRole(Roles.ROLE_PUBLISHER)) {
+			map.addAttribute("sList", subjectService.getAllSubjectsList((pageno-1)*StaticValues.rpp, StaticValues.rpp, principal.getName()));
+			map.addAttribute("total_count", (int)subjectService.countSubjects(principal.getName()));
+		}
 		map.addAttribute("rpp", StaticValues.rpp);
 		map.addAttribute("pn", pageno);
 		return "subjectList";
@@ -174,8 +182,14 @@ public class AdminSubjectController
 				Subject subject = subjectService.getSubjectById(Long.parseLong(sid));
 				if(subject != null )
 				{
+					if(request.isUserInRole(Roles.ROLE_PUBLISHER) && 
+							(subject.getLoginInfo() == null || 
+							!subject.getLoginInfo().getUserid().equals(principal.getName()))
+							) {
+						logger.error(principal.getName() + " is not allowed to update others subject for sid :"+subject.getSid() + " and subject: "+subject.getSubject());
+						return  "redirect:error";
+					}
 					SubjectModel model = new SubjectModel();
-					
 					model.setSid(subject.getSid());
 					model.setSubject(subject.getSubject());
 					model.setDisplayOrder(String.valueOf(subject.getDisplayOrder()));
@@ -210,7 +224,13 @@ public class AdminSubjectController
 			Subject sub = subjectService.getSubjectById(model.getSid());
 			if(sub != null)
 			{
-				
+				if(request.isUserInRole(Roles.ROLE_PUBLISHER) && 
+						(sub.getLoginInfo() == null || 
+						!sub.getLoginInfo().getUserid().equals(principal.getName()))
+						) {
+					logger.error(principal.getName() + " is not allowed to update others subject for sid :"+sub.getSid() + " and subject: "+sub.getSubject());
+					return  "redirect:error";
+				}
 				String  btnType = request.getParameter("submit");
 				System.out.println("Submited Buttom value : "+ btnType);
 				
@@ -282,8 +302,12 @@ public class AdminSubjectController
 			try 
 			{
 				Subject subject = subjectService.getSubjectById(Long.parseLong(sid));
-				if(subject != null )
-				{
+				if(request.isUserInRole(Roles.ROLE_PUBLISHER) && 
+						(subject.getLoginInfo() == null || 
+						!subject.getLoginInfo().getUserid().equals(principal.getName()))
+						) {
+					logger.error(principal.getName() + " is not allowed to unpublish others subject for sid :"+subject.getSid() + " and subject: "+subject.getSubject());
+				} else if(subject != null ) {
 					subject.setPublishDate(null);
 					subjectService.updateSubject(subject);
 					obj.put("success", true);
@@ -308,8 +332,12 @@ public class AdminSubjectController
 			try 
 			{
 				Subject subject = subjectService.getSubjectById(Long.parseLong(sid));
-				if(subject != null )
-				{
+				if(request.isUserInRole(Roles.ROLE_PUBLISHER) && 
+						(subject.getLoginInfo() == null || 
+						!subject.getLoginInfo().getUserid().equals(principal.getName()))
+						) {
+					logger.error(principal.getName() + " is not allowed to publish others subject for sid :"+subject.getSid() + " and subject: "+subject.getSubject());
+				} else if(subject != null ) {
 					Date date = new Date();
 					java.sql.Date dt = new java.sql.Date(date.getTime());
 					
@@ -336,8 +364,12 @@ public class AdminSubjectController
 			try 
 			{
 				Subject subject = subjectService.getSubjectById(Long.parseLong(sid));
-				if(subject != null )
-				{
+				if(request.isUserInRole(Roles.ROLE_PUBLISHER) && 
+						(subject.getLoginInfo() == null || 
+						!subject.getLoginInfo().getUserid().equals(principal.getName()))
+						) {
+					logger.error(principal.getName() + " is not allowed to delete others subject for sid :"+subject.getSid() + " and subject: "+subject.getSubject());
+				} else if(subject != null ) {
 					Date date = new Date();
 					java.sql.Date dt = new java.sql.Date(date.getTime());
 					

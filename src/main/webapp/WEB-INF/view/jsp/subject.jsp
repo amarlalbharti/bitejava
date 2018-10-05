@@ -1,4 +1,5 @@
 <!doctype html>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@page import="com.bharti.constraints.DateFormats"%>
 <%@page import="com.bharti.domain.Comments"%>
 <%@page import="java.util.Iterator"%>
@@ -23,7 +24,7 @@
 </head>
 <body class="fixed-header">
 <%
-
+boolean isAuthenticated = false;
 Subject subject = (Subject)request.getAttribute("subject");
 Keynote keynote = (Keynote) request.getAttribute("keynote");
 Keynote prevKn = (Keynote) request.getAttribute("prevKn");
@@ -228,24 +229,30 @@ if(subject != null && keynote != null)
 			</ul>
 			<h3 class="title slim">Leave a Reply</h3>
 			<form class="comments-form" action="${pageContext.request.contextPath}/addArticleComment" method="POST">
-			  <label>Name: <span class="required">*</span></label>
-			  <div class="row">
-				<div class="col-sm-6 col-md-6">
-					<input type="hidden" name="kid" value="<%= keynote.getKid()%>">
-				  <input class="form-control"  name="name" id="name" type="text">
-				</div>
-			  </div>
 			  
-			  <label>Email Adress: <span class="required">*</span></label>
-			  <div class="row">
-				<div class="col-sm-6 col-md-6">
-				  <input class="form-control" name="email" id="email" type="email">
-				</div>
-			  </div>
+				<sec:authorize access="!isAuthenticated()">
+					<% isAuthenticated = true; %>
+					<label>Name: <span class="required">*</span></label>
+					<div class="row">
+						<div class="col-sm-6 col-md-6">
+							<input class="form-control" name="name" id="name" type="text">
+						</div>
+					</div>
+	
+					<label>Email Adress: <span class="required">*</span></label>
+					<div class="row">
+						<div class="col-sm-6 col-md-6">
+							<input class="form-control" name="email" id="email"
+								type="email">
+						</div>
+					</div>
+					
+				</sec:authorize>
 	
 			  <label>Comment: </label>
 			  <div class="row">
 				<div class="comment-box col-sm-10 col-md-10">
+				<input type="hidden" id="kid" name="kid" value="<%=keynote.getKid()%>">
 				  <textarea class="form-control" name="comment"  id="comment"></textarea>
 				  <i>Note: HTML is not translated!</i>
 				</div>
@@ -318,30 +325,65 @@ jQuery(document).ready(function() {
 	}
 	
 	function validateCommentForm(){
-		var isValid = true;
-		$(".has-error").removeClass("has-error");
-		var name = $("#comment_div .comments-form #name").val();
-		var email = $("#comment_div .comments-form #email").val();
-		var comment = $("#comment_div .comments-form #comment").val();
-		if(jQuery.trim(name) == ""){
-			isValid = false;
-			$("#comment_div .comments-form #name").parent().addClass("has-error");
-		}
-		if(jQuery.trim(email) == "" || !isEmail(email)){
-			isValid = false;
-			$("#comment_div .comments-form #email").parent().addClass("has-error");
-		}
-		if(jQuery.trim(comment) == ""){
-			isValid = false;
-			$("#comment_div .comments-form #comment").parent().addClass("has-error");
-		}
+		
 		return isValid;
 	}
 	
 	$(document.body).on('click', '#comment_div .comments-form .submit_comment' ,function(e){
 		e.preventDefault();
-		if(validateCommentForm()){
-			$("#comment_div .comments-form").submit();
+		var isValid = true;
+		$(".has-error").removeClass("has-error");
+		var kid = $("#comment_div .comments-form #kid").val();
+		var name = $("#comment_div .comments-form #name").val();
+		var email = $("#comment_div .comments-form #email").val();
+		
+		<%
+			if(isAuthenticated){
+				%>
+					if(jQuery.trim(name) == ""){
+						isValid = false;
+						$("#comment_div .comments-form #name").parent().addClass("has-error");
+					}
+					if(jQuery.trim(email) == "" || !isEmail(email)){
+						isValid = false;
+						$("#comment_div .comments-form #email").parent().addClass("has-error");
+					}
+				<%
+			}
+		%>
+		var comment = $("#comment_div .comments-form #comment").val();
+		
+		if(jQuery.trim(comment) == ""){
+			isValid = false;
+			$("#comment_div .comments-form #comment").parent().addClass("has-error");
+		}
+		
+		
+		if(isValid){
+			$.ajax({
+				type : 'post',
+				url : "${pageContext.request.contextPath}/addArticleComment/<%= keynote.getKid()%>",
+				data : {name:name,email:email,comment:comment },
+				contentType : "application/json",
+				success : function(data) {
+					var obj = jQuery.parseJSON(data);
+					if(obj.status) {
+						Lobibox.notify('success', {
+		                    size: 'mini',
+		                    msg: 'Comment added successfully !!'
+		                });
+					} else {
+						Lobibox.notify('error', {
+		                    size: 'mini',
+		                    msg: obj.msg
+		                });
+					}
+				},
+				error: function (xhr, ajaxOptions, thrownError) {
+					
+					alert(xhr.status);
+				}
+			}) ; 
 		}
 		
 	});

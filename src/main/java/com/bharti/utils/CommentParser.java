@@ -19,7 +19,7 @@ public class CommentParser {
 		json.put("keynote", comment.getKeynote().getKeynote());
 		json.put("comment_by", comment.getName());
 		json.put("comment_date", DateFormats.getTimeValue(comment.getCreateDate()) );
-		json.put("comment_by_email", comment.getEmail());
+		json.put("comment_by_email", comment.getCreateBy());
 		
 		return json;
 	}

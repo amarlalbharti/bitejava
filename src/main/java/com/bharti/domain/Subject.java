@@ -14,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.springframework.web.multipart.MultipartFile;
@@ -44,6 +45,7 @@ public class Subject
 	
 	private Set<Subject> childSubjects = new HashSet<>();
 
+	private LoginInfo loginInfo;
 	
 	@Id
 	@Column(nullable=false)
@@ -156,6 +158,16 @@ public class Subject
 
 	public void setKeynotes(Set<Keynote> keynotes) {
 		this.keynotes = keynotes;
+	}
+	
+	@ManyToOne(fetch = FetchType.LAZY) 
+    @JoinColumn(name="userid" , referencedColumnName="userid") 
+	public LoginInfo getLoginInfo() {
+		return loginInfo;
+	}
+
+	public void setLoginInfo(LoginInfo loginInfo) {
+		this.loginInfo = loginInfo;
 	}
 	
 }

@@ -222,6 +222,17 @@ if(reg != null)
 <script type="text/javascript">
 $(document).ready(function(){
 	$('.bodyCoverWait').hide();
+	
+	<%
+		if(session.getAttribute("hasError") != null){
+			String msg = (String)session.getAttribute("msg");
+			%>
+				alert("<%=msg%>");
+			<%
+			session.removeAttribute("hasError");
+			
+		}
+	%>
 });
 </script>
 

@@ -21,18 +21,23 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.bharti.constraints.ProjectConfig;
+import com.bharti.constraints.Roles;
 import com.bharti.constraints.StaticMethods;
 import com.bharti.constraints.StaticValues;
+import com.bharti.constraints.Validation;
 import com.bharti.domain.UploadFile;
 import com.bharti.model.SubjectModel;
 import com.bharti.model.UploadModel;
 import com.bharti.service.KeynoteDetailService;
+import com.bharti.service.LoginInfoService;
 import com.bharti.service.UploadFileService;
+import com.bharti.utils.Util;
 
 @Controller
 public class AdminUploadController 
 {
 	@Autowired private UploadFileService uploadFileService; 
+	@Autowired private LoginInfoService loginInfoService;
 	
 	private Logger logger = Logger.getLogger(AdminUploadController.class);
 	
@@ -48,14 +53,10 @@ public class AdminUploadController
 	{
 		String pn = request.getParameter("pn");
 		int pageno = 1;
-		if(pn != null && pn.trim().length() > 0)
-		{
-			try
-			{
-				pageno = Integer.parseInt(pn);
-			}
-			catch(NumberFormatException e)
-			{
+		if(Validation.isNumeric(pn)) {
+			try {
+				pageno = Util.getNumericPositive(pn);
+			} catch(NumberFormatException e) {
 				e.printStackTrace();
 			}
 		}
@@ -83,28 +84,23 @@ public class AdminUploadController
 	@RequestMapping(value = "/adminUploadFile", method = RequestMethod.POST)
 	public String adminUploadFile(@ModelAttribute(value = "uploadForm") @Valid UploadModel model,BindingResult result, ModelMap map, HttpServletRequest request, Principal principal)
 	{
-		if (result.hasErrors())
-		{
+		if (result.hasErrors()) {
 			logger.info("Validation Failed  " + result.toString());
 			return "uploadNewFile";
-		}
-		else
-		{
+		} else {
 			logger.info("Validation successful ");
-			try 
-			{
+			try {
 				MultipartFile uploadfile = model.getFile();
-				if(uploadfile != null)
-				{
+				if(uploadfile != null) {
 					String file_name = uploadfile.getOriginalFilename();
-					if(file_name != null && file_name.trim().length() > 0)
-					{
+					if(file_name != null && file_name.trim().length() > 0) {
 						file_name = file_name.replaceAll("[^a-zA-Z0-9.-]", "_");
 						
 						Date date = new Date();
 						java.sql.Date dt = new java.sql.Date(date.getTime());
 						
 						UploadFile uf = new UploadFile();
+						uf.setLoginInfo(this.loginInfoService.getLoginInfoByUserid(principal.getName()));
 						uf.setCreateDate(dt);
 						uf.setFileName(model.getFileName());
 						uf.setFileType(StaticMethods.getFileType(uploadfile.getOriginalFilename()));
@@ -114,8 +110,7 @@ public class AdminUploadController
 						logger.info("Upload file inserted in table : "+ fid);
 						File file = new File (ProjectConfig.upload_path+"/uploadedfiles/"+fid+"/"+file_name);
 						
-						if(!file.exists())
-						{
+						if(!file.exists()) {
 							logger.info("File dir not Exist");
 							file.mkdirs();
 						}
@@ -124,8 +119,7 @@ public class AdminUploadController
 						return "redirect:adminUploads";
 					}
 				}
-			}
-			catch (Exception e) {
+			} catch (Exception e) {
 				logger.error("Exception in post : ", e);
 			}
 			
@@ -133,6 +127,7 @@ public class AdminUploadController
 		}
 	}
 	
+	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/adminDeleteFile", method = RequestMethod.GET)
 	@ResponseBody
 	public String adminDeleteFile(ModelMap map, HttpServletRequest request, Principal principal)
@@ -142,13 +137,11 @@ public class AdminUploadController
 		
 		JSONObject obj = new JSONObject();
 		
-		if(fid != null && fid.trim().length() > 0)
-		{
-			try 
-			{
+		if(fid != null && fid.trim().length() > 0) {
+			try {
 				UploadFile file = uploadFileService.getUploadFile(Long.parseLong(fid));
-				if(file != null)
-				{
+				if(file != null  && (request.isUserInRole(Roles.ROLE_ADMIN) || (request.isUserInRole(Roles.ROLE_PUBLISHER)
+						&&  (file.getLoginInfo() != null && file.getLoginInfo().getUserid().equals(principal.getName()))))) {
 					logger.info("File exist in datbase " + file.getFileURL());
 					Date date = new Date();
 					java.sql.Date dt = new java.sql.Date(date.getTime());

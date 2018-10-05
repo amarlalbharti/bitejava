@@ -47,15 +47,31 @@ public class SubjectServiceImpl implements SubjectService
 	}
 	
 	@Override
+	public List<Subject> getSubjectsList(int first, int max, String userid)
+	{
+		return this.subjectDao.getSubjectsList(first, max, userid);
+	}
+	
+	@Override
 	public List<Subject> getAllSubjectsList(int first, int max)
 	{
 		return this.subjectDao.getAllSubjectsList(first, max);
+	}
+	
+	public List<Subject> getAllSubjectsList(int first, int max, String userid){
+		return this.subjectDao.getAllSubjectsList(first, max, userid);
 	}
 	
 	@Override
 	public long countSubjects()
 	{
 		return this.subjectDao.countSubjects();
+	}
+	
+	@Override
+	public long countSubjects(String userid)
+	{
+		return this.subjectDao.countSubjects(userid);
 	}
 	
 	@Override

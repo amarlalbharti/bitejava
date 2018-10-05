@@ -211,7 +211,7 @@ public class LoginController
 	@RequestMapping(value = "/userHome", method = RequestMethod.GET)
 	public String userHome(ModelMap map, HttpServletRequest request, Principal principal)
 	{
-		if(request.isUserInRole(Roles.ROLE_ADMIN))
+		if(request.isUserInRole(Roles.ROLE_ADMIN) || request.isUserInRole(Roles.ROLE_PUBLISHER) )
 		{
 			return "redirect:adminDashboard";
 		}

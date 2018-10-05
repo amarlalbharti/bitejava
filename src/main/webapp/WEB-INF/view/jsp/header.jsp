@@ -26,6 +26,9 @@
   <link rel="stylesheet" href="${pageContext.request.contextPath}/theme/css/customizer/home-pages-customizer.css">
   <script src="${pageContext.request.contextPath}/theme/js/jquery-2.1.3.min.js"></script>
   <script src="${pageContext.request.contextPath}/theme/js/common_js.js"></script>
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/theme/css/lobibox.min.css"/>
+  <script src="${pageContext.request.contextPath}/theme/js/lobibox.min.js"></script>
+  <script src="${pageContext.request.contextPath}/theme/js/notifications.min.js"></script>
   <style type="text/css">
 	    .subject_data h1{
 	    font-size: 22px;

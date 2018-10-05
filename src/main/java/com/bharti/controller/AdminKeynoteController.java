@@ -20,29 +20,37 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.bharti.constraints.Roles;
 import com.bharti.domain.Keynote;
 import com.bharti.domain.KeynoteDetail;
+import com.bharti.domain.LoginInfo;
 import com.bharti.domain.SeoKeynote;
 import com.bharti.domain.Subject;
 import com.bharti.model.KeynoteModel;
 import com.bharti.model.SeoModel;
 import com.bharti.service.KeynoteDetailService;
 import com.bharti.service.KeynoteService;
+import com.bharti.service.LoginInfoService;
 import com.bharti.service.SubjectService;
 
 @Controller
 public class AdminKeynoteController 
 {
-	
+	@Autowired private LoginInfoService loginInfoService;
 	@Autowired private KeynoteService keynoteService; 
 	@Autowired private SubjectService subjectService; 
-	@Autowired private KeynoteDetailService keynoteDetailService; 
+	@Autowired private KeynoteDetailService keynoteDetailService;
+	
 	private Logger logger = Logger.getLogger(AdminKeynoteController.class);
 	
 	@RequestMapping(value = "/adminKeynotes", method = RequestMethod.GET)
 	public String index(ModelMap map, HttpServletRequest request, Principal principal)
 	{
-		map.addAttribute("sList", subjectService.getAllSubjectsList(0, 1000));
+		if(request.isUserInRole(Roles.ROLE_ADMIN)) {
+			map.addAttribute("sList", subjectService.getAllSubjectsList(0, 1000));
+		} else {
+			map.addAttribute("sList", subjectService.getAllSubjectsList(0, 1000, principal.getName()));
+		}
 		map.addAttribute("sid", request.getParameter("sid"));
 		System.out.println("Hello from admin keynotes ");
 		return "keynotes";
@@ -54,36 +62,38 @@ public class AdminKeynoteController
 		String sid = request.getParameter("sid");
 		String parent_kid = request.getParameter("parent_kid");
 		
-		if(sid != null && sid.trim().length() > 0)
-		{
-			try 
-			{
+		if(sid != null && sid.trim().length() > 0) {
+			try  {
 				Subject subject = subjectService.getSubjectById(Integer.parseInt(sid));
-				if(subject != null)
-				{
+				if(subject != null 
+						&& (request.isUserInRole(Roles.ROLE_ADMIN) || (request.isUserInRole(Roles.ROLE_PUBLISHER)
+								&&  (subject.getLoginInfo() != null && subject.getLoginInfo().getUserid().equals(principal.getName()))))) {
 					
-					if(parent_kid != null && parent_kid.trim().length() > 0)
-					{
+					if(parent_kid != null && parent_kid.trim().length() > 0) {
 						Keynote parent_kn = keynoteService.getKeynoteById(Integer.parseInt(parent_kid));
-						if(parent_kn != null)
-						{
-							map.addAttribute("knList", keynoteService.getAllKeynoteList(subject.getSid(), parent_kn.getKid()));
+						if(parent_kn != null) {
+							if(request.isUserInRole(Roles.ROLE_ADMIN)) {
+								map.addAttribute("knList", keynoteService.getAllKeynoteList(subject.getSid(), parent_kn.getKid()));
+									
+							} else {
+								map.addAttribute("knList", keynoteService.getAllKeynoteList(subject.getSid(), parent_kn.getKid(), principal.getName()));
+							}
 							map.addAttribute("parent_kn", parent_kn);
 						}
+					} else {
+						if(request.isUserInRole(Roles.ROLE_ADMIN)) {
+							map.addAttribute("knList", keynoteService.getAllKeynoteList(subject.getSid()));
+						} else {
+							map.addAttribute("knList", keynoteService.getAllKeynoteList(subject.getSid(), principal.getName()));
+						}
+						
 					}
-					else
-					{
-						map.addAttribute("knList", keynoteService.getAllKeynoteList(subject.getSid()));
-					}
-					
 					return "keynoteList";
 				}
-				
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
-		map.addAttribute("knList", keynoteService.getKeynoteList(0, 10));
 		return "keynoteList";
 	}
 	
@@ -95,22 +105,24 @@ public class AdminKeynoteController
 	{
 		System.out.println("Hello from admin addKeynote");
 		map.addAttribute("sub", request.getParameter("sub"));
-		map.addAttribute("sList", subjectService.getAllSubjectsList(0, 1000));
+		if(request.isUserInRole(Roles.ROLE_MANAGER)) {
+			map.addAttribute("sList", subjectService.getSubjectsList(0, 1000, principal.getName()));
+		} else {
+			map.addAttribute("sList", subjectService.getSubjectsList(0, 1000));
+		}
 		String sid = request.getParameter("sid");
-		if(sid != null && sid.trim().length() > 0)
-		{
-			try
-			{
+		if(sid != null && sid.trim().length() > 0) {
+			try {
 				Subject subject = subjectService.getSubjectById(Integer.parseInt(sid));
-				if(subject != null)
-				{
+				if(subject != null
+						&& (request.isUserInRole(Roles.ROLE_ADMIN) || (request.isUserInRole(Roles.ROLE_PUBLISHER)
+								&&  (subject.getLoginInfo() != null && subject.getLoginInfo().getUserid().equals(principal.getName()))))) {
 					map.addAttribute("kList", keynoteService.getKeynoteList(subject.getSid()));
 					map.addAttribute("sub", subject.getUrl());
 					map.addAttribute("form_keynote", new KeynoteModel());
 					return "addKeynote";
 				}
-			} 
-			catch (Exception e) {
+			}  catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
@@ -120,57 +132,55 @@ public class AdminKeynoteController
 	@RequestMapping(value = "/adminAddKeynote", method = RequestMethod.POST)
 	public String addKeynote(@ModelAttribute(value = "form_keynote") @Valid KeynoteModel model,BindingResult result, ModelMap map, HttpServletRequest request,Principal principal)
 	{
-		if (result.hasErrors())
-		{
-				if(model.getSubject().getSid() == 0)
-				{
+		if (result.hasErrors()) {
+				if(model.getSubject().getSid() == 0) {
 					result.addError(new FieldError("form_keynote", "subject", model.getSubject() , false, new String[1],new String[1], "Please Select Subject !"));
 					return "redirect:adminKeynotes";
-				}
-				else
-				{
+				} else {
 					map.addAttribute("kList", keynoteService.getKeynoteList(model.getSubject().getSid()));
 				}
-				System.out.println("in validation");
-				map.addAttribute("sList", subjectService.getSubjectsList(0, 1000));
+				
+				if(request.isUserInRole(Roles.ROLE_PUBLISHER)) {
+					map.addAttribute("sList", subjectService.getSubjectsList(0, 1000, principal.getName()));
+				} else {
+					map.addAttribute("sList", subjectService.getSubjectsList(0, 1000));
+				}
 				return "addKeynote";
-		}
-		else
-		{
+		} else {
+			
 			String  btnType = request.getParameter("submit");
 			System.out.println("Submited Buttom value : "+ btnType);
 			
-			
-			
+			Subject subject = subjectService.getSubjectById(model.getSubject().getSid());
+			if(request.isUserInRole(Roles.ROLE_PUBLISHER) &&  (subject.getLoginInfo() == null || !subject.getLoginInfo().getUserid().equals(principal.getName()))) {
+				return "redirect:adminKeynotes";
+			}
 			Date date = new Date();
 			java.sql.Date dt = new java.sql.Date(date.getTime());
 			Keynote kn = new Keynote();
 			
 			kn.setKeynote(model.getKeynote());
-			try 
-			{
+			try  {
 				kn.setDisplayOrder(Integer.parseInt(model.getDisplayOrder()));
-			}
-			catch (Exception e) 
-			{
+			} catch (Exception e) {
 				kn.setDisplayOrder(0);
 			}
-			if(model.getParent() != null)
-			{
+			if(model.getParent() != null) {
 				Keynote parent_kn = keynoteService.getKeynoteById(model.getParent().getKid());
-				if(parent_kn != null)
-				{
+				if(parent_kn != null) {
 					kn.setParent_keynote(parent_kn);
 				}
 			}
+			
+			LoginInfo loginInfo = this.loginInfoService.getLoginInfoByUserid(principal.getName());
+			kn.setLoginInfo(loginInfo);
 			kn.setSubject(model.getSubject());
 			kn.setShowOnHomePage(model.isShowOnHomePage());
-			String url = model.getKeynote().replaceAll("[^a-zA-Z0-9]+","_");
+			String url = model.getKeynote().trim().replaceAll("[^a-zA-Z0-9]+","_");
 			kn.setUrl(url.toLowerCase());
 			kn.setCreateDate(dt);
 			
-			if(btnType != null && btnType.equals("Save And Publish"))
-			{
+			if(btnType != null && btnType.equals("Save And Publish")) {
 				kn.setPublishDate(dt);
 			}
 			
@@ -187,8 +197,7 @@ public class AdminKeynoteController
 			
 			System.out.println("in else success ");
 			Subject sub = subjectService.getSubjectById(model.getSubject().getSid());
-			if(sub != null)
-			{
+			if(sub != null) {
 				return "redirect:adminKeynotes?sid="+sub.getSid();
 				
 			}
@@ -203,13 +212,11 @@ public class AdminKeynoteController
 	public String editKeynote(ModelMap map, HttpServletRequest request, Principal principal)
 	{
 		String kid = request.getParameter("kid");
-		if(kid != null && kid.trim().length() > 0)
-		{
-			try 
-			{
+		if(kid != null && kid.trim().length() > 0) {
+			try {
 				Keynote kn = keynoteService.getKeynoteById(Integer.parseInt(kid));
-				if(kn != null)
-				{
+				if(kn != null && (request.isUserInRole(Roles.ROLE_ADMIN) || (request.isUserInRole(Roles.ROLE_PUBLISHER)
+						&&  (kn.getLoginInfo() != null && kn.getLoginInfo().getUserid().equals(principal.getName()))))) {
 					KeynoteModel model = new KeynoteModel();
 					model.setKid(kn.getKid());
 					model.setSubject(kn.getSubject());
@@ -217,8 +224,7 @@ public class AdminKeynoteController
 					model.setKeynote(kn.getKeynote());
 					model.setShowOnHomePage(kn.isShowOnHomePage());
 					model.setDisplayOrder(String.valueOf(kn.getDisplayOrder()));
-					if(kn.getKeynoteDetail() != null)
-					{
+					if(kn.getKeynoteDetail() != null) {
 						model.setKnDetail(kn.getKeynoteDetail().getDetail());
 					}
 					map.addAttribute("sList", subjectService.getSubjectsList(0, 1000));
@@ -239,9 +245,11 @@ public class AdminKeynoteController
 					map.addAttribute("seo_keynote", seoModel);
 					
 					return "editKeynote";
+				} else if(kn != null) {
+					request.getSession().setAttribute("hasError", true);
+					request.getSession().setAttribute("msg", "You are not authorized to change this article.");
 				}
-			}
-			catch (Exception e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
@@ -318,23 +326,24 @@ public class AdminKeynoteController
 	}
 	
 	
+	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/unpublishKeynote", method = RequestMethod.GET)
 	@ResponseBody
 	public String unpublishSubject(ModelMap map, HttpServletRequest request, Principal principal)
 	{
 		JSONObject obj = new JSONObject();
 		String kid = request.getParameter("kid");
-		if(kid != null && kid.trim().length() > 0)
-		{
-			try 
-			{
+		if(kid != null && kid.trim().length() > 0) {
+			try  {
 				Keynote keynote = keynoteService.getKeynoteById(Long.parseLong(kid));
-				if(keynote != null )
-				{
+				if(keynote != null && (request.isUserInRole(Roles.ROLE_ADMIN) || (request.isUserInRole(Roles.ROLE_PUBLISHER)
+						&&  (keynote.getLoginInfo() != null && keynote.getLoginInfo().getUserid().equals(principal.getName()))))) {
 					keynote.setPublishDate(null);
 					keynoteService.updateKeynote(keynote);
 					obj.put("success", true);
 					return obj.toJSONString();
+				} else if(keynote != null) {
+					logger.info("You are not authorized to unpublish this article.");
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -344,25 +353,26 @@ public class AdminKeynoteController
 		return obj.toJSONString();
 	}
 	
+	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/publishKeynote", method = RequestMethod.GET)
 	@ResponseBody
 	public String publishSubject(ModelMap map, HttpServletRequest request, Principal principal)
 	{
 		JSONObject obj = new JSONObject();
 		String kid = request.getParameter("kid");
-		if(kid != null && kid.trim().length() > 0)
-		{
-			try 
-			{
+		if(kid != null && kid.trim().length() > 0) {
+			try {
 				Keynote keynote = keynoteService.getKeynoteById(Long.parseLong(kid));
-				if(keynote != null )
-				{
+				if(keynote != null && (request.isUserInRole(Roles.ROLE_ADMIN) || (request.isUserInRole(Roles.ROLE_PUBLISHER)
+						&&  (keynote.getLoginInfo() != null && keynote.getLoginInfo().getUserid().equals(principal.getName()))))) {
 					Date date = new Date();
 					java.sql.Date dt = new java.sql.Date(date.getTime());
 					keynote.setPublishDate(dt);
 					keynoteService.updateKeynote(keynote);
 					obj.put("success", true);
 					return obj.toJSONString();
+				} else if(keynote != null) {
+					logger.info("You are not authorized to publish this article.");
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -371,25 +381,26 @@ public class AdminKeynoteController
 		obj.put("success", false);
 		return obj.toJSONString();
 	}
+	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/adminDeleteKeynote", method = RequestMethod.GET)
 	@ResponseBody
 	public String adminDeleteKeynote(ModelMap map, HttpServletRequest request, Principal principal)
 	{
 		JSONObject obj = new JSONObject();
 		String kid = request.getParameter("kid");
-		if(kid != null && kid.trim().length() > 0)
-		{
-			try 
-			{
+		if(kid != null && kid.trim().length() > 0) {
+			try  {
 				Keynote keynote = keynoteService.getKeynoteById(Long.parseLong(kid));
-				if(keynote != null )
-				{
+				if(keynote != null && (request.isUserInRole(Roles.ROLE_ADMIN) || (request.isUserInRole(Roles.ROLE_PUBLISHER)
+						&&  (keynote.getLoginInfo() != null && keynote.getLoginInfo().getUserid().equals(principal.getName()))))) {
 					Date date = new Date();
 					java.sql.Date dt = new java.sql.Date(date.getTime());
 					keynote.setDeleteDate(dt);
 					keynoteService.updateKeynote(keynote);
 					obj.put("success", true);
 					return obj.toJSONString();
+				} else if(keynote != null) {
+					logger.info("You are not authorized to delete this article.");
 				}
 			} catch (Exception e) {
 				e.printStackTrace();

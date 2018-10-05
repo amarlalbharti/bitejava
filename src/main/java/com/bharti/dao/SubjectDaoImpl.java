@@ -79,6 +79,22 @@ public class SubjectDaoImpl implements SubjectDao
 	
 	@SuppressWarnings("unchecked")
 	@Override
+	public List<Subject> getSubjectsList(int first, int max, String userid)
+	{
+		return this.sessionFactory.getCurrentSession().createCriteria(Subject.class)
+				.createAlias("loginInfo", "logAlias")
+				.add(Restrictions.eq("logAlias.userid", userid))
+				.add(Restrictions.isNull("deleteDate"))
+				.add(Restrictions.isNotNull("publishDate"))
+				.addOrder(Order.asc("displayOrder"))
+				.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
+				.setFirstResult(first)
+				.setMaxResults(max)
+				.list();
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
 	public List<Subject> getAllSubjectsList(int first, int max)
 	{
 		return this.sessionFactory.getCurrentSession().createCriteria(Subject.class)
@@ -89,6 +105,21 @@ public class SubjectDaoImpl implements SubjectDao
 				.list();
 	}
 	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Subject> getAllSubjectsList(int first, int max, String userid){
+		return this.sessionFactory.getCurrentSession().createCriteria(Subject.class)
+				.createAlias("loginInfo", "logAlias")
+				.add(Restrictions.eq("logAlias.userid", userid))
+				.add(Restrictions.isNull("deleteDate"))
+				.addOrder(Order.asc("displayOrder"))
+				.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
+				.setFirstResult(first)
+				.setMaxResults(max)
+				.list();
+	}
+	
+	
 	@Override
 	public long countSubjects()
 	{
@@ -98,6 +129,20 @@ public class SubjectDaoImpl implements SubjectDao
 				.setProjection(Projections.rowCount())
 				.uniqueResult();
 	}
+	
+	@Override
+	public long countSubjects(String userid)
+	{
+		return (Long)this.sessionFactory.getCurrentSession().createCriteria(Subject.class)
+				.createAlias("loginInfo", "logAlias")
+				.add(Restrictions.eq("logAlias.userid", userid))
+				 .add(Restrictions.isNull("deleteDate"))
+				.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
+				.setProjection(Projections.rowCount())
+				.uniqueResult();
+	}
+	
+	
 	
 	@SuppressWarnings("unchecked")
 	public List<Subject> getSubjectsListForHomePage()
