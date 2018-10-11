@@ -72,10 +72,10 @@ int total_count = (Integer)request.getAttribute("total_count");
 							</td>
 							<td><%= DateFormats.ddMMMyyyyathhmm.format(file.getCreateDate()) %></td>
 							<td>
-								<sec:authorize access="hasRole('<%=Roles.ROLE_ADMIN %>')">
+								<sec:authorize access="hasRole('ROLE_ADMIN')">
 								<button class="btn btn-sm btn-flat btn-default btn_file_del" fid="<%=file.getFid()%>"><i class="fa fa-times"></i> Delete</button>
 								</sec:authorize>
-								<sec:authorize access="!hasRole('<%=Roles.ROLE_ADMIN %>')">
+								<sec:authorize access="!hasRole('ROLE_ADMIN')">
 									<%
 										Registration reg = (Registration)session.getAttribute("registration");
 										if(reg != null && file.getLoginInfo() != null &&  reg.getLoginInfo().getUserid().equals(file.getLoginInfo().getUserid())){

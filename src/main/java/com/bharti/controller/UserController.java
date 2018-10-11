@@ -102,7 +102,7 @@ public class UserController
 								path = "/uploadedfiles/profile/"+reg.getLoginInfo().getUserid()+"/"+file_name;
 								File file = new File (ProjectConfig.upload_path+path);
 								if(!file.exists()) {
-									logger.info("File dir not Exist");
+									logger.info("File dir not Exist : "+path);
 									file.mkdirs();
 								}
 								uploadfile.transferTo(file);  
