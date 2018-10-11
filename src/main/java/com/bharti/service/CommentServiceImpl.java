@@ -35,5 +35,10 @@ public class CommentServiceImpl implements CommentService{
 	public List<Comments> getCommentByKeynote(Long kid) {
 		return this.commentsDao.getCommentByKeynote(kid);
 	}
+	
+	@Override
+	public List<Comments> getCommentByUserid(String userid, int first, int max){
+		return this.commentsDao.getCommentByUserid(userid, first, max);
+	}
 
 }

@@ -121,10 +121,10 @@ if(reg != null)
 					  <div class="icon">
 						<i class="fa fa-user"></i>
 					  </div>
-					  <span class="count"><%= reg.getFirstName()+" "+ reg.getLastName() %></span>
+					  <span class="count"><%= reg.getName() %></span>
 					</a>
 					<div class="dropdown-menu">
-					  <strong><%= reg.getFirstName()+" "+ reg.getLastName() %></strong>
+					  <strong><%= reg.getName() %></strong>
 					  <ul class="list-unstyled">
 						<li>
 						  <a href="#" class="product-image "><img class="replace-2x image  img-circle" src="theme/images/amar1.jpg" alt="" width="70" height="70"></a>

@@ -58,9 +58,8 @@
 		  </div>
 		  <nav>
 			<ul>
-			  <li><a href="${pageContext.request.contextPath}/bitejava/profile">My account</a></li>
-			  <li><a href="#">My Articles</a></li>
-			  <li><a href="#">My Comments</a></li>
+			  <li><a href="${pageContext.request.contextPath}/profile">My account</a></li>
+			  <li><a href="${pageContext.request.contextPath}/comments">My Comments</a></li>
 			</ul>
 		  </nav>
 		</aside>

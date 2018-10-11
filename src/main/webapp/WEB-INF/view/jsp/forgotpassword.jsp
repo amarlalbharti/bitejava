@@ -64,13 +64,13 @@
 			  		else if(resetPwd != null && resetPwd.equals("reset"))
 			  		{
 			  			%>
-			  				<form action="forgotpassword" class="form-box register-form bv-form"  role="form" method="POST">
+			  				<form action="resetpassword" class="form-box register-form bv-form"  role="form" method="POST">
 							  <h3 class="title">Change your password here</h3>
 							  <p>Please enter new password.</p><br>
 							  
 							  <div class="form-group has-feedback">
 								<label>New Password<span class="required">*</span></label>
-								<input class="form-control" name="email" required="required" data-bv-field="Reset Password" type="password">
+								<input class="form-control" name="pwd" required="required" data-bv-field="Reset Password" type="password">
 								<input type="hidden" name="email" value="${email}">
 								<input type="hidden" name="token" value="${token}">
 								

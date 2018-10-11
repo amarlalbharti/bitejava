@@ -1,4 +1,7 @@
 <!doctype html>
+<%@page import="com.bharti.domain.Registration"%>
+<%@page import="com.bharti.constraints.Roles"%>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <%@page import="com.bharti.constraints.DateFormats"%>
 <%@page import="com.bharti.domain.Subject"%>
 <%@page import="java.util.List"%>
@@ -77,36 +80,58 @@ int total_count = (Integer)request.getAttribute("total_count");
 							
 							<td ><%= DateFormats.ddMMMyyyy.format(subject.getCreateDate()) %></td>
 							<td >
-								<a href="adminEditSubject?sid=<%= subject.getSid() %>&url=<%= subject.getUrl() %>" title="Click for Edit">
-									<img alt="Un-Pub" src="theme/images/edit-icon.png" width="20px">
-								</a>
-								<%
-									if(subject.getPublishDate() != null)
-									{
-										%>
-											<a class="unpublish_subject" href="javascript:void(0);" title="Click to Un-Publish">
-												<img alt="Un-Pub" src="theme/images/NoSymbol.png" width="20px">
-											</a>
-										<%
-									}
-									else
-									{
-										%>
-											<a class="publish_subject" href="javascript:void(0);" title="Click to Publish">
-												<img alt="Pub" src="theme/images/Publish.png" width="20px">
-											</a>
-										<%
-									}
-								
-									if(subject.getDeleteDate() == null)
-									{
-										%>
-											<a href="javascript:void(0);" class="delete_subject" title="Click here to delete this subject.">
-												<img alt="Delete" src="theme/images/trash.png" width="20px;">
-											</a>
-										<%
-									}
-								%>
+								<sec:authorize access="hasRole('ROLE_ADMIN')">
+									<a href="adminEditSubject?sid=<%= subject.getSid() %>&url=<%= subject.getUrl() %>" title="Click for Edit">
+										<img alt="Un-Pub" src="theme/images/edit-icon.png" width="20px">
+									</a>
+									<%
+										if(subject.getPublishDate() != null)
+										{
+											%>
+												<a class="unpublish_subject" href="javascript:void(0);" title="Click to Un-Publish">
+													<img alt="Un-Pub" src="theme/images/NoSymbol.png" width="20px">
+												</a>
+											<%
+										}
+										else
+										{
+											%>
+												<a class="publish_subject" href="javascript:void(0);" title="Click to Publish">
+													<img alt="Pub" src="theme/images/Publish.png" width="20px">
+												</a>
+											<%
+										}
+									
+										if(subject.getDeleteDate() == null)
+										{
+											%>
+												<a href="javascript:void(0);" class="delete_subject" title="Click here to delete this subject.">
+													<img alt="Delete" src="theme/images/trash.png" width="20px;">
+												</a>
+											<%
+										}
+									%>
+								</sec:authorize>
+								<sec:authorize access="!hasRole('ROLE_ADMIN')">
+									<%
+										Registration reg = (Registration)session.getAttribute("registration");
+										if(reg != null && subject.getLoginInfo() != null &&  reg.getLoginInfo().getUserid().equals(subject.getLoginInfo().getUserid())){
+											%>
+												<a href="adminEditSubject?sid=<%= subject.getSid() %>&url=<%= subject.getUrl() %>" title="Click for Edit">
+													<img alt="Un-Pub" src="theme/images/edit-icon.png" width="20px">
+												</a>
+											<%
+										}
+										if(subject.getDeleteDate() == null && reg != null && subject.getLoginInfo() != null &&  reg.getLoginInfo().getUserid().equals(subject.getLoginInfo().getUserid()))
+										{
+											%>
+												<a href="javascript:void(0);" class="delete_subject" title="Click here to delete this subject.">
+													<img alt="Delete" src="theme/images/trash.png" width="20px;">
+												</a>
+											<%
+										}
+									%>
+								</sec:authorize>
 							</td>
 						  </tr>
 						<%

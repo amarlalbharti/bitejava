@@ -7,13 +7,8 @@ public class RegistrationUtils {
 	public static String getFullName(Registration reg) {
 		StringBuilder sb = new StringBuilder();
 		if(reg != null) {
-			if(reg.getFirstName() != null) {
-				sb.append(reg.getFirstName());
-				if(reg.getLastName() != null) {
-					sb.append(" "+reg.getLastName());
-				}
-			}else if(reg.getLastName() != null) {
-				sb.append(reg.getLastName());
+			if(reg.getName() != null) {
+				sb.append(reg.getName());
 			}
 		}
 		return sb.toString();	
@@ -23,13 +18,8 @@ public class RegistrationUtils {
 		StringBuilder sb = new StringBuilder();
 		if(reg != null) {
 			sb.append("Name-");
-			if(reg.getFirstName() != null) {
-				sb.append(reg.getFirstName());
-				if(reg.getLastName() != null) {
-					sb.append(" "+reg.getLastName());
-				}
-			}else if(reg.getLastName() != null) {
-				sb.append(reg.getLastName());
+			if(reg.getName() != null) {
+				sb.append(reg.getName());
 			}
 			sb.append(", ");
 			sb.append("Email-");

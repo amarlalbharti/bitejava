@@ -228,7 +228,7 @@ if(subject != null && keynote != null)
 				
 			</ul>
 			<h3 class="title slim">Leave a Reply</h3>
-			<form class="comments-form" action="${pageContext.request.contextPath}/addArticleComment" method="POST">
+			<form class="comments-form" action="#" method="POST">
 			  
 				<sec:authorize access="!isAuthenticated()">
 					<% isAuthenticated = true; %>
@@ -282,6 +282,7 @@ jQuery(document).ready(function() {
 	
 	function getArticleComments(kid){
 		var cList = $("#comment_div .commentlist");
+		cList.empty();
 		$.ajax({
 			type : "GET",
 			url : "${pageContext.request.contextPath}/article/comments/"+kid,
@@ -361,13 +362,14 @@ jQuery(document).ready(function() {
 		
 		if(isValid){
 			$.ajax({
-				type : 'post',
+				type : 'POST',
 				url : "${pageContext.request.contextPath}/addArticleComment/<%= keynote.getKid()%>",
-				data : {name:name,email:email,comment:comment },
-				contentType : "application/json",
+				data : {'name':name,'email':email,'comment':comment },
 				success : function(data) {
 					var obj = jQuery.parseJSON(data);
 					if(obj.status) {
+						getArticleComments(kid);
+						$('#comment_div .comments-form').trigger("reset");
 						Lobibox.notify('success', {
 		                    size: 'mini',
 		                    msg: 'Comment added successfully !!'

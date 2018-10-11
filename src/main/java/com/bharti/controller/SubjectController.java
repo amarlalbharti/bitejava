@@ -178,7 +178,7 @@ public class SubjectController
 					Registration reg = this.registrationService.getRegistrationByUserid(principal.getName());
 					if(reg != null) {
 						comment.setCreateBy(principal.getName());
-						comment.setName(reg.getFirstName() +" " + reg.getLastName());
+						comment.setName(reg.getName());
 						comment.setIsAuthenticated(Boolean.TRUE);
 					}
 				}else {

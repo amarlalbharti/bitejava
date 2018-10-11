@@ -3,6 +3,7 @@ package com.bharti.dao;
 import java.util.List;
 
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -41,4 +42,14 @@ public class CommentsDaoImpl implements CommentsDao{
 				.list();
 	}
 	
+	
+	
+	@SuppressWarnings("unchecked")
+	public List<Comments> getCommentByUserid(String userid, int first, int max){
+		return this.sessionFactory.getCurrentSession().createCriteria(Comments.class)
+				.add(Restrictions.eq("createBy", userid))
+				.add(Restrictions.isNull("deleteDate"))
+				.addOrder(Order.desc("createDate"))
+				.list();
+	}
 }

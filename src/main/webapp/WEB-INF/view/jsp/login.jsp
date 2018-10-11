@@ -53,7 +53,7 @@
 						if(resetPwd != null && resetPwd.equals("true"))
 						{
 							%>
-								<div class="text-green" style="height: auto;">
+								<div class="text-success" style="height: auto;">
 									Password reset successfully, Login with new password ! <br>
 								</div>
 								<br>
@@ -78,7 +78,6 @@
 				  
 				  <div class="buttons-box clearfix">
 					<button type="submit" class="btn btn-default">Login</button>
-					<button type="button" class="btn btn-info"><i class="fa fa-twitter"></i> Login with Twitter</button>
 					<a href="forgotpassword" class="forgot">Forgot Your Password?</a>
 					<span class="required"><b>*</b> Required Field</span>
 				  </div>

@@ -66,6 +66,15 @@
         <put-attribute name="title" value="User profile - Bite Java tutorials" />
         <put-attribute name="body" value="/WEB-INF/view/jsp/profile.jsp" />
     </definition>
+    <definition name="changePassword" extends="homeTemplate">
+        <put-attribute name="title" value="Change Password - Bite Java tutorials" />
+        <put-attribute name="body" value="/WEB-INF/view/jsp/changePassword.jsp" />
+    </definition>
+    <definition name="comments" extends="homeTemplate">
+        <put-attribute name="title" value="Comments - Bite Java tutorials" />
+        <put-attribute name="body" value="/WEB-INF/view/jsp/comments.jsp" />
+    </definition>
+    
     <definition name="contactus" extends="homeTemplate">
         <put-attribute name="title" value="Contact US -Bite Java tutorials" />
         <put-attribute name="body" value="/WEB-INF/view/jsp/contactus.jsp" />

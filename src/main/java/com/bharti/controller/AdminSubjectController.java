@@ -40,12 +40,7 @@ public class AdminSubjectController
 	@RequestMapping(value = "/adminSubjects", method = RequestMethod.GET)
 	public String adminSubjects(ModelMap map, HttpServletRequest request, Principal principal)
 	{
-		System.out.println("Hello from admin dashboard : ");
-//		if(request.isUserInRole(Roles.ROLE_ADMIN)) {
-//			map.addAttribute("sList", subjectService.getAllSubjectsList(0, 10));
-//		} else if(request.isUserInRole(Roles.ROLE_PUBLISHER)) {
-//			map.addAttribute("sList", subjectService.getAllSubjectsList(0, 10, principal.getName()));
-//		}
+		System.out.println("Hello from admin dashboard : "+principal);
 		return "subjects";
 	}
 	
@@ -64,13 +59,8 @@ public class AdminSubjectController
 		
 		logger.info("Get the subject list for pn :"+ pn);
 		
-		if(request.isUserInRole(Roles.ROLE_ADMIN)) {
-			map.addAttribute("sList", subjectService.getAllSubjectsList((pageno-1)*StaticValues.rpp, StaticValues.rpp));
-			map.addAttribute("total_count", (int)subjectService.countSubjects());
-		} else if(request.isUserInRole(Roles.ROLE_PUBLISHER)) {
-			map.addAttribute("sList", subjectService.getAllSubjectsList((pageno-1)*StaticValues.rpp, StaticValues.rpp, principal.getName()));
-			map.addAttribute("total_count", (int)subjectService.countSubjects(principal.getName()));
-		}
+		map.addAttribute("sList", subjectService.getAllSubjectsList((pageno-1)*StaticValues.rpp, StaticValues.rpp));
+		map.addAttribute("total_count", (int)subjectService.countSubjects());
 		map.addAttribute("rpp", StaticValues.rpp);
 		map.addAttribute("pn", pageno);
 		return "subjectList";

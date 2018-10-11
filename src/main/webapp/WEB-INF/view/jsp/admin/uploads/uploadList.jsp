@@ -78,7 +78,6 @@ int total_count = (Integer)request.getAttribute("total_count");
 								<sec:authorize access="!hasRole('<%=Roles.ROLE_ADMIN %>')">
 									<%
 										Registration reg = (Registration)session.getAttribute("registration");
-										System.out.print("Reg : " + reg.getLoginInfo());
 										if(reg != null && file.getLoginInfo() != null &&  reg.getLoginInfo().getUserid().equals(file.getLoginInfo().getUserid())){
 											%>
 											<button class="btn btn-sm btn-flat btn-default btn_file_del" fid="<%=file.getFid()%>"><i class="fa fa-times"></i> Delete</button>

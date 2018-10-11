@@ -115,10 +115,10 @@ Registration reg = (Registration) request.getSession().getAttribute("registratio
 								  <div class="icon">
 									<i class="fa fa-user"></i>
 								  </div>
-								  <span class="count"><%= reg.getFirstName()+" " +reg.getLastName() %></span>
+								  <span class="count"><%= reg.getName() %></span>
 								</a>
 								<div class="dropdown-menu">
-								  <strong>Welcome <%= reg.getLastName() %></strong>
+								  <strong>Welcome <%= reg.getName() %></strong>
 								  <ul class="list-unstyled">
 									<li>
 									  <a href="#" class="product-image "><img class="replace-2x image  img-circle" src="theme/images/Preview-icon.png" alt="" width="70" height="70"></a>
@@ -235,7 +235,35 @@ Registration reg = (Registration) request.getSession().getAttribute("registratio
 	</div>
   </div><!-- .header-wrapper -->
 </header><!-- .header -->
-
+<script type="text/javascript">
+$(document).ready(function(){
+	<%
+		if(session.getAttribute("hasError") != null){
+			String msg = (String)session.getAttribute("msg");
+			%>
+				Lobibox.notify('error', {
+		            size: 'mini',
+		            msg: '<%=msg %>'
+		        });
+			<%
+			session.removeAttribute("hasError");
+			
+		}
+	
+	if(session.getAttribute("success") != null){
+		String msg = (String)session.getAttribute("msg");
+		%>
+			Lobibox.notify('success', {
+	            size: 'mini',
+	            msg: '<%=msg %>'
+	        });
+		<%
+		session.removeAttribute("success");
+	}
+	%>
+	
+});
+</script>
 
 </body>
 </html>

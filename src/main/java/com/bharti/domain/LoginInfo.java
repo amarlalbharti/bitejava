@@ -21,32 +21,46 @@ import com.bharti.domain.UserRole;
 
 @Entity
 @Table(name="login_info")
-public class LoginInfo implements Serializable
-{
+public class LoginInfo implements Serializable {
 	
-	private static final long serialVersionUID = 503239969044315259L;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6233333810273158850L;
 
+	@Id
+	@Column(nullable=false)
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int lid;
 	
+	@Column(name = "userid", nullable=false, unique=true)
 	private String userid;
 	
+	@Column(name = "username", unique=true)
 	private String username;
 	
+	@Column(name = "password", nullable=false)
 	private String password;
 	
+	@Column(name = "modify_date")
 	private Date modifyDate;
 	
+	@Column(name = "forgotpwdid")
 	private String forgotpwdid;
 	
+	@Column(name = "active", nullable=false)
 	private String isActive;
 	
 	
+	@OneToMany(mappedBy="loginInfo", fetch = FetchType.EAGER, cascade=CascadeType.ALL)  
 	private Set<UserRole> roles = new HashSet();
 
+	@OneToOne(mappedBy="loginInfo")
+    private Registration registration;
+
+
 	
-	@Id
-	@Column(name = "lid", nullable=false)
-	@GeneratedValue(strategy=GenerationType.AUTO)
+
 	public int getLid() {
 		return lid;
 	}
@@ -54,7 +68,6 @@ public class LoginInfo implements Serializable
 		this.lid = lid;
 	}
 	
-	@Column(name = "userid", nullable=false, unique=true)
 	public String getUserid() {
 		return userid;
 	}
@@ -62,14 +75,12 @@ public class LoginInfo implements Serializable
 		this.userid = userid;
 	}
 	
-	@Column(name = "username", unique=true)
 	public String getUsername() {
 		return username;
 	}
 	public void setUsername(String username) {
 		this.username = username;
 	}
-	@Column(name = "password", nullable=false)
 	public String getPassword() {
 		return password;
 	}
@@ -77,7 +88,6 @@ public class LoginInfo implements Serializable
 		this.password = password;
 	}
 	
-	@Column(name = "modify_date")
 	public Date getModifyDate() {
 		return modifyDate;
 	}
@@ -85,7 +95,6 @@ public class LoginInfo implements Serializable
 		this.modifyDate = modifyDate;
 	}
 	
-	@Column(name = "forgotpwdid")
 	public String getForgotpwdid() {
 		return forgotpwdid;
 	}
@@ -93,7 +102,6 @@ public class LoginInfo implements Serializable
 		this.forgotpwdid = forgotpwdid;
 	}
 	
-	@Column(name = "active", nullable=false)
 	public String getIsActive() {
 		return isActive;
 	}
@@ -101,7 +109,6 @@ public class LoginInfo implements Serializable
 		this.isActive = isActive;
 	}
 	
-	@OneToMany(mappedBy="loginInfo", fetch = FetchType.EAGER, cascade=CascadeType.ALL)  
 	public Set<UserRole> getRoles() {
 		return roles;
 	}
@@ -109,11 +116,7 @@ public class LoginInfo implements Serializable
 		this.roles = roles;
 	}
 	
-	private Registration registration;
-
-
-	@OneToOne(mappedBy="loginInfo")
-    public Registration getRegistration() {
+	public Registration getRegistration() {
 		return registration;
 	}
 	public void setRegistration(Registration registration) {

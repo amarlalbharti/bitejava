@@ -29,9 +29,7 @@ public class Registration implements Serializable
 	
 	private int rid;
 	
-	private String firstName;
-	
-	private String lastName;
+	private String name;
 	
 	private String contactno;
 	
@@ -58,26 +56,15 @@ public class Registration implements Serializable
 		this.rid = rid;
 	}
 	
-	@Column(name = "first_name", nullable=false)
-	public String getFirstName()
+	@Column(name = "name", nullable=false)
+	public String getName()
 	{
-		return firstName;
+		return name;
 	}
 
-	public void setFirstName(String firstName)
+	public void setName(String name)
 	{
-		this.firstName = firstName;
-	}
-
-	@Column(name = "last_name")
-	public String getLastName()
-	{
-		return lastName;
-	}
-
-	public void setLastName(String lastName)
-	{
-		this.lastName = lastName;
+		this.name = name;
 	}
 
 	@Column(name = "contact_no")
@@ -122,7 +109,7 @@ public class Registration implements Serializable
 		this.dob = dob;
 	}
 
-	@Column(name = "gender", nullable= false)
+	@Column(name = "gender")
 	public String getGender() {
 		return gender;
 	}

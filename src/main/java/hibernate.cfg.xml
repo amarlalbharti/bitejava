@@ -7,8 +7,9 @@
     
     <session-factory>
      	<property name="hbm2ddl.auto">update</property>
-     	<mapping class="com.bharti.domain.LoginInfo"/>
+
      	<mapping class="com.bharti.domain.Registration"/>
+     	     	<mapping class="com.bharti.domain.LoginInfo"/>
      	<mapping class="com.bharti.domain.UserRole"/>
      	<mapping class="com.bharti.domain.Persistent_Logins"/>
      	<mapping class="com.bharti.domain.Subject"/>

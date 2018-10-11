@@ -20,13 +20,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.bharti.constraints.ProjectConfig;
 import com.bharti.constraints.Roles;
 import com.bharti.constraints.SeoConstants;
 import com.bharti.constraints.Validation;
 import com.bharti.domain.LoginInfo;
 import com.bharti.domain.Registration;
 import com.bharti.domain.UserRole;
-import com.bharti.model.KeynoteModel;
 import com.bharti.model.UserRegModel;
 import com.bharti.service.LoginInfoService;
 import com.bharti.service.MailService;
@@ -49,9 +49,8 @@ public class LoginController
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String login(ModelMap map, HttpServletRequest request, Principal principal)
 	{
-		map.addAttribute("pageKeywords", SeoConstants.SEO_DEFAULT_KEYWORDS);
 		map.addAttribute("pageAuthor", SeoConstants.SEO_DEFAULT_AUTHOR);
-		map.addAttribute("pageDescription", SeoConstants.SEO_DEFAULT_DESCRIPTION);
+		map.addAttribute("pageDescription", "Please signin to get more authorities on bitejava tutorials.");
 		map.addAttribute("pageTitle", "Login Page"+SeoConstants.SEO_POST_TITLE);
 		return "login";
 	}
@@ -59,9 +58,8 @@ public class LoginController
 	@RequestMapping(value = "/signup", method = RequestMethod.GET)
 	public String signup(ModelMap map, HttpServletRequest request, Principal principal)
 	{
-		map.addAttribute("pageKeywords", SeoConstants.SEO_DEFAULT_KEYWORDS);
 		map.addAttribute("pageAuthor", SeoConstants.SEO_DEFAULT_AUTHOR);
-		map.addAttribute("pageDescription", SeoConstants.SEO_DEFAULT_DESCRIPTION);
+		map.addAttribute("pageDescription", "Please register yourself to become the member of bitejava tutorials.");
 		map.addAttribute("pageTitle", "Signup Page"+SeoConstants.SEO_POST_TITLE);
 		map.addAttribute("regForm", new UserRegModel());
 		return "signup";
@@ -72,69 +70,65 @@ public class LoginController
 			@ModelAttribute(value = "login") LoginInfo login, BindingResult loginResult,
 			@ModelAttribute(value = "urole") UserRole urole, BindingResult userroleResult,
 			@RequestParam("userid") String userid,
-			ModelMap map, HttpServletRequest request,Principal principal)
-	{
-		if(model.getUserid() != null)
-		{
-			if(Validation.validateEmail(model.getUserid()))
-			{
+			ModelMap map, HttpServletRequest request,Principal principal) {
+		if(model.getUserid() != null) {
+			if(Validation.validateEmail(model.getUserid())) {
 				Registration reg1 = registrationService.getRegistrationByUserid(model.getUserid());
-				if(reg1 != null)
-				{
+				if(reg1 != null) {
 					result.addError(new FieldError("regForm", "userid", model.getUserid() , false, new String[1],new String[1], "Email is already registered !"));
 					return "signup";
 				}
-			}
-			else
-			{
+			} else {
 				result.addError(new FieldError("regForm", "userid", model.getUserid() , false, new String[1],new String[1], "Please provide valid Email !"));
 				return "signup";
 			}
 		}
-		if(result.hasErrors())
-		{
+		if(result.hasErrors()) {
 			System.out.println("Validtion failed");
 			return "signup";
-		}
-		else
-		{
-			java.util.Date dt = new java.util.Date();
-			java.sql.Date date = new java.sql.Date(dt.getTime());
-			
-			String uuid = UUID.randomUUID().toString();
-			
-			login.setForgotpwdid(uuid);
-			login.setRegistration(reg);
-			reg.setCreateDate(date);
-			reg.setLoginInfo(login);
-			Set<UserRole> roles = new HashSet<UserRole>();
-			urole.setUserrole(Roles.ROLE_USER.toString());
-			roles.add(urole);
-			login.setRoles(roles);
-			login.setIsActive("false");
-			urole.setLoginInfo(login);
-			loginInfoService.addLoginInfo(login);
-			
-			map.addAttribute("regSuccess", "true");
-			map.addAttribute("name", reg.getFirstName() + " " + reg.getLastName());
-			
-			String mailContent="Dear "+reg.getFirstName() + " " + reg.getLastName()+",<br><br><br>"+
- 
-								"Congratulations, you have successfully registered to BiteJava. <br><br>"+
-								 
-								"Please find below your user credentials. Please <a href='http://www.bitejava.com/login' >login</a>  and change password for security reasons. For any assistance, please feel free to reach out to us at support@bitejava.com<br><br>"+
-								 
-								"Username - "+reg.getLoginInfo().getUserid()+"<br>"+
-								"Password - "+model.getPassword()+"<br><br><br>"+
-								 
-								"Regards,<br>"+
-								"Team Bitejava";
-			
-			
-			
-			
-			mailService.sendMail(reg.getLoginInfo().getUserid(), "Thank you for registration in BiteJava.com", mailContent);
+		} else {
+			try {
+				java.util.Date dt = new java.util.Date();
+				java.sql.Date date = new java.sql.Date(dt.getTime());
+				
+				String uuid = UUID.randomUUID().toString();
+				
+				login.setForgotpwdid(uuid);
+				login.setRegistration(reg);
+				reg.setCreateDate(date);
+				reg.setLoginInfo(login);
+				Set<UserRole> roles = new HashSet<UserRole>();
+				urole.setUserrole(Roles.ROLE_USER.toString());
+				roles.add(urole);
+				login.setRoles(roles);
+				login.setIsActive("false");
+				urole.setLoginInfo(login);
+				loginInfoService.addLoginInfo(login);
+				
+				map.addAttribute("regSuccess", "true");
+				map.addAttribute("name", reg.getName() );
+				
+				String mailContent="Dear "+reg.getName()+",<br><br><br>"+
+	 
+									"Congratulations, you have successfully registered to BiteJava. <br><br>"+
+									 
+									"Please find below your user credentials. Please <a href='http://www.bitejava.com/login' >login</a>  and change password for security reasons. For any assistance, please feel free to reach out to us at support@bitejava.com<br><br>"+
+									 
+									"Username - "+reg.getLoginInfo().getUserid()+"<br>"+
+									"Password - "+model.getPassword()+"<br><br><br>"+
+									 
+									"Regards,<br>"+
+									"Team Bitejava";
+				
+				
+				
+				
+				mailService.sendMail(reg.getLoginInfo().getUserid(), "Thank you for registration in BiteJava.com", mailContent);
 
+				
+			}catch (Exception e) {
+				logger.error("Exception while registration ", e);
+			}
 			
 			
 			return "redirect:login";
@@ -155,7 +149,7 @@ public class LoginController
 		Registration reg = registrationService.getRegistrationByUserid(principal.getName());
 		if(reg != null)
 		{
-			logger.info("Login user name  : " + reg.getFirstName());
+			logger.info("Login user name  : " + reg.getName());
 			request.getSession(true).setAttribute("registration", reg);
 			return "redirect:userHome";
 		}
@@ -225,9 +219,8 @@ public class LoginController
 	@RequestMapping(value = "/forgotpassword", method = RequestMethod.GET)
 	public String forgotpassword(ModelMap map, HttpServletRequest request, Principal principal)
 	{
-		map.addAttribute("pageKeywords", SeoConstants.SEO_DEFAULT_KEYWORDS);
 		map.addAttribute("pageAuthor", SeoConstants.SEO_DEFAULT_AUTHOR);
-		map.addAttribute("pageDescription", SeoConstants.SEO_DEFAULT_DESCRIPTION);
+		map.addAttribute("pageDescription", "Don't worry if you have forgot your password. Enter your email to reset your password.");
 		map.addAttribute("pageTitle", "Forgot Password"+SeoConstants.SEO_POST_TITLE);
 		map.addAttribute("resetPwd", "forgot");
 		return "forgotpassword";
@@ -251,17 +244,17 @@ public class LoginController
 					login.setForgotpwdid(uuid);
 					loginInfoService.updateLoginInfo(login);
 					
-					String path_url = (String)request.getSession().getAttribute("path_url");
-					String mailContent = "Dear "+reg.getFirstName()+",<br><br><br>"+
+					String path_url =ProjectConfig.SITE_URL;
+					String mailContent = "Dear "+reg.getName()+",<br><br><br>"+
 										
-										"Retrieve your password here <br><br>"+
-										"Please click on link below to change your password.<br><br> <a href='"+path_url+"/resetpassword?email="+reg.getLoginInfo().getUserid()+"&token="+uuid+"' >"+path_url+"/resetpassword?email="+reg.getLoginInfo().getUserid()+"&token="+uuid+"</a>  <br> <br>For any assistance, please feel free to reach out to us at support@bitejava.com<br><br>"+
-										"Username - "+reg.getLoginInfo().getUserid()+"<br>"+
-										"<br><br>"+
-										"Regards,<br>"+
-										"Team Bitejava";
+						"Retrieve your password here <br><br>"+
+						"Please click on link below to change your password.<br><br> <a href='"+path_url+"/resetpassword?email="+reg.getLoginInfo().getUserid()+"&token="+uuid+"' >"+path_url+"/resetpassword?email="+reg.getLoginInfo().getUserid()+"&token="+uuid+"</a>  <br> <br>For any assistance, please feel free to reach out to us at support@bitejava.com<br><br>"+
+						"Username - "+reg.getLoginInfo().getUserid()+"<br>"+
+						"<br><br>"+
+						"Regards,<br>"+
+						"Team Bitejava";
 					
-					mailService.sendMail(reg.getLoginInfo().getUserid(), "Thank you for registration in BiteJava.com", mailContent);
+					mailService.sendMail(reg.getLoginInfo().getUserid(), "Reset your password for BiteJava.com", mailContent);
 					map.addAttribute("reset", "success");
 					return "forgotpassword";
 				}
@@ -285,9 +278,8 @@ public class LoginController
 		logger.info("From resetpassword ..............");
 		String email = request.getParameter("email");
 		String token = request.getParameter("token");
-		map.addAttribute("pageKeywords", SeoConstants.SEO_DEFAULT_KEYWORDS);
 		map.addAttribute("pageAuthor", SeoConstants.SEO_DEFAULT_AUTHOR);
-		map.addAttribute("pageDescription", SeoConstants.SEO_DEFAULT_DESCRIPTION);
+		map.addAttribute("pageDescription", "Enter a new password to reset your password");
 		map.addAttribute("pageTitle", "Reset Password"+SeoConstants.SEO_POST_TITLE);
 		
 		if(email != null && Validation.validateEmail(email))
@@ -305,5 +297,28 @@ public class LoginController
 		return "forgotpassword";
 	}
 	
+	
+	
+	@RequestMapping(value = "/resetpassword", method = RequestMethod.POST)
+	public String updatePassword(ModelMap map, HttpServletRequest request, Principal principal)
+	{
+		logger.info("From resetpassword ..............");
+		String email = request.getParameter("email");
+		String token = request.getParameter("token");
+		if(email != null && Validation.validateEmail(email))
+		{
+			LoginInfo login = loginInfoService.getLoginInfoByUserid(email);
+			if(login != null && login.getForgotpwdid() != null && login.getForgotpwdid().equals(token))
+			{
+				String pwd = request.getParameter("pwd");
+				boolean flag = loginInfoService.resetPassword(email, pwd);
+				if(flag) {
+					return "redirect:login?resetPwd=true";
+				}
+			}
+				
+		}
+		return "redirect:login";
+	}
 	
 }

@@ -14,4 +14,5 @@ public interface CommentService {
 	
 	public List<Comments> getCommentByKeynote(Long kid);
 	
+	public List<Comments> getCommentByUserid(String userid, int first, int max);
 }
