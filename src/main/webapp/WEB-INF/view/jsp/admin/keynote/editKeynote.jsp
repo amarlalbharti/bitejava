@@ -74,7 +74,7 @@
 							  </div>
 							  <div class="form-group">
 							  	<input class="btn btn-default btn-flat" type="submit"  name="submit" value="Save">
-							  	<input class="btn btn-default btn-flat" type="submit"  name="submit" value="Save And Publish">
+							  	<input class="btn btn-default btn-flat" type="submit"  name="submit" value="Save And Continue">
 							  </div>
 						</form:form>
 					  </div>

@@ -46,11 +46,7 @@ public class AdminKeynoteController
 	@RequestMapping(value = "/adminKeynotes", method = RequestMethod.GET)
 	public String index(ModelMap map, HttpServletRequest request, Principal principal)
 	{
-		if(request.isUserInRole(Roles.ROLE_ADMIN)) {
-			map.addAttribute("sList", subjectService.getAllSubjectsList(0, 1000));
-		} else {
-			map.addAttribute("sList", subjectService.getAllSubjectsList(0, 1000, principal.getName()));
-		}
+		map.addAttribute("sList", subjectService.getAllSubjectsList(0, 1000));
 		map.addAttribute("sid", request.getParameter("sid"));
 		System.out.println("Hello from admin keynotes ");
 		return "keynotes";
@@ -65,28 +61,15 @@ public class AdminKeynoteController
 		if(sid != null && sid.trim().length() > 0) {
 			try  {
 				Subject subject = subjectService.getSubjectById(Integer.parseInt(sid));
-				if(subject != null 
-						&& (request.isUserInRole(Roles.ROLE_ADMIN) || (request.isUserInRole(Roles.ROLE_PUBLISHER)
-								&&  (subject.getLoginInfo() != null && subject.getLoginInfo().getUserid().equals(principal.getName()))))) {
-					
+				if(subject != null) {
 					if(parent_kid != null && parent_kid.trim().length() > 0) {
 						Keynote parent_kn = keynoteService.getKeynoteById(Integer.parseInt(parent_kid));
 						if(parent_kn != null) {
-							if(request.isUserInRole(Roles.ROLE_ADMIN)) {
-								map.addAttribute("knList", keynoteService.getAllKeynoteList(subject.getSid(), parent_kn.getKid()));
-									
-							} else {
-								map.addAttribute("knList", keynoteService.getAllKeynoteList(subject.getSid(), parent_kn.getKid(), principal.getName()));
-							}
+							map.addAttribute("knList", keynoteService.getAllKeynoteList(subject.getSid(), parent_kn.getKid()));
 							map.addAttribute("parent_kn", parent_kn);
 						}
 					} else {
-						if(request.isUserInRole(Roles.ROLE_ADMIN)) {
-							map.addAttribute("knList", keynoteService.getAllKeynoteList(subject.getSid()));
-						} else {
-							map.addAttribute("knList", keynoteService.getAllKeynoteList(subject.getSid(), principal.getName()));
-						}
-						
+						map.addAttribute("knList", keynoteService.getAllKeynoteList(subject.getSid()));
 					}
 					return "keynoteList";
 				}
@@ -105,18 +88,12 @@ public class AdminKeynoteController
 	{
 		System.out.println("Hello from admin addKeynote");
 		map.addAttribute("sub", request.getParameter("sub"));
-		if(request.isUserInRole(Roles.ROLE_MANAGER)) {
-			map.addAttribute("sList", subjectService.getSubjectsList(0, 1000, principal.getName()));
-		} else {
-			map.addAttribute("sList", subjectService.getSubjectsList(0, 1000));
-		}
+		map.addAttribute("sList", subjectService.getSubjectsList(0, 1000));
 		String sid = request.getParameter("sid");
 		if(sid != null && sid.trim().length() > 0) {
 			try {
 				Subject subject = subjectService.getSubjectById(Integer.parseInt(sid));
-				if(subject != null
-						&& (request.isUserInRole(Roles.ROLE_ADMIN) || (request.isUserInRole(Roles.ROLE_PUBLISHER)
-								&&  (subject.getLoginInfo() != null && subject.getLoginInfo().getUserid().equals(principal.getName()))))) {
+				if(subject != null) {
 					map.addAttribute("kList", keynoteService.getKeynoteList(subject.getSid()));
 					map.addAttribute("sub", subject.getUrl());
 					map.addAttribute("form_keynote", new KeynoteModel());
@@ -151,10 +128,6 @@ public class AdminKeynoteController
 			String  btnType = request.getParameter("submit");
 			System.out.println("Submited Buttom value : "+ btnType);
 			
-			Subject subject = subjectService.getSubjectById(model.getSubject().getSid());
-			if(request.isUserInRole(Roles.ROLE_PUBLISHER) &&  (subject.getLoginInfo() == null || !subject.getLoginInfo().getUserid().equals(principal.getName()))) {
-				return "redirect:adminKeynotes";
-			}
 			Date date = new Date();
 			java.sql.Date dt = new java.sql.Date(date.getTime());
 			Keynote kn = new Keynote();
@@ -180,10 +153,6 @@ public class AdminKeynoteController
 			kn.setUrl(url.toLowerCase());
 			kn.setCreateDate(dt);
 			
-			if(btnType != null && btnType.equals("Save And Publish")) {
-				kn.setPublishDate(dt);
-			}
-			
 			long kid = keynoteService.addKeynote(kn);
 			
 			kn.setKid(kid);
@@ -198,8 +167,11 @@ public class AdminKeynoteController
 			System.out.println("in else success ");
 			Subject sub = subjectService.getSubjectById(model.getSubject().getSid());
 			if(sub != null) {
-				return "redirect:adminKeynotes?sid="+sub.getSid();
-				
+				if(btnType != null && btnType.equals("Save")) {
+					return "redirect:adminKeynotes?sid="+sub.getSid();
+				}else {
+					return "redirect:adminEditKeynote?kid="+kid;
+				}
 			}
 			
 			return "redirect:adminKeynotes";
@@ -295,13 +267,9 @@ public class AdminKeynoteController
 				kn.setKeynote(model.getKeynote());
 				kn.setDisplayOrder(Integer.parseInt(model.getDisplayOrder()));
 				kn.setShowOnHomePage(model.isShowOnHomePage());
-				if(kn.getPublishDate() == null && btnType != null && btnType.equals("Save And Publish")) {
-					kn.setPublishDate(dt);
-				}
 				if(model.getParent() != null && model.getParent().getKid() > 0) {
 					Keynote parent_kn = keynoteService.getKeynoteById(model.getParent().getKid());
 					kn.setParent_keynote(parent_kn);
-					
 				}
 				
 				keynoteService.updateKeynote(kn);
@@ -318,9 +286,12 @@ public class AdminKeynoteController
 					keynoteDetailService.addKeynoteDetail(knd);
 				}
 				
-				return "redirect:adminKeynotes?sid="+kn.getSubject().getSid();
+				if(btnType != null && btnType.equals("Save")) {
+					return "redirect:adminKeynotes?sid="+kn.getSubject().getSid();
+				}else {
+					return "redirect:adminEditKeynote?kid="+kn.getKid();
+				}
 			}
-			
 		}
 			return "redirect:adminKeynotes";
 	}

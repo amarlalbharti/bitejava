@@ -165,19 +165,18 @@ public class AdminSubjectController
 	{
 		System.out.println("Hello from Edit Subject");
 		String sid = request.getParameter("sid");
-		if(sid != null && sid.trim().length() > 0)
-		{
-			try 
-			{
+		if(sid != null && sid.trim().length() > 0) {
+			try {
 				Subject subject = subjectService.getSubjectById(Long.parseLong(sid));
-				if(subject != null )
-				{
+				if(subject != null ) {
 					if(request.isUserInRole(Roles.ROLE_PUBLISHER) && 
 							(subject.getLoginInfo() == null || 
 							!subject.getLoginInfo().getUserid().equals(principal.getName()))
 							) {
+						request.getSession().setAttribute("hasError", true);
+						request.getSession().setAttribute("msg", "You are not authorized to change subject ''"+subject.getSubject()+"'");
 						logger.error(principal.getName() + " is not allowed to update others subject for sid :"+subject.getSid() + " and subject: "+subject.getSubject());
-						return  "redirect:error";
+						return  "redirect:adminSubjects";
 					}
 					SubjectModel model = new SubjectModel();
 					model.setSid(subject.getSid());
@@ -194,23 +193,18 @@ public class AdminSubjectController
 		}
 		return  "redirect:adminSubjects";
 	}
+	
 	@RequestMapping(value = "/adminEditSubject", method = RequestMethod.POST)
 	public String adminEditSubject(@ModelAttribute(value = "form_subject") @Valid SubjectModel model,BindingResult result, ModelMap map, HttpServletRequest request, Principal principal)
 	{
 		
-		if(model.getUrl() == null || model.getUrl().trim().length() < 3)
-		{
+		if(model.getUrl() == null || model.getUrl().trim().length() < 3) {
 			result.addError(new FieldError("form_subject", "url", model.getUrl() , false, new String[1],new String[1], "Please enter valid url !"));
 			return "editSubject";
-		}
-		
-		if (result.hasErrors())
-		{
+		} else if (result.hasErrors()) {
 			System.out.println("in validation");
 			return "editSubject";
-		}
-		else
-		{
+		} else {
 			Subject sub = subjectService.getSubjectById(model.getSid());
 			if(sub != null)
 			{
@@ -232,44 +226,33 @@ public class AdminSubjectController
 				sub.setCreateDate(dt);
 				sub.setShowOnHomePage(model.isShowOnHomePage());
 				sub.setUrl(model.getUrl().replaceAll("[^a-zA-Z0-9]+","_").toLowerCase());
-				if(sub.getPublishDate() == null && btnType != null && btnType.equals("Save And Publish"))
-				{
+				if(sub.getPublishDate() == null && btnType != null && btnType.equals("Save And Publish")) {
 					sub.setPublishDate(dt);
 				}
-				try
-				{
+				try {
 					sub.setDisplayOrder(Integer.parseInt(model.getDisplayOrder()));
-				}
-				catch(NumberFormatException e)
-				{
+				} catch(NumberFormatException e) {
 					sub.setDisplayOrder(-1);
 					sub.setPublishDate(null);
 					e.printStackTrace();
 				}
-				try
-				{
+				try {
 					MultipartFile sub_img = model.getSubject_image();
-					if(sub_img != null)
-					{
+					if(sub_img != null) {
 						String img_name = sub_img.getOriginalFilename();
-						if(img_name != null && img_name.trim().length() > 0)
-						{
+						if(img_name != null && img_name.trim().length() > 0) {
 							img_name = img_name.replaceAll("[^a-zA-Z0-9.-]", "_");
 							sub.setSubject_image(img_name);
 							File img = new File (ProjectConfig.upload_path+"/subjects/"+sub.getSid()+"/subject_image/"+img_name);
 							
-							if(!img.exists())
-							{
+							if(!img.exists()) {
 								img.mkdirs();
 							}
-							sub_img.transferTo(img);  
-							subjectService.updateSubject(sub);
+							sub_img.transferTo(img);
 						}
 					}
-				}
-				catch(Exception e)
-				{
-					e.printStackTrace();
+				} catch(Exception e) {
+					logger.error("Exception while uploading image of subject + "+model.getSubject(), e);
 				}
 				subjectService.updateSubject(sub);
 				
@@ -281,6 +264,7 @@ public class AdminSubjectController
 	
 	
 	
+	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/unpublishSubject", method = RequestMethod.GET)
 	@ResponseBody
 	public String unpublishSubject(ModelMap map, HttpServletRequest request, Principal principal)
@@ -311,6 +295,7 @@ public class AdminSubjectController
 		return obj.toJSONString();
 	}
 	
+	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/publishSubject", method = RequestMethod.GET)
 	@ResponseBody
 	public String publishSubject(ModelMap map, HttpServletRequest request, Principal principal)
@@ -343,6 +328,7 @@ public class AdminSubjectController
 		obj.put("success", false);
 		return obj.toJSONString();
 	}
+	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/adminDeleteSubject", method = RequestMethod.GET)
 	@ResponseBody
 	public String adminDeleteSubject(ModelMap map, HttpServletRequest request, Principal principal)

@@ -219,6 +219,7 @@ if(reg != null)
 }
 
 %>
+
 <script type="text/javascript">
 $(document).ready(function(){
 	$('.bodyCoverWait').hide();
@@ -227,14 +228,28 @@ $(document).ready(function(){
 		if(session.getAttribute("hasError") != null){
 			String msg = (String)session.getAttribute("msg");
 			%>
-				alert("<%=msg%>");
+				Lobibox.notify('error', {
+		            size: 'mini',
+		            msg: '<%=msg %>'
+		        });
 			<%
 			session.removeAttribute("hasError");
 			
 		}
+	
+	if(session.getAttribute("success") != null){
+		String msg = (String)session.getAttribute("msg");
+		%>
+			Lobibox.notify('success', {
+	            size: 'mini',
+	            msg: '<%=msg %>'
+	        });
+		<%
+		session.removeAttribute("success");
+	}
 	%>
+	
 });
 </script>
-
 </body>
 </html>

@@ -1,4 +1,6 @@
  <!doctype html>
+ <%@page import="com.bharti.domain.Registration"%>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <%@page import="com.bharti.domain.Keynote"%>
 <%@page import="com.bharti.constraints.DateFormats"%>
 <%@page import="com.bharti.domain.Subject"%>
@@ -105,36 +107,78 @@
 							
 							<td ><%= DateFormats.ddMMMyyyy.format(kn.getCreateDate()) %></td>
 							<td >
-								<a href="adminEditKeynote?kid=<%= kn.getKid()%>" title='Click for edit this keynote'>
-									<img alt="" src="theme/images/edit-icon.png" width="20px;">
-								</a>
-								<%
-									if(kn.getPublishDate() != null)
-									{
-										%>
-											<a class="unpublish_keynote" href="javascript:void(0);" title="Click to Un-Publish">
-												<img alt="Un-Pub" src="theme/images/NoSymbol.png" width="20px">
-											</a>
-										<%
-									}
-									else
-									{
-										%>
-											<a class="publish_keynote" href="javascript:void(0);"  title="Click to Publish">
-												<img alt="Pub" src="theme/images/Publish.png" width="20px">
-											</a>
-										<%
-									}
-									if(kn.getDeleteDate() == null)
-									{
-										%>
-											<a href="javascript:void(0);" class="delete_keynote" title="Click here to delete this subject."><img alt="Delete" src="theme/images/trash.png" width="20px;"></a>
-										<%
-									}
-								%>
-								<a target="_blank" href="note/<%= kn.getSubject().getUrl()%>/<%=kn.getUrl() %>" title='Click for preview'>
-									<img alt="" src="theme/images/preview-4.png" width="20px;">
-								</a>
+								<sec:authorize access="hasRole('ROLE_ADMIN')">
+									<a href="adminEditKeynote?kid=<%= kn.getKid()%>" title='Click for edit this keynote'>
+										<img alt="" src="theme/images/edit-icon.png" width="20px;">
+									</a>
+									<%
+										if(kn.getPublishDate() != null)
+										{
+											%>
+												<a class="unpublish_keynote" href="javascript:void(0);" title="Click to Un-Publish">
+													<img alt="Un-Pub" src="theme/images/NoSymbol.png" width="20px">
+												</a>
+											<%
+										}
+										else
+										{
+											%>
+												<a class="publish_keynote" href="javascript:void(0);"  title="Click to Publish">
+													<img alt="Pub" src="theme/images/Publish.png" width="20px">
+												</a>
+											<%
+										}
+										if(kn.getDeleteDate() == null)
+										{
+											%>
+												<a href="javascript:void(0);" class="delete_keynote" title="Click here to delete this subject."><img alt="Delete" src="theme/images/trash.png" width="20px;"></a>
+											<%
+										}
+									%>
+									<a target="_blank" href="note/<%= kn.getSubject().getUrl()%>/<%=kn.getUrl() %>" title='Click for preview'>
+										<img alt="" src="theme/images/preview-4.png" width="20px;">
+									</a>
+								</sec:authorize>
+								<sec:authorize access="!hasRole('ROLE_ADMIN')">
+									<%
+										Registration reg = (Registration)session.getAttribute("registration");
+										if(reg != null && kn.getLoginInfo() != null &&  reg.getLoginInfo().getUserid().equals(kn.getLoginInfo().getUserid())){
+											%>
+												<a href="adminEditKeynote?kid=<%= kn.getKid()%>" title='Click for edit this keynote'>
+													<img alt="" src="theme/images/edit-icon.png" width="20px;">
+												</a>
+												<%
+													if(kn.getPublishDate() != null)
+													{
+														%>
+															<a class="unpublish_keynote" href="javascript:void(0);" title="Click to Un-Publish">
+																<img alt="Un-Pub" src="theme/images/NoSymbol.png" width="20px">
+															</a>
+														<%
+													}
+													else
+													{
+														%>
+															<a class="publish_keynote" href="javascript:void(0);"  title="Click to Publish">
+																<img alt="Pub" src="theme/images/Publish.png" width="20px">
+															</a>
+														<%
+													}
+													if(kn.getDeleteDate() == null)
+													{
+														%>
+															<a href="javascript:void(0);" class="delete_keynote" title="Click here to delete this subject."><img alt="Delete" src="theme/images/trash.png" width="20px;"></a>
+														<%
+													}
+												%>
+												<a target="_blank" href="note/<%= kn.getSubject().getUrl()%>/<%=kn.getUrl() %>" title='Click for preview'>
+													<img alt="" src="theme/images/preview-4.png" width="20px;">
+												</a>
+											<%
+										}
+									%>
+								</sec:authorize>
+								
 							</td>
 						  </tr>
 						<%
