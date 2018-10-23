@@ -193,7 +193,7 @@ public class KeynoteDaoImpl implements KeynoteDao
 	public List<Keynote> getRecentKeynotes(int first, int max)
 	{
 		return this.sessionFactory.getCurrentSession().createCriteria(Keynote.class)
-				.addOrder(Order.asc("createDate"))
+				.addOrder(Order.desc("createDate"))
 				.add(Restrictions.isNull("deleteDate"))
 				.setFirstResult(first)
 				.setMaxResults(max)

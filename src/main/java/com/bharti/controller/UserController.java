@@ -183,16 +183,16 @@ public class UserController
 	public String comments(ModelMap map, HttpServletRequest request, Principal principal)
 	{
 		logger.info("From user profile ..............");
-		Registration reg = registrationService.getRegistrationByUserid(principal.getName());
-		if(reg != null) {
-			map.addAttribute("pageAuthor", SeoConstants.SEO_DEFAULT_AUTHOR);
-			map.addAttribute("pageDescription", "Comments added by user "+reg.getName());
-			map.addAttribute("pageTitle", "My Comments :"+RegistrationUtils.getFullName(reg)+SeoConstants.SEO_POST_TITLE);
-			
-			
-			map.addAttribute("comments", commentService.getCommentByUserid(principal.getName(), 0, 10000));
-			map.addAttribute("user", reg);
-			return "comments";
+		if(principal != null) {
+			Registration reg = registrationService.getRegistrationByUserid(principal.getName());
+			if(reg != null) {
+				map.addAttribute("pageAuthor", SeoConstants.SEO_DEFAULT_AUTHOR);
+				map.addAttribute("pageDescription", "Comments added by user "+reg.getName());
+				map.addAttribute("pageTitle", "My Comments :"+RegistrationUtils.getFullName(reg)+SeoConstants.SEO_POST_TITLE);
+				map.addAttribute("comments", commentService.getCommentByUserid(principal.getName(), 0, 10000));
+				map.addAttribute("user", reg);
+				return "comments";
+			}
 		}
 		return "redirect:login";
 	}

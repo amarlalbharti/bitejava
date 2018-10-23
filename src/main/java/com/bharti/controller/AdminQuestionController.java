@@ -88,7 +88,7 @@ public class AdminQuestionController
 	@RequestMapping(value = "/adminAskQuestion", method = RequestMethod.POST)
 	public String adminAskQuestion(@ModelAttribute(value = "queForm") @Valid QuestionAnswerModel model,BindingResult result, ModelMap map, HttpServletRequest request,Principal principal)
 	{
-		if (result.hasErrors())
+		if (result.hasErrors() || model.getTags() == null || model.getTags().isEmpty())
 		{
 			logger.error("POst ask question has error : " + result.toString());
 			return "askQuestion";

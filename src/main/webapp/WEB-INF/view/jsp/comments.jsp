@@ -67,12 +67,15 @@ input[type="file"] {
 		  <header>
 			<h3 class="title"></h3>
 		  </header>
-		  <div class="timeline">
+		  
 			<%
 				Registration user = (Registration)request.getAttribute("user");
 				if(user != null) {
 					List<Comments> comments = (List<Comments>)request.getAttribute("comments");
 					if(comments!= null && !comments.isEmpty()){
+						%>
+							<div class="timeline">
+						<%
 						boolean flagLeft = true;
 						String fade = "fadeInLeft";
 						for(Comments comment : comments){
@@ -106,14 +109,18 @@ input[type="file"] {
 								fade = "fadeInLeft";
 							}
 						}
+						%>
+						</div>
+						<%
+					}else{
+						%>
+							<p>You have not commented yet !</p>
+						<%
 					}
-					%>
-						
-					<%
 				}
 			
 			%>
-			</div>
+			
 		  </div>
 		</div>
 		

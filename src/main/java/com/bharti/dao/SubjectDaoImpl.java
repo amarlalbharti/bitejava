@@ -150,7 +150,6 @@ public class SubjectDaoImpl implements SubjectDao
 		return this.sessionFactory.getCurrentSession().createCriteria(Subject.class)
 				.add(Restrictions.eq("showOnHomePage", true))
 				.add(Restrictions.isNotNull("publishDate"))
-//				.setFetchMode("childKeynote", FetchMode.JOIN)
 				.addOrder(Order.asc("displayOrder"))
 				.add(Restrictions.isNull("deleteDate"))
 				.list();
@@ -160,7 +159,7 @@ public class SubjectDaoImpl implements SubjectDao
 	public List<Subject> getRecentSubjects(int first, int max)
 	{
 		return this.sessionFactory.getCurrentSession().createCriteria(Subject.class)
-				.addOrder(Order.asc("createDate"))
+				.addOrder(Order.desc("createDate"))
 				.add(Restrictions.isNull("deleteDate"))
 				.list();
 	}
