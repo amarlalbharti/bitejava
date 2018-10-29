@@ -108,7 +108,7 @@ public class AdminUploadController
 						uf.setFileURL(file_name);
 						long fid = uploadFileService.addUploadFile(uf);
 						logger.info("Upload file inserted in table : "+ fid);
-						File file = new File (ProjectConfig.upload_path+"/uploadedfiles/"+fid+"/"+file_name);
+						File file = new File (ProjectConfig.UPLOAD_PATH+"/uploadedfiles/"+fid+"/"+file_name);
 						
 						if(!file.exists()) {
 							logger.info("File dir not Exist");

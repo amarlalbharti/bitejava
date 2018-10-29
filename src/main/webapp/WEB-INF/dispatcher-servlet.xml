@@ -32,6 +32,7 @@
 	<mvc:resources location="/WEB-INF/view/jsp/theme/img/" mapping="theme/img/**" cache-period="31556926" />
 	<mvc:resources location="/WEB-INF/view/jsp/theme/content/" mapping="theme/content/**" cache-period="31556926" />
 	<mvc:resources location="/WEB-INF/view/jsp/theme/ckeditor/" mapping="theme/ckeditor/**" cache-period="31556926" />
+	<mvc:resources location="/WEB-INF/view/jsp/theme/favicon/" mapping="theme/favicon/**" cache-period="31556926" />
 	
 	<bean id="tilesConfigurer"
 		class="org.springframework.web.servlet.view.tiles3.TilesConfigurer">

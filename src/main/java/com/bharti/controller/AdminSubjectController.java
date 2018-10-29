@@ -141,7 +141,7 @@ public class AdminSubjectController
 					{
 						img_name = img_name.replaceAll("[^a-zA-Z0-9.-]", "_");
 						sub.setSubject_image(img_name);
-						File img = new File (ProjectConfig.upload_path+"/subjects/"+sid+"/subject_image/"+img_name);
+						File img = new File (ProjectConfig.UPLOAD_PATH+"/subjects/"+sid+"/subject_image/"+img_name);
 						
 						if(!img.exists())
 						{
@@ -243,7 +243,7 @@ public class AdminSubjectController
 						if(img_name != null && img_name.trim().length() > 0) {
 							img_name = img_name.replaceAll("[^a-zA-Z0-9.-]", "_");
 							sub.setSubject_image(img_name);
-							File img = new File (ProjectConfig.upload_path+"/subjects/"+sub.getSid()+"/subject_image/"+img_name);
+							File img = new File (ProjectConfig.UPLOAD_PATH+"/subjects/"+sub.getSid()+"/subject_image/"+img_name);
 							
 							if(!img.exists()) {
 								img.mkdirs();

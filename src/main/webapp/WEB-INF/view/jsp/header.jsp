@@ -1,9 +1,29 @@
 <!doctype html>
+<%@page import="com.bharti.constraints.ProjectConfig"%>
 <%@page import="com.bharti.domain.Registration"%>
 <%@page import="java.util.Date"%>
 <%@page import="com.bharti.constraints.DateFormats"%>
 <html>
 <head>
+  
+  	<link rel="apple-touch-icon" sizes="57x57" href="${pageContext.request.contextPath}/theme/favicon//apple-icon-57x57.png">
+	<link rel="apple-touch-icon" sizes="60x60" href="${pageContext.request.contextPath}/theme/favicon/apple-icon-60x60.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="${pageContext.request.contextPath}/theme/favicon/apple-icon-72x72.png">
+	<link rel="apple-touch-icon" sizes="76x76" href="${pageContext.request.contextPath}/theme/favicon/apple-icon-76x76.png">
+	<link rel="apple-touch-icon" sizes="114x114" href="${pageContext.request.contextPath}/theme/favicon/apple-icon-114x114.png">
+	<link rel="apple-touch-icon" sizes="120x120" href="${pageContext.request.contextPath}/theme/favicon/apple-icon-120x120.png">
+	<link rel="apple-touch-icon" sizes="144x144" href="${pageContext.request.contextPath}/theme/favicon/apple-icon-144x144.png">
+	<link rel="apple-touch-icon" sizes="152x152" href="${pageContext.request.contextPath}/theme/favicon/apple-icon-152x152.png">
+	<link rel="apple-touch-icon" sizes="180x180" href="${pageContext.request.contextPath}/theme/favicon/apple-icon-180x180.png">
+	<link rel="icon" type="image/png" sizes="192x192"  href="${pageContext.request.contextPath}/theme/favicon/android-icon-192x192.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="${pageContext.request.contextPath}/theme/favicon/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="96x96" href="${pageContext.request.contextPath}/theme/favicon/favicon-96x96.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="${pageContext.request.contextPath}/theme/favicon/favicon-16x16.png">
+	<link rel="manifest" href="theme/favicon/manifest.json">
+	<meta name="msapplication-TileColor" content="#ffffff">
+	<meta name="msapplication-TileImage" content="${pageContext.request.contextPath}/theme/favicon/ms-icon-144x144.png">
+	<meta name="theme-color" content="#ffffff">
+  
   
   <!-- Font -->
   <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Arimo:400,700,400italic,700italic'>
@@ -11,7 +31,6 @@
   <!-- Plagins CSS -->
   <link rel="stylesheet" href="${pageContext.request.contextPath}/theme/css/bootstrap.css">
   <link rel="stylesheet" href="${pageContext.request.contextPath}/theme/css/font-awesome.min.css">
-<%--   <link rel="stylesheet" href="${pageContext.request.contextPath}/theme/css/jslider.css"> --%>
   <link rel="stylesheet" href="${pageContext.request.contextPath}/theme/css/settings.css">
   <link rel="stylesheet" href="${pageContext.request.contextPath}/theme/css/jquery.fancybox.css">
   <link rel="stylesheet" href="${pageContext.request.contextPath}/theme/css/animate.css">
@@ -26,6 +45,7 @@
   <link rel="stylesheet" href="${pageContext.request.contextPath}/theme/css/customizer/home-pages-customizer.css">
   <script src="${pageContext.request.contextPath}/theme/js/jquery-2.1.3.min.js"></script>
   <script src="${pageContext.request.contextPath}/theme/js/common_js.js"></script>
+  
   <link rel="stylesheet" href="${pageContext.request.contextPath}/theme/css/lobibox.min.css"/>
   <script src="${pageContext.request.contextPath}/theme/js/lobibox.min.js"></script>
   <script src="${pageContext.request.contextPath}/theme/js/notifications.min.js"></script>
@@ -77,7 +97,7 @@ Registration reg = (Registration) request.getSession().getAttribute("registratio
 		<div class="col-xs-6 col-md-2 col-lg-3 logo-box">
 		  <div class="logo">
 				<a href="${pageContext.request.contextPath}/index.html">
-					<img src="${pageContext.request.contextPath}/theme/images/bitejava-logo.jpg" class="logo-img" alt="">
+					<img src="${pageContext.request.contextPath}/theme/images/bitejava_log.png" class="logo-img" alt="Bite Java Logo">
 				</a>
 		  </div>
 		</div><!-- .logo-box -->
@@ -121,12 +141,22 @@ Registration reg = (Registration) request.getSession().getAttribute("registratio
 								  <strong>Welcome <%= reg.getName() %></strong>
 								  <ul class="list-unstyled">
 									<li>
-									  <a href="#" class="product-image "><img class="replace-2x image  img-circle" src="theme/images/Preview-icon.png" alt="" width="70" height="70"></a>
+									  <%
+									  	if(reg.getProfileImage() != null) {
+									  		%>
+											  <a href="#" class="product-image "><img class="replace-2x image  img-circle" src="<%=ProjectConfig.UPLOAD_FOLDER+reg.getProfileImage() %>" alt="" width="70" height="70"></a>
+									  		<%
+									  	}else{
+									  		%>
+									  		<a href="#" class="product-image "><img class="replace-2x image  img-circle" src="theme/images/Preview-icon.png" alt="" width="70" height="70"></a>
+									  		<%
+									  	}
+									  %>
+									  
 									  <h4 class="product-name"><%= reg.getLoginInfo().getUserid() %></h4>
 									  <div class="product-name">Since : <%= DateFormats.ddMMMyyyy.format(reg.getCreateDate()) %></div>
 									  <%
-									  	if(reg.getGender() != null)
-									  	{
+									  	if(reg.getGender() != null) {
 									  		%>
 											  <div class="product-name">Gender : <%=  reg.getGender()%></div>
 									  		<%

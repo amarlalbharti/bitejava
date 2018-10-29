@@ -1,4 +1,5 @@
 <!doctype html>
+<%@page import="com.bharti.constraints.ProjectConfig"%>
 <%@page import="com.bharti.constraints.DateFormats"%>
 <%@page import="com.bharti.domain.Registration"%>
 <html>
@@ -9,8 +10,24 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
   <!-- Favicon -->
-  <link rel="shortcut icon" href="theme/img/favicon.ico">
-  
+  	<link rel="apple-touch-icon" sizes="57x57" href="${pageContext.request.contextPath}/theme/favicon//apple-icon-57x57.png">
+	<link rel="apple-touch-icon" sizes="60x60" href="${pageContext.request.contextPath}/theme/favicon/apple-icon-60x60.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="${pageContext.request.contextPath}/theme/favicon/apple-icon-72x72.png">
+	<link rel="apple-touch-icon" sizes="76x76" href="${pageContext.request.contextPath}/theme/favicon/apple-icon-76x76.png">
+	<link rel="apple-touch-icon" sizes="114x114" href="${pageContext.request.contextPath}/theme/favicon/apple-icon-114x114.png">
+	<link rel="apple-touch-icon" sizes="120x120" href="${pageContext.request.contextPath}/theme/favicon/apple-icon-120x120.png">
+	<link rel="apple-touch-icon" sizes="144x144" href="${pageContext.request.contextPath}/theme/favicon/apple-icon-144x144.png">
+	<link rel="apple-touch-icon" sizes="152x152" href="${pageContext.request.contextPath}/theme/favicon/apple-icon-152x152.png">
+	<link rel="apple-touch-icon" sizes="180x180" href="${pageContext.request.contextPath}/theme/favicon/apple-icon-180x180.png">
+	<link rel="icon" type="image/png" sizes="192x192"  href="${pageContext.request.contextPath}/theme/favicon/android-icon-192x192.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="${pageContext.request.contextPath}/theme/favicon/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="96x96" href="${pageContext.request.contextPath}/theme/favicon/favicon-96x96.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="${pageContext.request.contextPath}/theme/favicon/favicon-16x16.png">
+	<link rel="manifest" href="theme/favicon/manifest.json">
+	<meta name="msapplication-TileColor" content="#ffffff">
+	<meta name="msapplication-TileImage" content="${pageContext.request.contextPath}/theme/favicon/ms-icon-144x144.png">
+	<meta name="theme-color" content="#ffffff">
+	 
   <!-- Font -->
 <!--   <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Arimo:400,700,400italic,700italic'> -->
 
@@ -107,7 +124,7 @@ if(reg != null)
 			<div class="col-xs-6 col-md-2 col-lg-3 logo-box">
 			  <div class="logo">
 					<a href="adminDashboard">
-						<img src="${pageContext.request.contextPath}/theme/images/bitejava-logo.jpg" class="logo-img" alt="">
+						<img src="${pageContext.request.contextPath}/theme/images/bitejava_log.png" class="logo-img" alt="Bite Java Logo">
 					</a>
 			  </div>
 			</div><!-- .logo-box -->
@@ -127,7 +144,17 @@ if(reg != null)
 					  <strong><%= reg.getName() %></strong>
 					  <ul class="list-unstyled">
 						<li>
-						  <a href="#" class="product-image "><img class="replace-2x image  img-circle" src="theme/images/amar1.jpg" alt="" width="70" height="70"></a>
+						  <%
+						  	if(reg.getProfileImage() != null) {
+						  		%>
+								  <a href="#" class="product-image "><img class="replace-2x image  img-circle" src="<%=ProjectConfig.UPLOAD_FOLDER+reg.getProfileImage() %>" alt="" width="70" height="70"></a>
+						  		<%
+						  	}else{
+						  		%>
+						  		<a href="#" class="product-image "><img class="replace-2x image  img-circle" src="theme/images/Preview-icon.png" alt="" width="70" height="70"></a>
+						  		<%
+						  	}
+						  %>
 						  <h4 class="product-name"><%= reg.getLoginInfo().getUserid() %></h4>
 						  <div class="product-name">Since : <%= DateFormats.ddMMMyyyy.format(reg.getCreateDate()) %></div>
 						  <div class="product-name">Gender : <%= reg.getGender() %></div>
@@ -165,27 +192,10 @@ if(reg != null)
 						<li>
 						  <a href="adminUploads">Uploaded Files</a>
 						</li>
-						<li class="parent item-primary item-bg">
+						<li>
 						  <a href="adminQuestions">Questions</a>
-						  <ul class="sub">
-							<li><a href="adminAskQuestion">Ask Question</a></li>
-						  </ul>
 						</li>
-						<li class="parent item-primary item-bg">
-						  <a href="#">Bootstrap</a>
-						  <ul class="sub">
-							<li><a href="bootstrap-accordions.html">Accordions</a></li>
-							<li><a href="bootstrap-alerts.html">Alerts</a></li>
-							<li><a href="bootstrap-buttons.html">Buttons</a></li>
-							<li><a href="bootstrap-forms.html">Forms</a></li>
-							<li><a href="bootstrap-list-group.html">List Group</a></li>
-							<li><a href="bootstrap-panels.html">Panels</a></li>
-							<li><a href="bootstrap-tables.html">Tables</a></li>
-							<li><a href="bootstrap-tabs.html">Tabs</a></li>
-							<li><a href="bootstrap-tooltips.html">Tooltip</a></li>
-							<li><a href="bootstrap-typography.html">Typography</a></li>
-						  </ul>
-						</li>
+						
 					  </ul>
 					</nav>
 				  </div>

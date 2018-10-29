@@ -99,8 +99,8 @@ public class UserController
 							String file_name = uploadfile.getOriginalFilename();
 							if(file_name != null && file_name.trim().length() > 0) {
 								file_name = file_name.replaceAll("[^a-zA-Z0-9.-]", "_");
-								path = "/uploadedfiles/profile/"+reg.getLoginInfo().getUserid()+"/"+file_name;
-								File file = new File (ProjectConfig.upload_path+path);
+								path = "/profile/"+reg.getLoginInfo().getUserid()+"/"+file_name;
+								File file = new File (ProjectConfig.UPLOAD_PATH+path);
 								if(!file.exists()) {
 									logger.info("File dir not Exist : "+path);
 									file.mkdirs();
