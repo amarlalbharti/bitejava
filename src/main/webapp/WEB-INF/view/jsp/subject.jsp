@@ -290,6 +290,9 @@ jQuery(document).ready(function() {
 			contentType : "application/json",
 			success : function(data) {
 				var obj = jQuery.parseJSON(data);
+				if(obj.data == undefined){
+					cList.append("Be first in comment.");
+				}
 				jQuery.each(obj.data, function(index, item) {
 					
 					var li = $('<li/>')

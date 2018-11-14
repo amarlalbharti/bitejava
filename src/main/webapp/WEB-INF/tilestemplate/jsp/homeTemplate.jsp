@@ -29,10 +29,20 @@
 	<meta property="og:site_name" content="${pageAuthor}" />
 <!-- 	<meta property="fb:admins" content="Facebook numeric ID" />  -->
 
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-128766692-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+	
+	  gtag('config', 'UA-128766692-1');
+	</script>
+		
 </head>
 <body id="boxed-bg" class="boxed fixed-header">
-<tiles:insertAttribute name="header" />
-<tiles:insertAttribute name="body" />
-<tiles:insertAttribute name="footer" />
+	<tiles:insertAttribute name="header" />
+	<tiles:insertAttribute name="body" />
+	<tiles:insertAttribute name="footer" />
 </body>
 </html>

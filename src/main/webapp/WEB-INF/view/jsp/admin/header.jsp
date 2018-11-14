@@ -162,7 +162,7 @@ if(reg != null)
 						</li>
 					  </ul>
 					  <div class="cart-button">
-						<button class="btn btn-default pull-left">Profile</button>
+						<a class="btn btn-default pull-left" href="${pageContext.request.contextPath}/profile">Profile</a>
 						<button class="btn checkout btn-default" onclick="getLogOut()">Logout</button>
 					  </div>
 					</div>

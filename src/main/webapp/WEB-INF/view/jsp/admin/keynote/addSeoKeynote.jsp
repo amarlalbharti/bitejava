@@ -28,7 +28,7 @@
 					%>
 					<div class="panel panel-info">
 					  <div class="panel-heading">
-							<span>Add New KeyNote</span>
+							<span>Add SEO : <%= keynote.getKeynote() %></span>
 							<c:forEach var="itam" items="${sList}">
 								<c:if test="${itam.url == sub}">
 								  	<div class="pull-right"><a href="adminKeynotes?sid=${itam.sid}" class="btn btn-xs btn-danger back_keynote"><i class="fa fa-reply"></i> Back</a></div>
@@ -40,7 +40,7 @@
 							  <div class="form-group">
 								<label class="control-label">SEO Title</label>
 								<form:hidden path="keynote.kid"/>
-								<form:input path="title" id="seo_title" class="form-control" />
+								<form:input path="title" id="seo_title" class="form-control" value="${keynote.getKeynote()}"/>
 								<span class="text-danger"><form:errors path="title"></form:errors></span>
 							  </div>
 							  <div class="form-group">
@@ -50,7 +50,7 @@
 							  </div>
 							  <div class="form-group">
 								<label class="control-label">SEO Keywords</label>
-								<form:textarea  path = "keywords" id="seo_keywords" class="form-control" />
+								<form:input  path = "keywords" id="seo_keywords" class="form-control" />
 								<span class="text-danger"><form:errors path="keywords"></form:errors></span>
 							  </div>
 							  <div class="form-group">

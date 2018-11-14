@@ -166,7 +166,7 @@ Registration reg = (Registration) request.getSession().getAttribute("registratio
 									</li>
 								  </ul>
 								  <div class="cart-button">
-									<a href="profile" class="btn btn-default pull-left">Profile</a>
+									<a href="${pageContext.request.contextPath}/profile" class="btn btn-default pull-left">Profile</a>
 									<button class="btn checkout btn-default" onclick="getLogOut()">Logout</button>
 								  </div>
 								</div>
@@ -196,7 +196,7 @@ Registration reg = (Registration) request.getSession().getAttribute("registratio
 									</li>
 								  </ul>
 								  <div class="cart-button">
-									<a href="signup" class="btn btn-default pull-left">Sign Up</a>
+									<a href="${pageContext.request.contextPath}/signup" class="btn btn-default pull-left">Sign Up</a>
 									<a href="${pageContext.request.contextPath}/login" class="btn checkout btn-default" >Sign In</a>
 								  </div>
 								</div>
