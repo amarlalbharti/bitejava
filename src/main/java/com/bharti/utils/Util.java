@@ -2,6 +2,8 @@ package com.bharti.utils;
 
 
 
+import org.jsoup.Jsoup;
+
 import com.bharti.constraints.Validation;
 
 public class Util 
@@ -31,5 +33,9 @@ public class Util
 		return 0;
 	}
 	
-	public static String projectURL = "http://localhost:7070/bookstore/";
+	
+	public static String html2text(String html) {
+	    return Jsoup.parse(html).text();
+	}
+	
 }

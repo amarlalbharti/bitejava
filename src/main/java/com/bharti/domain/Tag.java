@@ -20,6 +20,8 @@ public class Tag
 	
 	private String tag;
 	
+	private String tagDetails;
+	
 	private Set<Question> questions = new HashSet<>();
 
 	@Id
@@ -42,6 +44,15 @@ public class Tag
 		this.tag = tag;
 	}
 	
+	@Column(name="tag_detail")
+	public String getTagDetails() {
+		return tagDetails;
+	}
+
+	public void setTagDetails(String tagDetails) {
+		this.tagDetails = tagDetails;
+	}
+
 	@ManyToMany(mappedBy="tags", fetch = FetchType.LAZY)
 	public Set<Question> getQuestions() {
 		return questions;

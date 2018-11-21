@@ -1,6 +1,7 @@
 package com.bharti.controller;
 
 import java.security.Principal;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,13 +15,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.bharti.constraints.SeoConstants;
-import com.bharti.domain.Keynote;
+import com.bharti.domain.Answers;
 import com.bharti.domain.Question;
-import com.bharti.domain.Subject;
 import com.bharti.domain.Tag;
 import com.bharti.service.AnswersService;
 import com.bharti.service.QuestionService;
 import com.bharti.service.TagService;
+import com.bharti.utils.Util;
 
 @Controller
 public class QuestionController 
@@ -40,24 +41,28 @@ public class QuestionController
 		if (mode != null && mode.equalsIgnoreCase("featured")) {
 			map.addAttribute("qList", questionService.getFeaturedQuestions(0, 20));
 			map.addAttribute("mode", "featured");
-			sb.append("Featured questions"+SeoConstants.SEO_POST_TITLE);
+			sb.append("Featured questions");
 			
 		} else if (mode != null && mode.equalsIgnoreCase("most")) {
 			map.addAttribute("qList", questionService.getMostViewedQuestions(0, 20));
 			map.addAttribute("mode", "most");
-			sb.append("Mostly asked questions"+SeoConstants.SEO_POST_TITLE);
+			sb.append("Mostly asked questions");
 			
 		} else {
 			map.addAttribute("qList", questionService.getRecentQuestions(0, 20));
 			map.addAttribute("mode", "recent");
-			sb.append("Recently asked questions"+SeoConstants.SEO_POST_TITLE);
+			sb.append("Recently asked questions");
 		}
-		
-		map.addAttribute("topTags", tagService.getMostCommonTags(10));
-		map.addAttribute("pageKeywords", SeoConstants.SEO_DEFAULT_KEYWORDS);
+		List<Tag> tags = tagService.getMostCommonTags(10);
+		map.addAttribute("topTags", tags);
+		String tagsStr = "";
+		for(Tag tag : tags) {
+			tagsStr += ", "+tag.getTag();
+		}
+		map.addAttribute("pageKeywords", !tagsStr.equals("") ? tagsStr.substring(2) : "");
 		map.addAttribute("pageAuthor", SeoConstants.SEO_DEFAULT_AUTHOR);
-		map.addAttribute("pageDescription", SeoConstants.SEO_DEFAULT_DESCRIPTION);
-		map.addAttribute("pageTitle", sb.toString());
+		map.addAttribute("pageDescription", "Bitejava tutorials provides the most frequently asked questions , recently asked questions and featured questions based on views");
+		map.addAttribute("pageTitle", sb.toString()+SeoConstants.SEO_POST_TITLE);
 		
 		
 		return "viewQuestions";
@@ -67,20 +72,32 @@ public class QuestionController
 	public String answer(@PathVariable("qid") String qid, ModelMap map, HttpServletRequest request, Principal principal)
 	{
 		logger.info("Get Answers of question with qid :" + qid);
-		try 
-		{
+		try {
 			Question que = questionService.getQuestionById(Long.parseLong(qid));
-			if(que != null)
-			{
+			if(que != null) {
 				map.addAttribute("que", que);
 				map.addAttribute("qList", questionService.getRecentAdminQuestions(0, 20));
 				questionService.increamentQuestionViewsByQid(que.getQid());
 				map.addAttribute("topTags", tagService.getMostCommonTags(10));
 				logger.info("Returning to jsp page with question :" + que.getQustion());
 				
-				map.addAttribute("pageKeywords", SeoConstants.SEO_DEFAULT_KEYWORDS);
 				map.addAttribute("pageAuthor", SeoConstants.SEO_DEFAULT_AUTHOR);
-				map.addAttribute("pageDescription", SeoConstants.SEO_DEFAULT_DESCRIPTION);
+				String tags = "";
+				Iterator<Tag> itTag = que.getTags().iterator();
+				while(itTag.hasNext()){
+					Tag tag = itTag.next();
+					tags += ", "+tag.getTag();
+				}
+				map.addAttribute("pageKeywords", !tags.equals("") ? tags.substring(2) : "");
+				
+				
+				StringBuilder seoSb = new StringBuilder();
+				Iterator<Answers> it = que.getAnswers().iterator();
+				if(it.hasNext()){
+					Answers answer = it.next();
+					seoSb.append(Util.html2text(answer.getAnswer()));
+				}
+				map.addAttribute("pageDescription", seoSb.substring(0, 255));
 				map.addAttribute("pageTitle", que.getQustion()+SeoConstants.SEO_POST_TITLE);
 				
 				return "viewAnswer";
@@ -106,10 +123,10 @@ public class QuestionController
 				map.addAttribute("mode", "tagged");
 				map.addAttribute("tag", tag);
 				
-				map.addAttribute("pageKeywords", SeoConstants.SEO_DEFAULT_KEYWORDS);
-				map.addAttribute("pageAuthor", SeoConstants.SEO_DEFAULT_AUTHOR);
-				map.addAttribute("pageDescription", SeoConstants.SEO_DEFAULT_DESCRIPTION);
 				map.addAttribute("pageTitle", tag.getTag()+SeoConstants.SEO_POST_TITLE);
+				map.addAttribute("pageKeywords", tag.getTag());
+				map.addAttribute("pageAuthor", SeoConstants.SEO_DEFAULT_AUTHOR);
+				map.addAttribute("pageDescription", tag.getTagDetails()!= null ? tag.getTagDetails():"" );
 				
 				logger.info("Returning to the jsp page with question list tagged :" + tagString);
 				return "viewQuestions";

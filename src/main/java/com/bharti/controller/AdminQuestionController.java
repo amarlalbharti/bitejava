@@ -98,7 +98,7 @@ public class AdminQuestionController
 			try
 			{
 				Date date = new Date();
-				java.sql.Date dt = new java.sql.Date(date.getTime());
+//				java.sql.Date dt = new java.sql.Date(date.getTime());
 				
 				Question q = new Question();
 				
@@ -131,18 +131,18 @@ public class AdminQuestionController
 				if(submit != null && submit.equals("Save And Publish"))
 				{
 					logger.info("Saving and publishing button clicked ");
-					q.setPublishDate(dt);
+					q.setPublishDate(date);
 				}
-				q.setCreateDate(dt);
-				q.setModifyDate(dt);
+				q.setCreateDate(date);
+				q.setModifyDate(date);
 				
 				long qid = questionService.addQuestion(q);
 				q.setQid(qid);
 				
 				Answers ans = new Answers();
 				ans.setAnswer(model.getAnswer());
-				ans.setCreateDate(dt);
-				ans.setModifyDate(dt);
+				ans.setCreateDate(date);
+				ans.setModifyDate(date);
 				ans.setQuestion(q);
 				
 				answersService.addAnswer(ans);

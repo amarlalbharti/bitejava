@@ -28,18 +28,14 @@ public class AdminTagController {
 	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/searchTags", method = RequestMethod.GET)
 	@ResponseBody
-	public String searchTags(ModelMap map, HttpServletRequest request, Principal principal)
-	{
+	public String searchTags(ModelMap map, HttpServletRequest request, Principal principal) {
 		String search_text = request.getParameter("q");
 		JSONArray array = new JSONArray();
 		logger.info("search_text : " + search_text);
-		if(search_text != null && search_text.trim().length() > 1)
-		{
+		if(search_text != null && search_text.trim().length() > 1) {
 			List<Tag> list = tagService.searchTag(search_text);
-			if(list != null && !list.isEmpty())
-			{
-				for(Tag reg : list)
-				{
+			if(list != null && !list.isEmpty()) {
+				for(Tag reg : list) {
 					JSONObject r = new JSONObject();
 					r.put("tag", reg.getTag());
 					r.put("tid", reg.getTid());

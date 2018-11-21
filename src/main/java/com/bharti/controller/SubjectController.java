@@ -49,27 +49,12 @@ public class SubjectController
 		System.out.println("Hello from admin dashboard " + sub);
 		Subject subject = subjectService.getSubjectById(sub);
 		if (subject != null) {
-			List<Keynote> kList = keynoteService
-					.getKeynoteList(subject.getSid());
+			List<Keynote> kList = keynoteService.getKeynoteList(subject.getSid());
 			if (kList != null && !kList.isEmpty()) {
-				map.addAttribute("kList", kList);
-				map.addAttribute("subject", subject);
 
 				Keynote keynote = keynoteService.getKeynoteWithChildByUrl(kList.get(0).getUrl());
 
-				map.addAttribute("keynote", keynote);
-				map.addAttribute("prevKn", null);
-				if (kList.size() > 1) {
-					map.addAttribute("nextKn", kList.get(1));
-				}
-
-				if (keynote.getParent_keynote() != null) {
-					map.addAttribute("childKeynotes", keynoteService.getChildKeynoteList(keynote.getParent_keynote().getKid()));
-				} else {
-					map.addAttribute("childKeynotes", keynoteService.getChildKeynoteList(keynote.getKid()));
-				}
-				SeoUtils.setMetaData(map, keynote);
-				return "subject";
+				return "redirect:/note/"+subject.getUrl()+"/"+keynote.getUrl();
 			}
 		}
 		return "redirect:/error";
