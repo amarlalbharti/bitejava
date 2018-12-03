@@ -21,6 +21,7 @@ import com.bharti.domain.Tag;
 import com.bharti.service.AnswersService;
 import com.bharti.service.QuestionService;
 import com.bharti.service.TagService;
+import com.bharti.utils.SeoUtils;
 import com.bharti.utils.Util;
 
 @Controller
@@ -81,25 +82,7 @@ public class QuestionController
 				map.addAttribute("topTags", tagService.getMostCommonTags(10));
 				logger.info("Returning to jsp page with question :" + que.getQustion());
 				
-				map.addAttribute("pageAuthor", SeoConstants.SEO_DEFAULT_AUTHOR);
-				String tags = "";
-				Iterator<Tag> itTag = que.getTags().iterator();
-				while(itTag.hasNext()){
-					Tag tag = itTag.next();
-					tags += ", "+tag.getTag();
-				}
-				map.addAttribute("pageKeywords", !tags.equals("") ? tags.substring(2) : "");
-				
-				
-				StringBuilder seoSb = new StringBuilder();
-				Iterator<Answers> it = que.getAnswers().iterator();
-				if(it.hasNext()){
-					Answers answer = it.next();
-					seoSb.append(Util.html2text(answer.getAnswer()));
-				}
-				map.addAttribute("pageDescription", seoSb.substring(0, 255));
-				map.addAttribute("pageTitle", que.getQustion()+SeoConstants.SEO_POST_TITLE);
-				
+				SeoUtils.setMetaData(map, que);
 				return "viewAnswer";
 			}
 		}

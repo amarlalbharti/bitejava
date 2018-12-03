@@ -98,13 +98,11 @@ public class AdminQuestionController
 			try
 			{
 				Date date = new Date();
-//				java.sql.Date dt = new java.sql.Date(date.getTime());
-				
 				Question q = new Question();
 				
 				q.setQustion(model.getQuestion());
 				q.setUserType("admin");
-				
+				q.setImage(model.getImage());
 				Set<String> tSet = model.getTags();
 				
 				List<Tag> tags = tagService.getTagList(model.getTags());
@@ -179,7 +177,7 @@ public class AdminQuestionController
 					
 					model.setQuestion(que.getQustion());
 					model.setQid(que.getQid());
-					
+					model.setImage(que.getImage());
 					Set<String> tags = new HashSet<>();
 					Iterator<Tag> it = que.getTags().iterator();
 					while(it.hasNext())
@@ -232,7 +230,7 @@ public class AdminQuestionController
 			{
 				logger.info("Question found in database for update");
 				q.setQustion(model.getQuestion());
-				
+				q.setImage(model.getImage());
 				Set<String> tSet = model.getTags();
 				
 				List<Tag> tags = tagService.getTagList(model.getTags());

@@ -23,6 +23,8 @@ public class QuestionAnswerModel
 	@Lob
 	private String answer;
 	
+	private String image;
+	
 	public long getQid() {
 		return qid;
 	}
@@ -54,5 +56,14 @@ public class QuestionAnswerModel
 	public void setAnswer(String answer) {
 		this.answer = answer;
 	}
+
+	public String getImage() {
+		return image;
+	}
+
+	public void setImage(String image) {
+		this.image = image;
+	}
+	
 	
 }

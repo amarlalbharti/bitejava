@@ -38,6 +38,8 @@ public class Question
 	
 	private int views;
 	
+	private String image;
+	
 	private Set<Tag> tags = new HashSet<>();
 	
 	private Set<Answers> answers = new HashSet<>();
@@ -116,6 +118,14 @@ public class Question
 
 	public void setViews(int views) {
 		this.views = views;
+	}
+
+	public String getImage() {
+		return image;
+	}
+
+	public void setImage(String image) {
+		this.image = image;
 	}
 
 	@ManyToMany(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
