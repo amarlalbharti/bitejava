@@ -26,6 +26,7 @@ public class UserRegModel implements Serializable
 	@Pattern(regexp="(?=.*\\d)(?=.*[a-z]).{6,20}",message="Please enter valid password")
 	private String password;
 	
+	private String refId; 
 	
 	public String getName() {
 		return name;
@@ -44,6 +45,12 @@ public class UserRegModel implements Serializable
 	}
 	public void setPassword(String password) {
 		this.password = password;
+	}
+	public String getRefId() {
+		return refId;
+	}
+	public void setRefId(String refId) {
+		this.refId = refId;
 	}
 	
 	

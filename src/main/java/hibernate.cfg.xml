@@ -24,6 +24,7 @@
      	<mapping class="com.bharti.domain.ContactUs"/>
      	<mapping class="com.bharti.domain.SeoKeynote"/>
      	<mapping class="com.bharti.domain.Comments"/>
+     	<mapping class="com.bharti.domain.Attribute"/>
      	
      	
      	

@@ -50,6 +50,7 @@
 					  </div>
 					  <div class="form-group has-feedback">
 						<label>Email Address <span class="required">*</span></label>
+						  <form:hidden class="form-control" path="refId" />
 						  <form:input class="form-control" path="userid" type="email"/><i style="display: none;" class="form-control-feedback" data-bv-icon-for="Email Register"></i>
 						  <small class="text-danger" ><form:errors path="userid"/></small>
 					  </div>

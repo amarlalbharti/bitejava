@@ -34,7 +34,7 @@
 							  	if(que.getTags().size() > 0)
 								{
 									%>
-									<ul class="tags">
+									<ul class="tags pull-right">
 										<%
 											Iterator<Tag> it1 = que.getTags().iterator();
 											while(it1.hasNext())
@@ -75,8 +75,8 @@
 								<h3 class="title">Top Tutorials</h3>
 							  </header>
 							  <ul>
-								<li><a href="${pageContext.request.contextPath}/note/java">Java Tutorials</a></li>
-								<li><a href="${pageContext.request.contextPath}/note/php">PHP Tutorials</a></li>
+								<li><a href="${pageContext.request.contextPath}/note/core_java">Java Tutorials</a></li>
+								<li><a href="${pageContext.request.contextPath}/note/collections">Java Collections</a></li>
 								<li><a href="${pageContext.request.contextPath}/note/asp_net">ASP.NET Tutorials</a></li>
 								<li><a href="${pageContext.request.contextPath}/note/mysql">MYSQL Tutorials</a></li>
 							  </ul>

@@ -25,7 +25,9 @@
 
   <!-- Theme CSS -->
   <link rel="stylesheet" href="theme/css/style.css">
-  
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/theme/css/lobibox.min.css"/>
+  <script src="${pageContext.request.contextPath}/theme/js/lobibox.min.js"></script>
+  <script src="${pageContext.request.contextPath}/theme/js/notifications.min.js"></script>
 </head>
 <body class="page-login-promo blur-page" data-blur-image="theme/img/bg-image.png" data-blur-amount="1">
 
@@ -97,6 +99,35 @@
 <!--[if (!IE)|(gt IE 8)]><!-->
   <script src="theme/js/jquery-2.1.3.min.js"></script>
 <!--<![endif]-->
+<script type="text/javascript">
+$(document).ready(function(){
+	<%
+		if(session.getAttribute("hasError") != null){
+			String msg = (String)session.getAttribute("msg");
+			%>
+				Lobibox.notify('error', {
+		            size: 'mini',
+		            msg: '<%=msg %>'
+		        });
+			<%
+			session.removeAttribute("hasError");
+			
+		}
+	
+	if(session.getAttribute("success") != null){
+		String msg = (String)session.getAttribute("msg");
+		%>
+			Lobibox.notify('success', {
+	            size: 'mini',
+	            msg: '<%=msg %>'
+	        });
+		<%
+		session.removeAttribute("success");
+	}
+	%>
+	
+});
+</script>
 
 <script src="theme/js/bootstrap.min.js"></script>
 <script src="theme/js/jquery.appear.js"></script>

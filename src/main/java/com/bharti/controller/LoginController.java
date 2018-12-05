@@ -24,10 +24,12 @@ import com.bharti.constraints.ProjectConfig;
 import com.bharti.constraints.Roles;
 import com.bharti.constraints.SeoConstants;
 import com.bharti.constraints.Validation;
+import com.bharti.domain.Attribute;
 import com.bharti.domain.LoginInfo;
 import com.bharti.domain.Registration;
 import com.bharti.domain.UserRole;
 import com.bharti.model.UserRegModel;
+import com.bharti.service.AttributeService;
 import com.bharti.service.LoginInfoService;
 import com.bharti.service.MailService;
 import com.bharti.service.RegistrationService;
@@ -38,6 +40,7 @@ public class LoginController
 	@Autowired private RegistrationService registrationService; 
 	@Autowired private LoginInfoService loginInfoService; 
 	@Autowired private MailService mailService; 
+	@Autowired private AttributeService attributeService; 
 	
 	private Logger logger = Logger.getLogger(LoginController.class);
 	/**
@@ -61,7 +64,16 @@ public class LoginController
 		map.addAttribute("pageAuthor", SeoConstants.SEO_DEFAULT_AUTHOR);
 		map.addAttribute("pageDescription", "Please register yourself to become the member of bitejava tutorials.");
 		map.addAttribute("pageTitle", "Signup Page"+SeoConstants.SEO_POST_TITLE);
-		map.addAttribute("regForm", new UserRegModel());
+		
+		UserRegModel model = new UserRegModel();
+		String ref_key = request.getParameter("ref_key");
+		if(ref_key != null) {
+			Attribute attribute = this.attributeService.getAttribute("publisherRef", ref_key);
+			if(attribute != null) {
+				model.setRefId(attribute.getAttributeValue());
+			}
+		}
+		map.addAttribute("regForm", model);
 		return "signup";
 	}
 	@RequestMapping(value = "/regUser", method = RequestMethod.POST)
@@ -100,6 +112,16 @@ public class LoginController
 				Set<UserRole> roles = new HashSet<UserRole>();
 				urole.setUserrole(Roles.ROLE_USER.toString());
 				roles.add(urole);
+				
+				if(model.getRefId() != null && !model.getRefId().isEmpty()) {
+					Attribute attribute = this.attributeService.getAttribute("publisherRef", model.getRefId());
+					if(attribute != null) {
+						UserRole role = new UserRole();
+						role.setLoginInfo(login);
+						role.setUserrole(Roles.ROLE_PUBLISHER.toString());
+						roles.add(role);
+					}
+				}
 				login.setRoles(roles);
 				login.setIsActive("false");
 				urole.setLoginInfo(login);
@@ -112,6 +134,9 @@ public class LoginController
 	 
 									"Congratulations, you have successfully registered to BiteJava. <br><br>"+
 									 
+									"To activate your account please click on below link <br>"+
+									
+									"<a href='"+ProjectConfig.SITE_URL+"/account/activate?email="+login.getUserid()+"&token="+login.getForgotpwdid()+"'>Activate Your Account</a><br>"+
 									"Please find below your user credentials. Please <a href='http://www.bitejava.com/login' >login</a>  and change password for security reasons. For any assistance, please feel free to reach out to us at support@bitejava.com<br><br>"+
 									 
 									"Username - "+reg.getLoginInfo().getUserid()+"<br>"+
@@ -124,7 +149,8 @@ public class LoginController
 				
 				
 				mailService.sendMail(reg.getLoginInfo().getUserid(), "Thank you for registration in BiteJava.com", mailContent);
-
+				request.getSession().setAttribute("success", "true");
+				request.getSession().setAttribute("msg", "Registration successful, Activation mail has been sent !");
 				
 			}catch (Exception e) {
 				logger.error("Exception while registration ", e);
@@ -320,5 +346,32 @@ public class LoginController
 		}
 		return "redirect:login";
 	}
+	
+	
+	@RequestMapping(value = "/account/activate", method = RequestMethod.GET)
+	public String activateAccount(ModelMap map, HttpServletRequest request, Principal principal)
+	{
+		logger.info("From resetpassword ..............");
+		String email = request.getParameter("email");
+		String token = request.getParameter("token");
+		if(email != null && Validation.validateEmail(email))
+		{
+			LoginInfo login = loginInfoService.getLoginInfoByUserid(email);
+			if(login != null && login.getForgotpwdid() != null && login.getForgotpwdid().equals(token))
+			{
+				login.setForgotpwdid(null);
+				login.setIsActive("true");
+				loginInfoService.updateLoginInfo(login);
+				request.getSession().setAttribute("success", "true");
+				request.getSession().setAttribute("msg", "Your account has been activated !");
+				return "redirect:/login";
+			}
+				
+		}
+		request.getSession().setAttribute("hasError", "true");
+		request.getSession().setAttribute("msg", "Something went wrong !");
+		return "redirect:/login";
+	}
+	
 	
 }

@@ -41,7 +41,7 @@
 					  </div>
 					  <div class="form-group">
 						<label class="control-label">SEO Image</label>
-						<form:textarea path="image" class="form-control" />
+						<form:input path="image" class="form-control" />
 						<span class="text-danger"><form:errors path="image"></form:errors></span>
 					  </div>
 					  <div class="form-group">

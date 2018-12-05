@@ -16,9 +16,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.bharti.constraints.SeoConstants;
 import com.bharti.domain.Answers;
+import com.bharti.domain.Attribute;
 import com.bharti.domain.Question;
 import com.bharti.domain.Tag;
 import com.bharti.service.AnswersService;
+import com.bharti.service.AttributeService;
 import com.bharti.service.QuestionService;
 import com.bharti.service.TagService;
 import com.bharti.utils.SeoUtils;
@@ -30,6 +32,7 @@ public class QuestionController
 	@Autowired private QuestionService questionService;
 	@Autowired private AnswersService answersService;
 	@Autowired private TagService tagService;
+	@Autowired private AttributeService attributeService;
 	
 	private Logger logger = Logger.getLogger(QuestionController.class);
 	
@@ -81,7 +84,12 @@ public class QuestionController
 				questionService.increamentQuestionViewsByQid(que.getQid());
 				map.addAttribute("topTags", tagService.getMostCommonTags(10));
 				logger.info("Returning to jsp page with question :" + que.getQustion());
-				
+				if(que.getImage() == null) {
+					Attribute attribute = attributeService.getAttribute("commonSeoImage");
+					if(attribute != null) {
+						que.setImage(attribute.getAttributeValue());
+					}
+				}
 				SeoUtils.setMetaData(map, que);
 				return "viewAnswer";
 			}

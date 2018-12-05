@@ -44,6 +44,11 @@
 						<span class="text-danger"><form:errors path="tags"></form:errors></span>
 					  </div>
 					  <div class="form-group">
+						<label class="control-label">SEO Image</label>
+						<form:input path="image" class="form-control" />
+						<span class="text-danger"><form:errors path="image"></form:errors></span>
+					  </div>
+					  <div class="form-group">
 						<label class="control-label">Answer</label>
 						<form:textarea path="answer" class="form-control" />
 						<span class="text-danger"><form:errors path="answer"></form:errors></span>
