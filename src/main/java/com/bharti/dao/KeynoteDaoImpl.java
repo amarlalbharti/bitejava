@@ -6,11 +6,13 @@ import org.hibernate.Criteria;
 import org.hibernate.FetchMode;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.bharti.domain.Keynote;
+import com.bharti.domain.Subject;
 
 @Repository
 public class KeynoteDaoImpl implements KeynoteDao
@@ -218,6 +220,27 @@ public class KeynoteDaoImpl implements KeynoteDao
 		return this.sessionFactory.getCurrentSession()
 				.createSQLQuery("SELECT k.* FROM `keynotes` k LEFT JOIN `seo_keynote` sk ON k.kid = sk.kid WHERE  sk.kid IS NULL")
 				.addEntity(Keynote.class).list();
+	}
+	
+	
+	
+	
+	public Long countKeynote() {
+		return (Long)this.sessionFactory.getCurrentSession().createCriteria(Keynote.class)
+				.add(Restrictions.isNull("deleteDate"))
+				.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
+				.setProjection(Projections.rowCount())
+				.uniqueResult();
+	}
+	
+	public Long countKeynote(long sid) {
+		return (Long)this.sessionFactory.getCurrentSession().createCriteria(Keynote.class)
+				.createAlias("subject", "subAlias")
+				.add(Restrictions.eq("subAlias.sid", sid))
+				.add(Restrictions.isNull("deleteDate"))
+				.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY)
+				.setProjection(Projections.rowCount())
+				.uniqueResult();
 	}
 	
 }

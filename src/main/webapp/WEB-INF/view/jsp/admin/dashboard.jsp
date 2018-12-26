@@ -13,11 +13,6 @@
 
 </head>
 <body class="fixed-header">
-<!-- <div class="page-box"> -->
-<!-- <div class="page-box-content"> -->
-
-
-
 <section id="main">
   <article class="content">
 	<div class="container">

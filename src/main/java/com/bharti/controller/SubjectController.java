@@ -74,8 +74,12 @@ public class SubjectController
 				map.addAttribute("kList", kList);
 				map.addAttribute("subject", subject);
 				map.addAttribute("keynote", kn);
-				
+				System.out.println("##########################"+kn.getLoginInfo().getUserid());
 				boolean notfind = true;
+				if(kn.getLoginInfo() != null) {
+					Registration reg = this.registrationService.getRegistrationByUserid(kn.getLoginInfo().getUserid());
+					kn.getLoginInfo().setRegistration(reg);
+				}
 				
 				if(kn.getParent_keynote() != null) {
 					List<Keynote> childs = keynoteService.getChildKeynoteList(kn.getParent_keynote().getKid());

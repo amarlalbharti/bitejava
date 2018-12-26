@@ -41,4 +41,11 @@ public interface KeynoteDao
 	public List<Keynote> getRecentKeynotesForSeo(int first, int max);
 	
 	
+	public Long countKeynote();
+	
+	public Long countKeynote(long sid);
+	
+	
+	
+	
 }

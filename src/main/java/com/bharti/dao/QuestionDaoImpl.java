@@ -22,24 +22,19 @@ public class QuestionDaoImpl implements QuestionDao{
 	@Autowired private SessionFactory sessionFactory;  
 	
 	@Override
-	public long addQuestion(Question question) 
-	{
+	public long addQuestion(Question question) {
 		this.sessionFactory.getCurrentSession().save(question);
 		this.sessionFactory.getCurrentSession().flush();
 		return question.getQid();
 	}
 
 	@Override
-	public boolean updateQuestion(Question question) 
-	{
-		try
-		{
+	public boolean updateQuestion(Question question) {
+		try {
 			this.sessionFactory.getCurrentSession().update(question);
 			this.sessionFactory.getCurrentSession().flush();
 			return false;
-		}
-		catch(Exception e)
-		{
+		} catch (Exception e) {
 			e.printStackTrace();
 			return false;
 		}
@@ -54,8 +49,7 @@ public class QuestionDaoImpl implements QuestionDao{
 				.setFetchMode("tags", FetchMode.JOIN)
 				.setFetchMode("answers", FetchMode.JOIN)
 				.list();
-		if(!list.isEmpty())
-		{
+		if (!list.isEmpty()) {
 			return list.get(0);
 		}
 		return null;
@@ -71,17 +65,13 @@ public class QuestionDaoImpl implements QuestionDao{
 	@Override
 	public List<Question> getRecentAdminQuestions(int first, int max) {
 		
-		//get the projection    
 		Criteria criteria = this.sessionFactory.getCurrentSession().createCriteria(Question.class);
 	    criteria.setProjection(Projections.distinct((Projections.projectionList().add(Projections.id()).add(Projections.property("qid")))));
-		//paginate the results
 	    criteria.add(Restrictions.eq("userType", "admin"));
+	    criteria.addOrder(Order.desc("createDate"));
 	    criteria.setFirstResult(first);
-		    criteria.setMaxResults(max);
-
+	    criteria.setMaxResults(max);
 		List<Object[]> idList = criteria.list();
-		
-		//get the id's from the projection
 		
         List<Long> longList = new ArrayList<Long>();
         for (Object[] long1 : idList) {
@@ -89,68 +79,51 @@ public class QuestionDaoImpl implements QuestionDao{
             longList.add((Long) record[0]);
         }
 
-		if (longList.size() > 0) 
-		{
+		if (longList.size() > 0) {
             criteria = this.sessionFactory.getCurrentSession().createCriteria(Question.class);
             criteria.add(Restrictions.in("qid", longList));
             criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
             criteria.setFetchMode("tags", FetchMode.JOIN);
             criteria.setFetchMode("answers", FetchMode.JOIN);
-            
-            
-        }
-		else 
-        {
+            criteria.addOrder(Order.desc("createDate"));
+        } else {
             return new ArrayList<Question>();
         }
-
 		return criteria.list();
-		
 	}
 	
 	@Override
 	public List<Question> getAdminQuestionsByTag(long tid, int first, int max) {
-		//get the projection    
-				Criteria criteria = this.sessionFactory.getCurrentSession().createCriteria(Question.class);
-			    criteria.setProjection(Projections.distinct((Projections.projectionList().add(Projections.id()).add(Projections.property("qid")))));
-			    criteria.createAlias("tags", "tagAlias");
-			    criteria.add(Restrictions.eq("tagAlias.tid", tid));
-			    criteria.add(Restrictions.eq("userType", "admin"));
+		Criteria criteria = this.sessionFactory.getCurrentSession().createCriteria(Question.class);
+	    criteria.setProjection(Projections.distinct((Projections.projectionList().add(Projections.id()).add(Projections.property("qid")))));
+	    criteria.createAlias("tags", "tagAlias");
+	    criteria.add(Restrictions.eq("tagAlias.tid", tid));
+	    criteria.add(Restrictions.eq("userType", "admin"));
 
-			    criteria.setFirstResult(first);
-				criteria.setMaxResults(max);
+	    criteria.setFirstResult(first);
+		criteria.setMaxResults(max);
 
-				List<Object[]> idList = criteria.list();
-				
-				//get the id's from the projection
-				
-		        List<Long> longList = new ArrayList<Long>();
-		        for (Object[] long1 : idList) {
-		            Object[] record = long1;
-		            longList.add((Long) record[0]);
-		        }
+		List<Object[]> idList = criteria.list();
+		List<Long> longList = new ArrayList<Long>();
+		for (Object[] long1 : idList) {
+			Object[] record = long1;
+			longList.add((Long) record[0]);
+		}
 
-				if (longList.size() > 0) 
-				{
-		            criteria = this.sessionFactory.getCurrentSession().createCriteria(Question.class);
-		            criteria.add(Restrictions.in("qid", longList));
-		            criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
-		            criteria.setFetchMode("tags", FetchMode.JOIN);
-		            criteria.setFetchMode("answers", FetchMode.JOIN);
-		            
-		            
-		        }
-				else 
-		        {
-		            return new ArrayList<Question>();
-		        }
-
-				return criteria.list();
+		if (longList.size() > 0) {
+			criteria = this.sessionFactory.getCurrentSession().createCriteria(Question.class);
+			criteria.add(Restrictions.in("qid", longList));
+			criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+			criteria.setFetchMode("tags", FetchMode.JOIN);
+			criteria.setFetchMode("answers", FetchMode.JOIN);
+		} else {
+			return new ArrayList<Question>();
+		}
+		return criteria.list();
 	}
 	
 	@Override
-	public long countAdminQuestions()
-	{
+	public long countAdminQuestions() {
 		return (Long)this.sessionFactory.getCurrentSession().createCriteria(Question.class)
 				.add(Restrictions.isNull("deleteDate"))
 				.add(Restrictions.eq("userType", "admin"))
@@ -160,8 +133,7 @@ public class QuestionDaoImpl implements QuestionDao{
 	}
 	
 	@Override
-	public long countAdminQuestionsByTag(long tid)
-	{
+	public long countAdminQuestionsByTag(long tid) {
 		return (Long)this.sessionFactory.getCurrentSession().createCriteria(Question.class)
 				.createAlias("tags", "tagAlias")
 			    .add(Restrictions.eq("tagAlias.tid", tid))
@@ -173,13 +145,10 @@ public class QuestionDaoImpl implements QuestionDao{
 	}
 
 	@Override
-	public boolean increamentQuestionViewsByQid(long qid)
-	{
-		try 
-		{
+	public boolean increamentQuestionViewsByQid(long qid) {
+		try {
 			int st = this.sessionFactory.getCurrentSession().createSQLQuery("UPDATE question  SET views = views + 1  WHERE qid ="+qid+";").executeUpdate();
-			if(st > 0)
-			{
+			if(st > 0) {
 				return true;
 			}
 		} catch (Exception e) {
@@ -190,20 +159,14 @@ public class QuestionDaoImpl implements QuestionDao{
 	
 	
 	
-	public List<Question> getRecentQuestions(int first, int max)
-	{
-		//get the projection    
+	public List<Question> getRecentQuestions(int first, int max) {
 		Criteria criteria = this.sessionFactory.getCurrentSession().createCriteria(Question.class);
 	    criteria.setProjection(Projections.distinct((Projections.projectionList().add(Projections.id()).add(Projections.property("qid")))));
-		//paginate the results
 	    criteria.add(Restrictions.isNull("deleteDate"));
 	    criteria.add(Restrictions.isNotNull("publishDate"));
 	    criteria.setFirstResult(first);
-		    criteria.setMaxResults(max);
-
+	    criteria.setMaxResults(max);
 		List<Object[]> idList = criteria.list();
-		
-		//get the id's from the projection
 		
         List<Long> longList = new ArrayList<Long>();
         for (Object[] long1 : idList) {
@@ -211,65 +174,50 @@ public class QuestionDaoImpl implements QuestionDao{
             longList.add((Long) record[0]);
         }
 
-		if (longList.size() > 0) 
-		{
-            criteria = this.sessionFactory.getCurrentSession().createCriteria(Question.class);
-            criteria.add(Restrictions.in("qid", longList));
-            criteria.addOrder(Order.desc("publishDate"));
-            criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
-            criteria.setFetchMode("tags", FetchMode.JOIN);
-            criteria.setFetchMode("answers", FetchMode.JOIN);
-            
-            
-        }
-		else 
-        {
-            return new ArrayList<Question>();
-        }
+		if (longList.size() > 0) {
+			criteria = this.sessionFactory.getCurrentSession()
+					.createCriteria(Question.class);
+			criteria.add(Restrictions.in("qid", longList));
+			criteria.addOrder(Order.desc("publishDate"));
+			criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+			criteria.setFetchMode("tags", FetchMode.JOIN);
+			criteria.setFetchMode("answers", FetchMode.JOIN);
+
+		} else {
+			return new ArrayList<Question>();
+		}
 
 		return criteria.list();
 				
 	}
 	
-	public List<Question> getFeaturedQuestions(int first, int max)
-	{
-		//get the projection    
-				Criteria criteria = this.sessionFactory.getCurrentSession().createCriteria(Question.class);
-			    criteria.setProjection(Projections.distinct((Projections.projectionList().add(Projections.id()).add(Projections.property("qid")))));
-				//paginate the results
-			    criteria.add(Restrictions.isNull("deleteDate"));
-			    criteria.add(Restrictions.isNotNull("publishDate"));
-//			    criteria.add(Restrictions.);
-			    criteria.setFirstResult(first);
-				    criteria.setMaxResults(max);
+	public List<Question> getFeaturedQuestions(int first, int max) {
+		Criteria criteria = this.sessionFactory.getCurrentSession().createCriteria(Question.class);
+	    criteria.setProjection(Projections.distinct((Projections.projectionList().add(Projections.id()).add(Projections.property("qid")))));
+	    criteria.add(Restrictions.isNull("deleteDate"));
+	    criteria.add(Restrictions.isNotNull("publishDate"));
+	    criteria.setFirstResult(first);
+	    criteria.setMaxResults(max);
 
-				List<Object[]> idList = criteria.list();
-				
-				//get the id's from the projection
-				
-		        List<Long> longList = new ArrayList<Long>();
-		        for (Object[] long1 : idList) {
-		            Object[] record = long1;
-		            longList.add((Long) record[0]);
-		        }
+		List<Object[]> idList = criteria.list();
+		
+        List<Long> longList = new ArrayList<Long>();
+        for (Object[] long1 : idList) {
+            Object[] record = long1;
+            longList.add((Long) record[0]);
+        }
+		if (longList.size() > 0) {
+			criteria = this.sessionFactory.getCurrentSession().createCriteria(Question.class);
+			criteria.add(Restrictions.in("qid", longList));
+			criteria.addOrder(Order.desc("publishDate"));
+			criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+			criteria.setFetchMode("tags", FetchMode.JOIN);
+			criteria.setFetchMode("answers", FetchMode.JOIN);
+		} else {
+			return new ArrayList<Question>();
+		}
 
-				if (longList.size() > 0) 
-				{
-		            criteria = this.sessionFactory.getCurrentSession().createCriteria(Question.class);
-		            criteria.add(Restrictions.in("qid", longList));
-		            criteria.addOrder(Order.desc("publishDate"));
-		            criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
-		            criteria.setFetchMode("tags", FetchMode.JOIN);
-		            criteria.setFetchMode("answers", FetchMode.JOIN);
-		            
-		            
-		        }
-				else 
-		        {
-		            return new ArrayList<Question>();
-		        }
-
-				return criteria.list();
+		return criteria.list();
 					
 	}
 	
@@ -277,44 +225,32 @@ public class QuestionDaoImpl implements QuestionDao{
 	{
 		Calendar cal = Calendar.getInstance();
 		cal.add(Calendar.DATE, -30);
-		//get the projection    
 		Criteria criteria = this.sessionFactory.getCurrentSession().createCriteria(Question.class);
 	    criteria.setProjection(Projections.distinct((Projections.projectionList().add(Projections.id()).add(Projections.property("qid")))));
-		//paginate the results
 	    criteria.add(Restrictions.isNull("deleteDate"));
 	    criteria.add(Restrictions.isNotNull("publishDate"));
 	    System.out.println("date : " + cal.getTime());
 	    criteria.add(Restrictions.gt("createDate", cal.getTime()));
 	    criteria.addOrder(Order.desc("views"));
 	    criteria.setFirstResult(first);
-		    criteria.setMaxResults(max);
-
+	    criteria.setMaxResults(max);
 		List<Object[]> idList = criteria.list();
-		
-		//get the id's from the projection
 		
         List<Long> longList = new ArrayList<Long>();
         for (Object[] long1 : idList) {
             Object[] record = long1;
             longList.add((Long) record[0]);
         }
-
-		if (longList.size() > 0) 
-		{
+		if (longList.size() > 0) {
             criteria = this.sessionFactory.getCurrentSession().createCriteria(Question.class);
             criteria.add(Restrictions.in("qid", longList));
             criteria.addOrder(Order.desc("views"));
             criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
             criteria.setFetchMode("tags", FetchMode.JOIN);
             criteria.setFetchMode("answers", FetchMode.JOIN);
-            
-            
-        }
-		else 
-        {
-            return new ArrayList<Question>();
-        }
-
+		} else {
+			return new ArrayList<Question>();
+		}
 		return criteria.list();
 	}
 	

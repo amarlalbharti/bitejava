@@ -115,4 +115,13 @@ public class KeynoteServiceImpl implements KeynoteService
 	public List<Keynote> getRecentKeynotesForSeo(int first, int max){
 		return this.keynoteDao.getRecentKeynotesForSeo(first, max);
 	}
+	
+	public Long countKeynote() {
+		return this.keynoteDao.countKeynote();
+	}
+	
+	public Long countKeynote(long sid) {
+		return this.keynoteDao.countKeynote(sid);
+	}
+	
 }

@@ -152,7 +152,7 @@ public class AdminKeynoteController
 			String url = model.getKeynote().trim().replaceAll("[^a-zA-Z0-9]+","_");
 			kn.setUrl(url.toLowerCase());
 			kn.setCreateDate(dt);
-			
+			kn.setModifyDate(new Date());
 			long kid = keynoteService.addKeynote(kn);
 			
 			kn.setKid(kid);
@@ -271,7 +271,7 @@ public class AdminKeynoteController
 					Keynote parent_kn = keynoteService.getKeynoteById(model.getParent().getKid());
 					kn.setParent_keynote(parent_kn);
 				}
-				
+				kn.setModifyDate(new Date());
 				keynoteService.updateKeynote(kn);
 				
 				if(kn.getKeynoteDetail() != null) {
