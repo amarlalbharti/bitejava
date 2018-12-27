@@ -166,14 +166,6 @@ if(subject != null && keynote != null)
 				%>
 				
 		  </div>
-		  <footer class="entry-meta">
-			<span class="autor-name"><%= (keynote.getLoginInfo() != null && keynote.getLoginInfo().getRegistration() != null) ? keynote.getLoginInfo().getRegistration().getName() : "" %></span>,
-			<span class="time"><%= DateFormats.ddMMMyyyy.format(keynote.getModifyDate() != null ? keynote.getModifyDate() : keynote.getCreateDate()) %></span>
-			<span class="separator">|</span>
-			<span class="meta">Posted in <a href="${pageContext.request.contextPath}/note/<%= subject.getUrl() %>"><%= keynote.getSubject().getSubject() %></a></span>
-			
-		  </footer>
-		  <br>
 		  
 		  <%
 		  		if(nextKn != null)
@@ -229,22 +221,7 @@ if(subject != null && keynote != null)
 		  			
 		  	%>
 		  	<hr class="hr-bottom"/>
-		  	<br>
-		  	<%
-		  	if(keynote.getLoginInfo() != null && keynote.getLoginInfo().getRegistration() != null){
-		  		%>
-	  			<div>
-				  	<p>
-				  		This article is shared by <strong><%= keynote.getLoginInfo().getRegistration().getName() %></strong> .If you would like to share your knowledge, 
-				  		share your detail or mail your article at <strong><a href="mailto:bitejavatutorials@gmail.com">bitejavatutorials@gmail.com</a><strong>. 
-				  		Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
-				  	</p>
-				  
-				  </div>
-		  		<%
-		  	}
-		  %>
-		  
+		  	
 		  
 		  </div>
 		</article><!-- .post -->
