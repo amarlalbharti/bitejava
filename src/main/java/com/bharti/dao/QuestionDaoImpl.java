@@ -46,8 +46,10 @@ public class QuestionDaoImpl implements QuestionDao{
 		
 		List<Question> list = this.sessionFactory.getCurrentSession().createCriteria(Question.class)
 				.add(Restrictions.eq("qid", qid))
-				.setFetchMode("tags", FetchMode.JOIN)
-				.setFetchMode("answers", FetchMode.JOIN)
+//				.setFetchMode("tags", FetchMode.JOIN)
+//				.setFetchMode("answers", FetchMode.JOIN)
+//				.addOrder(Order.asc("qid"))
+				
 				.list();
 		if (!list.isEmpty()) {
 			return list.get(0);

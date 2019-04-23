@@ -1,4 +1,5 @@
 <!doctype html>
+<%@page import="com.bharti.domain.Registration"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@page import="com.bharti.constraints.DateFormats"%>
 <%@page import="com.bharti.domain.Comments"%>
@@ -166,6 +167,22 @@ if(subject != null && keynote != null)
 				%>
 				
 		  </div>
+		  <%
+		  	Registration reg = (Registration) request.getAttribute("author");
+			if(reg != null){
+				%>
+					<footer class="entry-meta" style="margin-bottom: 15px;">
+						<span class="autor-name"><%= reg.getName() %></span>,
+						<span class="time"><%= DateFormats.ddMMMyyyyathhmm.format(keynote.getModifyDate() != null ? keynote.getModifyDate() : keynote.getCreateDate()) %></span>
+						<span class="separator">|</span>
+						<span class="meta">Posted in <a href="#"><%= keynote.getSubject().getSubject() %></a></span>
+						<span class="comments-link pull-right">
+						  <a href="#"><i class="fa fa-comment"></i> <span id="comment_count">0</span> comment(s)</a>
+						</span>
+					  </footer>
+				<%
+			}
+		  %>
 		  
 		  <%
 		  		if(nextKn != null)
@@ -184,7 +201,7 @@ if(subject != null && keynote != null)
 		  			<%
 		  		}
   			%>
-		  <div  class="hr-top">
+		  <div  class="hr-top" style="margin-top: 15px;">
 		  	<%
 		  		if(prevKn != null)
 		  		{
@@ -324,7 +341,7 @@ jQuery(document).ready(function() {
 					.appendTo(li);
 					
 				});
-				
+				$("#comment_count").html(obj.data.length);
 			},
 			error: function (xhr, ajaxOptions, thrownError) {
 				alert(xhr.status);

@@ -112,7 +112,6 @@ jQuery(document).ready(function() {
 
 function getSubjectList(pn)
 {
-//	alert("get List")
 	$.ajax({
 		type : "GET",
 		url : "getSubjectList",
@@ -125,6 +124,7 @@ function getSubjectList(pn)
 	        alert(xhr.status);
 	      }
 	}) ; 
+	$('.bodyCoverWait').hide();
 }
 
 

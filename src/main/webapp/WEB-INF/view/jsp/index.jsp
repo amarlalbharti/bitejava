@@ -8,7 +8,26 @@
 <%@page import="com.bharti.domain.Subject"%>
 <%@page import="java.util.Map"%>
 <html>
-
+<style>
+	.cse .gsc-control-cse, .gsc-control-cse {
+	    padding: 0em;
+	}
+	
+	.google-search  table th, td {
+	    border: 0px solid #ababab;
+	    padding: 5px 10px;
+	}
+	.cse .gsc-search-button-v2, .gsc-search-button-v2 {
+	    font-size: 0px;
+	    padding: 10px 25px;
+    }
+    form.gsc-search-box {
+	    margin-bottom: 0px;
+	}
+	table.gsc-search-box {
+	    margin-bottom: 0px;
+	}
+</style>
 <body class="fixed-header">
 <!-- <div class="page-box"> -->
 <!-- <div class="page-box-content"> -->
@@ -20,11 +39,24 @@
 			<img width="568" height="351" alt="" src="theme/images/homepageGraphics-2.png" class="replace-2x">
 		  </div>
 		  <div class="content-box white col-sm-6 col-md-6">
-		  	<div class="input-group input-group-lg">
-                <input class="form-control input-group-lg" type="text" style="border: 3px solid #9DA5B1;">
-                    <span class="input-group-btn">
-                      <button type="button" class="btn btn-info btn-flat"><i class="fa fa-search"></i></button>
-                    </span>
+<!-- 		  	<div class="input-group input-group-lg" style="color: black;"> -->
+			<div class="google-search" style="color: black;">
+		  			<script>
+					  (function() {
+					    var cx = '013259405044468238503:ms2ahnpzrd4';
+					    var gcse = document.createElement('script');
+					    gcse.type = 'text/javascript';
+					    gcse.async = true;
+					    gcse.src = 'https://cse.google.com/cse.js?cx=' + cx;
+					    var s = document.getElementsByTagName('script')[0];
+					    s.parentNode.insertBefore(gcse, s);
+					  })();
+					</script>
+					<gcse:search></gcse:search>
+<!--                 <input class="form-control input-group-lg" type="text" style="border: 3px solid #9DA5B1;"> -->
+<!--                     <span class="input-group-btn"> -->
+<!--                       <button type="button" class="btn btn-info btn-flat"><i class="fa fa-search"></i></button> -->
+<!--                     </span> -->
           	</div>
           	<br>
           	<div class="text-center">

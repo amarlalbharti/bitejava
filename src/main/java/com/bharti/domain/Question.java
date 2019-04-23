@@ -128,7 +128,7 @@ public class Question
 		this.image = image;
 	}
 
-	@ManyToMany(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
+	@ManyToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
     @JoinTable(name="tag_question", 
                 joinColumns={@JoinColumn(name="qid")}, 
                 inverseJoinColumns={@JoinColumn(name="tid")})
@@ -140,7 +140,7 @@ public class Question
 		this.tags = tags;
 	}
 
-	@OneToMany(mappedBy="question", cascade=CascadeType.ALL, fetch=FetchType.LAZY)  
+	@OneToMany(mappedBy="question", cascade=CascadeType.ALL, fetch=FetchType.EAGER)  
 	public Set<Answers> getAnswers() {
 		return answers;
 	}

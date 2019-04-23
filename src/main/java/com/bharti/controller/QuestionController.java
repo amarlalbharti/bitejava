@@ -98,7 +98,7 @@ public class QuestionController
 		{
 			e.printStackTrace();
 		}
-		return "redirect:error";
+		return "redirect:/error";
 	}
 	@RequestMapping(value = "/questions/tagged/{tag}", method = RequestMethod.GET)
 	public String taggedQuestions(@PathVariable("tag") String tagString,ModelMap map, HttpServletRequest request, Principal principal)

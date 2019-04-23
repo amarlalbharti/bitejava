@@ -77,7 +77,7 @@ input[type="file"] {
 }
 
 </style>
-<link rel="stylesheet" href="css/model.popup.css" />
+<%-- <link rel="stylesheet" href="${pageContext.request.contextPath}/theme/css/model.popup.css" /> --%>
 
 
 <script>
@@ -230,36 +230,6 @@ if(reg != null)
 
 %>
 
-<script type="text/javascript">
-$(document).ready(function(){
-	$('.bodyCoverWait').hide();
-	
-	<%
-		if(session.getAttribute("hasError") != null){
-			String msg = (String)session.getAttribute("msg");
-			%>
-				Lobibox.notify('error', {
-		            size: 'mini',
-		            msg: '<%=msg %>'
-		        });
-			<%
-			session.removeAttribute("hasError");
-			
-		}
-	
-	if(session.getAttribute("success") != null){
-		String msg = (String)session.getAttribute("msg");
-		%>
-			Lobibox.notify('success', {
-	            size: 'mini',
-	            msg: '<%=msg %>'
-	        });
-		<%
-		session.removeAttribute("success");
-	}
-	%>
-	
-});
-</script>
+
 </body>
 </html>

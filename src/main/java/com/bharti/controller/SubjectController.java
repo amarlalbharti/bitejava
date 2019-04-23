@@ -78,7 +78,8 @@ public class SubjectController
 				boolean notfind = true;
 				if(kn.getLoginInfo() != null) {
 					Registration reg = this.registrationService.getRegistrationByUserid(kn.getLoginInfo().getUserid());
-					kn.getLoginInfo().setRegistration(reg);
+					
+					map.addAttribute("author", reg);
 				}
 				
 				if(kn.getParent_keynote() != null) {

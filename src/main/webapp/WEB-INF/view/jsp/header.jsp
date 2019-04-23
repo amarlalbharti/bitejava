@@ -83,6 +83,14 @@
 			return true;
 		}
 </script>
+<!-- Script for google AdSense -->
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-4196101299607180",
+    enable_page_level_ads: true
+  });
+</script>
 </head>
 <body class="fixed-header">
 <div class="page-box" style="min-height: 300px;">

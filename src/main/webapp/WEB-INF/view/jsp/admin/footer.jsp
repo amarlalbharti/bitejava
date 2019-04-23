@@ -58,6 +58,37 @@
   </div><!-- .footer-bottom -->
 </footer>
 <div class="clearfix"></div>
+<script type="text/javascript">
+$(document).ready(function(){
+	$('.bodyCoverWait').hide();
+	
+	<%
+		if(session.getAttribute("hasError") != null){
+			String msg = (String)session.getAttribute("msg");
+			%>
+				Lobibox.notify('error', {
+		            size: 'mini',
+		            msg: '<%=msg %>'
+		        });
+			<%
+			session.removeAttribute("hasError");
+			
+		}
+	
+	if(session.getAttribute("success") != null){
+		String msg = (String)session.getAttribute("msg");
+		%>
+			Lobibox.notify('success', {
+	            size: 'mini',
+	            msg: '<%=msg %>'
+	        });
+		<%
+		session.removeAttribute("success");
+	}
+	%>
+	
+});
+</script>
 <%-- <script src="${pageContext.request.contextPath}/theme/js/jquery-2.1.3.min.js"></script> --%>
 <script src="${pageContext.request.contextPath}/theme/js/bootstrap.min.js"></script>
 <script src="${pageContext.request.contextPath}/theme/js/jquery.imagesloaded.min.js"></script>
